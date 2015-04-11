@@ -1,0 +1,9 @@
+{
+  "name": "stoutful-server",
+  "version": "0.0.1",
+  "description": "Server for Stoutful",
+  "author": "Alex Fu <alex.fu914@gmail.com>",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}
