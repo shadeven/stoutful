@@ -4,6 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var database = require('./database');
+var passport = require('passport');
+var StoutfulStrategy = require('./auth/strategy');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -13,6 +16,18 @@ var categories = require('./routes/categories');
 var styles = require('./routes/styles');
 
 var app = express();
+
+passport.use(new StoutfulStrategy(function(userId, accessToken, done) {
+  database.select("*")
+    .from("users")
+    .where("id = " + userId)
+    .then(function(rows) {
+      done();
+    })
+    .catch(function(err) {
+      done(err);
+    });
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +39,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
