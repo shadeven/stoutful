@@ -1,12 +1,12 @@
 var express = require('express');
-var knex = require('knex')({ client: 'pg', connection: process.env.DATABASE });
+var database = require('../database');
 var router = express.Router();
 
 /* GET beer listing. */
 router.get('/', function(req, res, next) {
   var limit = req.query.limit || '10';
 
-  knex.select('*')
+  database.select('*')
   .from('beers')
   .limit(limit)
   .then(function(rows) {

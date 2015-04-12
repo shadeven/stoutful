@@ -1,0 +1,6 @@
+{
+  "database": {
+    "client": "pg",
+    "connection": "postgres://postgres:password@192.168.59.103/stoutful"
+  }
+}
