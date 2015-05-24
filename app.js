@@ -15,6 +15,7 @@ var breweries = require('./routes/breweries');
 var categories = require('./routes/categories');
 var styles = require('./routes/styles');
 var auth = require('./routes/auth');
+var activities = require('./routes/activities');
 
 var app = express();
 
@@ -53,6 +54,7 @@ app.use('/breweries', breweries);
 app.use('/categories', categories);
 app.use('/styles', styles);
 app.use('/auth', auth);
+app.use('/activities', activities);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
