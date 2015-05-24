@@ -14,8 +14,8 @@ router.get('/', auth, function(req, res) {
       res.status(200).json(rows);
     })
     .catch(function(err) {
-      res.status(500).end();
       console.log(err);
+      res.status(500).end();
     });
 });
 

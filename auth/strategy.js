@@ -1,6 +1,8 @@
 var util = require('util');
 var rp = require('request-promise');
+var crypto = require('crypto');
 var Strategy = require('passport-strategy');
+var Redis = require('ioredis');
 
 function StoutfulStrategy(options, verify) {
   if (typeof options == 'function') {
@@ -31,15 +33,15 @@ StoutfulStrategy.prototype.authenticate = function(req, options) {
     }
   }
 
-  var accessToken = req.headers.Authorization;
-  var verifyUrl = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + accessToken;
-  rp(verifyUrl)
-    .then(function(resp) {
-      self._verify(resp.userid, accessToken, verified);
-    })
-    .catch(function(err) {
+  var accessToken = req.headers.authorization;
+  var redis = new Redis();
+  redis.get(accessToken, function(err, userId) {
+    if (err) {
       self.error(err);
-    });
+    } else {
+      self._verify(userId, accessToken, verified);
+    }
+  });
 };
 
 module.exports = StoutfulStrategy;

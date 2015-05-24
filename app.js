@@ -14,17 +14,21 @@ var beers = require('./routes/beers');
 var breweries = require('./routes/breweries');
 var categories = require('./routes/categories');
 var styles = require('./routes/styles');
+var auth = require('./routes/auth');
 
 var app = express();
 
 passport.use(new StoutfulStrategy(function(userId, accessToken, done) {
-  database.select("*")
-    .from("users")
-    .where("id = " + userId)
+  database
+    .select('users.*')
+    .from('users')
+    .innerJoin('user_ids', 'users.id', 'user_ids.user_id')
+    .where('third_party_id', userId)
     .then(function(rows) {
       done();
     })
     .catch(function(err) {
+      console.log('Error verifying auth: ', err);
       done(err);
     });
 }));
@@ -48,6 +52,7 @@ app.use('/beers', beers);
 app.use('/breweries', breweries);
 app.use('/categories', categories);
 app.use('/styles', styles);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
