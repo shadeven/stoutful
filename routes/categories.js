@@ -4,7 +4,7 @@ var database = require('../database');
 
 var router = express.Router();
 
-/* GET brewery listing. */
+/* GET category listing. */
 router.get('/', auth, function(req, res) {
   var limit = req.query.limit || '10';
   database.select('*')
