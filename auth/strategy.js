@@ -23,6 +23,7 @@ function StoutfulStrategy(options, verify) {
 util.inherits(StoutfulStrategy, Strategy);
 
 StoutfulStrategy.prototype.authenticate = function(req, options) {
+  console.log('Authenticating request...');
   var self = this;
 
   function verified(err) {
@@ -37,6 +38,7 @@ StoutfulStrategy.prototype.authenticate = function(req, options) {
   var redis = new Redis();
   redis.get(accessToken, function(err, userId) {
     if (err) {
+      console.log('Error fetching access token: ',err);
       self.error(err);
     } else {
       self._verify(userId, accessToken, verified);

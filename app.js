@@ -26,7 +26,11 @@ passport.use(new StoutfulStrategy(function(userId, accessToken, done) {
     .innerJoin('user_ids', 'users.id', 'user_ids.user_id')
     .where('third_party_id', userId)
     .then(function(rows) {
-      done();
+      if (rows.length > 0) {
+        done();
+      } else {
+        done(new Error('User not found.'));
+      }
     })
     .catch(function(err) {
       console.log('Error verifying auth: ', err);
