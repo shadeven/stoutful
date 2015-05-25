@@ -49,16 +49,18 @@ router.post('/', function(req, res, next) {
                         res.status(201).json(user);
                       })
                       .catch(function(err) {
+                        console.log('Error querying user: ', err);
                         res.status(500).end();
                       });
                   })
                   .catch(function(err) {
+                    console.log('Error creating user: ', err);
                     res.status(500).end();
                   });
               }
             })
             .catch(function(err) {
-              console.log(err);
+              console.log('Error checking for existing user: ',err);
               res.status(500).end();
             });
         }
@@ -88,7 +90,6 @@ function checkForExistingUser(userId) {
         }
       })
       .catch(function(err) {
-        console.log(err);
         reject(err);
       });
   });
