@@ -29,7 +29,10 @@ router.get('/', auth, function(req, res) {
 
 function getActivities(req, thirdPartyId) {
   return new Promise(function(resolve, reject) {
+    // Handle request params
     var limit = req.query.limit || '10';
+
+    // Query
     database
       .select('activities.*')
       .from('activities')
