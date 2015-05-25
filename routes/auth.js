@@ -116,7 +116,7 @@ function createUser(thirdPartyId, accessToken) {
           .then(function(result) {
             var id = result[0];
             database('user_ids')
-              .returning('id')
+              .returning('user_id')
               .insert({
                 user_id: id,
                 third_party_id: thirdPartyId,
