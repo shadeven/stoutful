@@ -54,6 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/beers', beers);
+app.use(/^\/beers\/\d+$/, beers);
 app.use('/breweries', breweries);
 app.use('/categories', categories);
 app.use('/styles', styles);
