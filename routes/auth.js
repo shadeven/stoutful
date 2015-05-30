@@ -73,7 +73,11 @@ function checkForExistingUser(userId) {
     ThirdPartyId.where({ id: userId })
       .fetch({ withRelated: 'user' })
       .then(function(model) {
-        resolve(model.related('user'));
+        var user = null;
+        if (model) {
+          user = model.related('user');
+        }
+        resolve(user);
       })
       .catch(function(err) {
         reject(err);
