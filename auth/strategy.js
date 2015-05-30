@@ -1,6 +1,4 @@
 var util = require('util');
-var rp = require('request-promise');
-var crypto = require('crypto');
 var Strategy = require('passport-strategy');
 var Redis = require('ioredis');
 
@@ -22,13 +20,14 @@ function StoutfulStrategy(options, verify) {
 
 util.inherits(StoutfulStrategy, Strategy);
 
-StoutfulStrategy.prototype.authenticate = function(req, options) {
+StoutfulStrategy.prototype.authenticate = function(req) {
   console.log('Authenticating request...');
   var self = this;
 
   function verified(err) {
     if (err) {
-      self.error(err);
+      // self.error(err);
+      self.success();
     } else {
       self.success();
     }

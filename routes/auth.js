@@ -1,11 +1,14 @@
-var express = require('express');
+var router = require('express').Router();
 var rp = require('request-promise');
 var Redis = require('ioredis');
 var database = require('../database');
 var Promise = require('promise');
-var router = express.Router();
+var bookshelf = require('bookshelf')(database);
 
-router.post('/', function(req, res, next) {
+var ThirdPartyId = require('../models/thirdPartyId');
+var User = require('../models/user');
+
+router.post('/', function(req, res) {
   var accessToken = req.headers.authorization;
 
   var options = {
@@ -38,20 +41,8 @@ router.post('/', function(req, res, next) {
                 res.status(200).json(user);
               } else {
                 createUser(userId, accessToken)
-                  .then(function(result) {
-                    var newId = result[0];
-                    database
-                      .select('*')
-                      .from('users')
-                      .where({ id: newId })
-                      .then(function(result) {
-                        var user = result[0];
-                        res.status(201).json(user);
-                      })
-                      .catch(function(err) {
-                        console.log('Error querying user: ', err);
-                        res.status(500).end();
-                      });
+                  .then(function(model) {
+                    res.status(201).json(model);
                   })
                   .catch(function(err) {
                     console.log('Error creating user: ', err);
@@ -77,17 +68,12 @@ router.post('/', function(req, res, next) {
 
 function checkForExistingUser(userId) {
   return new Promise(function(resolve, reject) {
-    database
-      .select('users.*')
-      .from('users')
-      .innerJoin('user_ids', 'users.id', 'user_ids.user_id')
-      .where('third_party_id', userId)
-      .then(function(rows) {
-        if (rows.length > 0) {
-          resolve(rows[0]);
-        } else {
-          resolve(null);
-        }
+    console.log('Looking for user with third party id = ' + userId);
+
+    ThirdPartyId.where({ id: userId })
+      .fetch({ withRelated: 'user' })
+      .then(function(model) {
+        resolve(model.related('user'));
       })
       .catch(function(err) {
         reject(err);
@@ -103,36 +89,36 @@ function createUser(thirdPartyId, accessToken) {
         access_token: accessToken
       }
     };
+
+    // Get user info
     rp(options)
       .then(function(body) {
         var info = JSON.parse(body);
-        database('users')
-          .returning('id')
-          .insert({
+
+        // Start a transaction
+        bookshelf.transaction(function(t) {
+          // Insert user
+          return new User({
             first_name: info.given_name,
             last_name: info.family_name,
             gender: info.gender,
-            photo: info.picture,
+            photo: info.picture
           })
-          .then(function(result) {
-            var id = result[0];
-            database('user_ids')
-              .returning('user_id')
-              .insert({
-                user_id: id,
-                third_party_id: thirdPartyId,
-                type: 'google'
-              })
-              .then(function(result) {
-                resolve(result);
-              })
-              .catch(function(err) {
-                reject(err);
-              });
-          })
-          .catch(function(err) {
-            reject(err);
+          .save(null, { transacting: t })
+          .tap(function(user) {
+            // Insert third party id
+            return new ThirdPartyId({
+              id: thirdPartyId,
+              user_id: user.id,
+              type: 'google'
+            })
+            .save(null, { transacting: t, method: 'insert' });
           });
+        }).then(function(user) {
+          resolve(user);
+        }).catch(function(err) {
+          reject(err);
+        });
       })
       .catch(function(err) {
         reject(err);

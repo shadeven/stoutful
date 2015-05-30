@@ -19,14 +19,13 @@ var activities = require('./routes/activities');
 
 var app = express();
 
+var ThirdPartyId = require('./models/thirdPartyId');
+
 passport.use(new StoutfulStrategy(function(userId, accessToken, done) {
-  database
-    .select('users.*')
-    .from('users')
-    .innerJoin('user_ids', 'users.id', 'user_ids.user_id')
-    .where('third_party_id', userId)
-    .then(function(rows) {
-      if (rows.length > 0) {
+  ThirdPartyId.where({ id: userId })
+    .fetch({ withRelated: 'user' })
+    .then(function(model) {
+      if (model) {
         done();
       } else {
         done(new Error('User not found.'));

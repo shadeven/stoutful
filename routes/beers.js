@@ -1,51 +1,47 @@
-var express = require('express');
+var router = require('express').Router();
 var auth = require('../auth');
-var database = require('../database');
 
-var router = express.Router();
+var Beer = require('../models/beer');
 
 /* GET beer listing. */
 router.get('/', auth, function(req, res) {
   var limit = req.query.limit || '10';
-  database.select('*')
-    .from('beers')
-    .limit(limit)
-    .then(function(rows) {
-      res.status(200).json(rows);
+
+  Beer.collection().query('limit', limit)
+    .fetch({ withRelated: ['brewery'] })
+    .then(function(models) {
+      res.status(200).json(models);
     })
     .catch(function(err) {
       console.log(err);
       res.status(500).end();
     });
-})
+});
 
 /* GET beer data */
 router.get(/^\/\d+$/, auth, function(req, res) {
-  var limit = req.query.limit || '10';
   var id = req.path.substring(1); // Removes forward slash
 
   console.log('Querying for beer with id = ' + id);
 
-  database.select('*')
-    .from('beers')
-    .limit(limit)
-    .where('id', id)
-    .then(function(rows) {
-      if (rows.length > 0) {
-        res.status(200).json(rows[0]);
+  Beer.where({id: id})
+    .fetch({ withRelated: ['brewery'] })
+    .then(function(model) {
+      if (model) {
+        res.status(200).json(model);
       } else {
-        res.status(204).end();
+        res.status(404).end();
       }
     })
     .catch(function(err) {
       console.log(err);
       res.status(500).end();
     });
-})
+});
 
 /* Search route */
 router.get('/search', auth, function(req, res) {
   res.status(200).end();
-})
+});
 
 module.exports = router;

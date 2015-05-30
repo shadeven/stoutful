@@ -1,10 +1,9 @@
-var express = require('express');
+var router = require('express').Router();
 var Redis = require('ioredis');
 var auth = require('../auth');
-var database = require('../database');
 var Promise = require('promise');
 
-var router = express.Router();
+var Activity = require('../models/activity');
 
 /* GET activity listing. */
 router.get('/', auth, function(req, res) {
@@ -33,18 +32,18 @@ function getActivities(req, thirdPartyId) {
     var limit = req.query.limit || '10';
 
     // Query
-    database
-      .select('activities.*')
-      .from('activities')
-      .innerJoin('user_ids', 'activities.user_id', 'user_ids.user_id')
-      .where('user_ids.third_party_id', thirdPartyId)
-      .limit(limit)
-      .then(function(rows) {
-        resolve(rows);
-      })
-      .catch(function(err) {
-        reject(err);
-      });
+    Activity.collection().query(function(query) {
+      query.innerJoin('third_party_ids', 'activities.user_id', 'third_party_ids.user_id')
+        .where('third_party_ids.id', thirdPartyId)
+        .limit(limit);
+    })
+    .fetch()
+    .then(function(model) {
+      resolve(model);
+    })
+    .catch(function(err) {
+      reject(err);
+    });
   });
 }
 
