@@ -39,4 +39,9 @@ router.get('/:id', auth, function(req, res) {
     });
 })
 
+/* Search route */
+router.get('/search', auth, function(req, res) {
+  res.status(200).end();
+})
+
 module.exports = router;
