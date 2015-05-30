@@ -20,12 +20,16 @@ router.get('/', auth, function(req, res) {
 })
 
 /* GET beer data */
-router.get('/:id', auth, function(req, res) {
+router.get(/^\/\d+$/, auth, function(req, res) {
   var limit = req.query.limit || '10';
+  var id = req.path.substring(1); // Removes forward slash
+
+  console.log('Querying for beer with id = ' + id);
+
   database.select('*')
     .from('beers')
     .limit(limit)
-    .where('id', req.params.id)
+    .where('id', id)
     .then(function(rows) {
       if (rows.length > 0) {
         res.status(200).json(rows[0]);
