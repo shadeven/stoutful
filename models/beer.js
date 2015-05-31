@@ -14,19 +14,17 @@ module.exports = bookshelf.Model.extend({
     return this.belongsTo(Brewery);
   },
   index: function () {
-    elasticsearch.update({
+    elasticsearch.index({
       index: 'stoutful',
       type: 'beer',
-      id: model.get('id'),
+      id: this.get('id'),
       body: {
-        upsert: {
-          name: model.get('name'),
-          description: model.get('description')
-        }
+        name: this.get('name'),
+        description: this.get('description')
       }
     }, function(err) {
       if (err) {
-        console.log('Unable to index user');
+        console.log('Unable to index beer:', err);
       }
     });
   }
