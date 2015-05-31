@@ -26,8 +26,7 @@ StoutfulStrategy.prototype.authenticate = function(req) {
 
   function verified(err) {
     if (err) {
-      // self.error(err);
-      self.success();
+      self.error(err);
     } else {
       self.success();
     }
