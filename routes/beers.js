@@ -41,7 +41,22 @@ router.get(/^\/\d+$/, auth, function(req, res) {
 
 /* Search route */
 router.get('/search', auth, function(req, res) {
-  res.status(200).end();
+  var limit = req.query.limit || '10';
+
+  Beer.search(req.query.query)
+    .then(function (ids) {
+      return Beer.query()
+        .whereIn('id', ids)
+        .limit(limit)
+        .select();
+    })
+    .then(function(models) {
+      res.status(200).json(models);
+    })
+    .catch(function (err) {
+      console.log('Error searching for beer: ', err);
+      res.status(500).end();
+    });
 });
 
 module.exports = router;

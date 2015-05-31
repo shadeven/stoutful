@@ -4,7 +4,7 @@ var elasticsearch = require('../elasticsearch');
 
 var Brewery = require('./brewery');
 
-module.exports = bookshelf.Model.extend({
+var Beer = bookshelf.Model.extend({
   tableName: 'beers',
   initialize: function () {
     // Update elasticsearch index after save.
@@ -29,3 +29,29 @@ module.exports = bookshelf.Model.extend({
     });
   }
 });
+
+Beer.search = function(query) {
+  return new Promise(function (resolve, reject) {
+    elasticsearch.search({
+      index: 'stoutful',
+      body: {
+        query: {
+          match: {
+            name: query
+          }
+        }
+      }
+    }, function (err, response) {
+      if (err) {
+        reject(err);
+      } else {
+        var ids = response.hits.hits.map(function (hit) {
+          return parseInt(hit._id);
+        });
+        resolve(ids);
+      }
+    });
+  });
+};
+
+module.exports = Beer;
