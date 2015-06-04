@@ -19,7 +19,7 @@ router.get('/', auth, function(req, res) {
 });
 
 /* GET beer data */
-router.get(/^\/\d+$/, function(req, res) {
+router.get(/^\/\d+$/, auth, function(req, res) {
   var id = req.path.substring(1); // Removes forward slash
 
   console.log('Querying for beer with id = ' + id);
