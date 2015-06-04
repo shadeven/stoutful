@@ -103,6 +103,7 @@ function createUser(thirdPartyId, accessToken) {
         bookshelf.transaction(function(t) {
           // Insert user
           return new User({
+            display_name: info.name,
             first_name: info.given_name,
             last_name: info.family_name,
             gender: info.gender,
