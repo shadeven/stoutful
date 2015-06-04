@@ -3,6 +3,7 @@ var bookshelf = require('bookshelf')(database);
 var elasticsearch = require('../elasticsearch');
 
 var Brewery = require('./brewery');
+var Style = require('./style');
 
 var Beer = bookshelf.Model.extend({
   tableName: 'beers',
@@ -12,6 +13,9 @@ var Beer = bookshelf.Model.extend({
   },
   brewery: function() {
     return this.belongsTo(Brewery);
+  },
+  style: function() {
+    return this.belongsTo(Style);
   },
   index: function () {
     elasticsearch.index({

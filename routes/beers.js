@@ -8,7 +8,7 @@ router.get('/', auth, function(req, res) {
   var limit = req.query.limit || '10';
 
   Beer.collection().query('limit', limit)
-    .fetch({ withRelated: ['brewery'] })
+    .fetch({ withRelated: ['brewery', 'style'] })
     .then(function(models) {
       res.status(200).json(models);
     })
@@ -19,13 +19,13 @@ router.get('/', auth, function(req, res) {
 });
 
 /* GET beer data */
-router.get(/^\/\d+$/, auth, function(req, res) {
+router.get(/^\/\d+$/, function(req, res) {
   var id = req.path.substring(1); // Removes forward slash
 
   console.log('Querying for beer with id = ' + id);
 
   Beer.where({id: id})
-    .fetch({ withRelated: ['brewery'] })
+    .fetch({ withRelated: ['brewery', 'style'] })
     .then(function(model) {
       if (model) {
         res.status(200).json(model);
@@ -49,7 +49,7 @@ router.get('/search', auth, function(req, res) {
         .query(function (qb) {
           qb.whereIn('id', ids).limit(limit);
         })
-        .fetchAll({ withRelated: 'brewery' });
+        .fetchAll({ withRelated: ['brewery', 'style'] });
     })
     .then(function(models) {
       res.status(200).json(models);
