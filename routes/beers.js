@@ -45,10 +45,11 @@ router.get('/search', auth, function(req, res) {
 
   Beer.search(req.query.query)
     .then(function (ids) {
-      return Beer.query()
-        .whereIn('id', ids)
-        .limit(limit)
-        .select();
+      return Beer
+        .query(function (qb) {
+          qb.whereIn('id', ids).limit(limit);
+        })
+        .fetchAll({ withRelated: 'brewery' });
     })
     .then(function(models) {
       res.status(200).json(models);
