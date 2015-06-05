@@ -32,12 +32,12 @@ function getActivities(req, thirdPartyId) {
     var limit = req.query.limit || '10';
 
     // Query
-    Activity.collection().query(function(query) {
+    Activity.query(function(query) {
       query.innerJoin('third_party_ids', 'activities.user_id', 'third_party_ids.user_id')
         .where('third_party_ids.id', thirdPartyId)
         .limit(limit);
     })
-    .fetch()
+    .fetchAll({ withRelated: ['beer'] })
     .then(function(model) {
       resolve(model);
     })
