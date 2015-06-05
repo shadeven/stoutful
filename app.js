@@ -53,6 +53,7 @@ app.use('/users', users);
 app.use('/beers', beers);
 app.use(/^\/beers\/\d+$/, beers);
 app.use('/beers/search', beers);
+app.use('/beers/suggestions', beers);
 app.use('/breweries', breweries);
 app.use('/categories', categories);
 app.use('/styles', styles);
