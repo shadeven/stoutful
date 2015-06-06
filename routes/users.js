@@ -5,25 +5,25 @@ var User = require('../models/user');
 var Activity = require('../models/activity');
 
 /* POST /users */
-router.post('/', function (req, res) {
+router.post('/', auth, function (req, res) {
   console.log('Not Implemented');
   res.status(501).end();
 });
 
 /* PUT /users */
-router.put('/', function (req, res) {
+router.put('/', auth, function (req, res) {
   console.log('Not Implemented');
   res.status(501).end();
 });
 
 /* POST /users/activities */
-router.post('/activities', function (req, res) {
+router.post('/activities', auth, function (req, res) {
   console.log('Not Implemented');
   res.status(501).end();
 });
 
 /* PUT /users/activities */
-router.put('/activities', function (req, res) {
+router.put('/activities', auth, function (req, res) {
   console.log('Not Implemented');
   res.status(501).end();
 });

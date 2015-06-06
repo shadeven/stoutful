@@ -50,22 +50,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 // User routes
-app.use('/users', users);
-app.use(/^\/users\/\d+$/, users);
-app.use(/^\/users\/\d+\/activities$/, users);
+app.use('/api/users', users);
+app.use(/^\/api\/users\/\d+$/, users);
+app.use(/^\/api\/users\/\d+\/activities$/, users);
 
 // Beer routes
-app.use('/beers', beers);
-app.use(/^\/beers\/\d+$/, beers);
-app.use('/beers/search', beers);
-app.use('/beers/suggestions', beers);
+app.use('/api/beers', beers);
+app.use(/^\/api\/beers\/\d+$/, beers);
+app.use('/api/beers/search', beers);
+app.use('/api/beers/suggestions', beers);
 
 // Brewery routes
-app.use('/breweries', breweries);
+app.use('/api/breweries', breweries);
 
-app.use('/categories', categories);
-app.use('/styles', styles);
-app.use('/auth', auth);
+app.use('/api/categories', categories);
+app.use('/api/styles', styles);
+app.use('/api/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
