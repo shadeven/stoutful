@@ -1,3 +1,9 @@
 {
-  "unused": true
+  "unused": true,
+  "undef": true,
+  "globals": {
+    "require": false,
+    "console": false,
+    "module": false
+  }
 }
