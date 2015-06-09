@@ -27,6 +27,7 @@
     "serve-favicon": "~2.2.0"
   },
   "devDependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "localtunnel": "^1.5.1"
   }
 }
