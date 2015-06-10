@@ -31,7 +31,7 @@ server.on('listening', onListening);
 
 if (app.get('env') == 'development') {
   var localtunnel = require('localtunnel');
-  localtunnel(port, {subdomain: 'stoutfule'}, function (err, tunnel) {
+  localtunnel(port, {subdomain: 'stoutful'}, function (err, tunnel) {
     if (err) {
       console.log('Failed to start localtunnel ', err);
     } else {
