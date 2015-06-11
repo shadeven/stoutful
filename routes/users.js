@@ -34,7 +34,7 @@ router.get(/^\/(\d+)$/, auth, function(req, res) {
   var regex = /^\/(\d+)$/;
   var id = regex.exec(req.path)[1];
 
-  var limit = req.query.limit || '10';
+  var limit = parseInt(req.query.limit) || 10;
 
   User.query({ limit: limit })
     .where({ id: id })
@@ -58,9 +58,10 @@ router.get(/^\/(\d+)\/activities$/, auth, function (req, res) {
   var regex = /^\/(\d+)\/activities$/;
   var userId = regex.exec(req.path)[1];
 
-  var limit = req.query.limit || '10';
+  var page = parseInt(req.query.page) || 0;
+  var limit = parseInt(req.query.limit) || 10;
 
-  Activity.query({ limit: limit })
+  Activity.query({ limit: limit, offset: (page * limit), orderBy: 'id' })
     .where({ user_id: userId })
     .fetchAll({ withRelated: ['beer'] })
     .then(function (models) {
