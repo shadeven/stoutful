@@ -1,8 +1,8 @@
-var express = require('express');
+var router = require('express').Router();
+var winston = require('winston');
+
 var auth = require('../auth');
 var database = require('../database');
-
-var router = express.Router();
 
 /* GET category listing. */
 router.get('/', auth, function(req, res) {
@@ -14,7 +14,7 @@ router.get('/', auth, function(req, res) {
       res.status(200).json(rows);
     })
     .catch(function(err) {
-      console.log(err);
+      winston.error(err);
     });
 });
 

@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
+var winston = require('winston');
 
 /**
  * Get port from environment and store in Express.
@@ -33,9 +34,9 @@ if (app.get('env') == 'development') {
   var localtunnel = require('localtunnel');
   localtunnel(port, {subdomain: 'stoutful'}, function (err, tunnel) {
     if (err) {
-      console.log('Failed to start localtunnel ', err);
+      winston.error('Failed to start localtunnel ', err);
     } else {
-      console.log('localtunnel started at ', tunnel.url);
+      winston.info('localtunnel started at ', tunnel.url);
     }
   });
 }
@@ -76,11 +77,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      winston.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      winston.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:

@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var Redis = require('ioredis');
+var winston = require('winston');
 var database = require('../database');
 var auth = require('../auth');
 
@@ -15,7 +16,7 @@ router.get('/', auth, function(req, res) {
       res.status(200).json(models);
     })
     .catch(function(err) {
-      console.log(err);
+      winston.error('Querying beers: ' + err.message);
       res.status(500).end();
     });
 });
@@ -26,7 +27,7 @@ router.get(/^\/(\d+)$/, auth, function(req, res) {
   var regex = /^\/(\d+)$/;
   var id = regex.exec(req.path)[1];
 
-  console.log('Querying for beer with id = ' + id);
+  winston.info('Querying for beer with id = ' + id);
 
   Beer.where({id: id})
     .fetch({ withRelated: ['brewery', 'style'] })
@@ -38,7 +39,7 @@ router.get(/^\/(\d+)$/, auth, function(req, res) {
       }
     })
     .catch(function(err) {
-      console.log(err);
+      winston.error(err);
       res.status(500).end();
     });
 });
@@ -59,7 +60,7 @@ router.get('/search', auth, function(req, res) {
       res.status(200).json(models);
     })
     .catch(function (err) {
-      console.log('Error searching for beer: ', err);
+      winston.error('Error searching for beer: ', err);
       res.status(500).end();
     });
 });
@@ -98,7 +99,7 @@ router.get('/suggestions', auth, function(req, res) {
           res.status(200).json(models);
         })
         .catch(function (err) {
-          console.log(err);
+          winston.error(err);
           res.status(500).end();
         });
     }

@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var rp = require('request-promise');
 var Redis = require('ioredis');
+var winston = require('winston');
 var database = require('../database');
 var Promise = require('promise');
 var bookshelf = require('bookshelf')(database);
@@ -45,13 +46,13 @@ router.post('/', function(req, res) {
                     res.status(201).json(model);
                   })
                   .catch(function(err) {
-                    console.log('Error creating user: ', err);
+                    winston.error('Error creating user: ', err);
                     res.status(500).end();
                   });
               }
             })
             .catch(function(err) {
-              console.log('Error checking for existing user: ',err);
+              winston.error('Error checking for existing user: ',err);
               res.status(500).end();
             });
         }
@@ -68,7 +69,7 @@ router.post('/', function(req, res) {
 
 function checkForExistingUser(userId) {
   return new Promise(function(resolve, reject) {
-    console.log('Looking for user with third party id = ' + userId);
+    winston.info('Looking for user with third party id = ' + userId);
 
     ThirdPartyId.where({ id: userId })
       .fetch({ withRelated: 'user' })

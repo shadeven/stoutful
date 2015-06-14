@@ -1,3 +1,4 @@
+var winston = require('winston');
 var database = require('../database');
 var bookshelf = require('bookshelf')(database);
 var elasticsearch = require('../elasticsearch');
@@ -28,7 +29,7 @@ var Beer = bookshelf.Model.extend({
       }
     }, function(err) {
       if (err) {
-        console.log('Unable to index beer:', err);
+        winston.error('Unable to index beer:', err);
       }
     });
   }

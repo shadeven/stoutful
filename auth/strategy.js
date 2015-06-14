@@ -1,6 +1,7 @@
 var util = require('util');
 var Strategy = require('passport-strategy');
 var Redis = require('ioredis');
+var winston = require('winston');
 
 function StoutfulStrategy(options, verify) {
   if (typeof options == 'function') {
@@ -21,7 +22,7 @@ function StoutfulStrategy(options, verify) {
 util.inherits(StoutfulStrategy, Strategy);
 
 StoutfulStrategy.prototype.authenticate = function(req) {
-  console.log('Authenticating request...');
+  winston.info('Authenticating request...');
   var self = this;
 
   function verified(err) {
@@ -36,7 +37,7 @@ StoutfulStrategy.prototype.authenticate = function(req) {
   var redis = new Redis();
   redis.get(accessToken, function(err, userId) {
     if (err) {
-      console.log('Error fetching access token: ',err);
+      winston.error('Error fetching access token: ', err);
       self.error(err);
     } else {
       self._verify(userId, accessToken, verified);

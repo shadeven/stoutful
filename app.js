@@ -4,8 +4,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var StoutfulStrategy = require('./auth/strategy');
+var winston = require('winston');
 
+var StoutfulStrategy = require('./auth/strategy');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var beers = require('./routes/beers');
@@ -14,11 +15,17 @@ var categories = require('./routes/categories');
 var styles = require('./routes/styles');
 var auth = require('./routes/auth');
 
-var app = express();
+// Set up logging
+winston.remove(winston.transports.Console);
+winston.add(winston.transports.Console, {
+  "colorize": true,
+  "timestamp": true
+});
 
+// Passport strategy configuration
 var ThirdPartyId = require('./models/thirdPartyId');
-
 passport.use(new StoutfulStrategy(function(userId, accessToken, done) {
+  winston.info('Verifying auth...');
   ThirdPartyId.where({ id: userId })
     .fetch({ withRelated: 'user' })
     .then(function(model) {
@@ -29,10 +36,12 @@ passport.use(new StoutfulStrategy(function(userId, accessToken, done) {
       }
     })
     .catch(function(err) {
-      console.log('Error verifying auth: ', err);
+      winston.error(err);
       done(err);
     });
 }));
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

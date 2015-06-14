@@ -1,30 +1,31 @@
 var router = require('express').Router();
-var auth = require('../auth');
+var winston = require('winston');
 
+var auth = require('../auth');
 var User = require('../models/user');
 var Activity = require('../models/activity');
 
 /* POST /users */
 router.post('/', auth, function (req, res) {
-  console.log('Not Implemented');
+  winston.info('Not Implemented');
   res.status(501).end();
 });
 
 /* PUT /users */
 router.put('/', auth, function (req, res) {
-  console.log('Not Implemented');
+  winston.info('Not Implemented');
   res.status(501).end();
 });
 
 /* POST /users/activities */
 router.post('/activities', auth, function (req, res) {
-  console.log('Not Implemented');
+  winston.info('Not Implemented');
   res.status(501).end();
 });
 
 /* PUT /users/activities */
 router.put('/activities', auth, function (req, res) {
-  console.log('Not Implemented');
+  winston.info('Not Implemented');
   res.status(501).end();
 });
 
@@ -47,7 +48,7 @@ router.get(/^\/(\d+)$/, auth, function(req, res) {
       }
     })
     .catch(function (err) {
-      console.log(err);
+      winston.error(err);
       res.status(500).end();
     });
 });
@@ -68,7 +69,7 @@ router.get(/^\/(\d+)\/activities$/, auth, function (req, res) {
       res.status(200).json(models);
     })
     .catch(function (err) {
-      console.log(err);
+      wintson.error(err);
       res.status(500).end();
     });
 });
