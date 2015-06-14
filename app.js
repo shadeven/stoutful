@@ -74,7 +74,7 @@ app.use('/api/breweries', breweries);
 
 app.use('/api/categories', categories);
 app.use('/api/styles', styles);
-app.use('/api/auth', auth);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
