@@ -69,7 +69,7 @@ router.get(/^\/(\d+)\/activities$/, auth, function (req, res) {
       res.status(200).json(models);
     })
     .catch(function (err) {
-      wintson.error(err);
+      winston.error(err);
       res.status(500).end();
     });
 });
