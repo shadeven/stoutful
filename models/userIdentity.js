@@ -4,7 +4,7 @@ var bookshelf = require('bookshelf')(database);
 var User = require('./user');
 
 module.exports = bookshelf.Model.extend({
-  tableName: 'third_party_ids',
+  tableName: 'user_identities',
   user: function () {
     return this.belongsTo(User);
   }

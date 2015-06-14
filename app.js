@@ -23,10 +23,10 @@ winston.add(winston.transports.Console, {
 });
 
 // Passport strategy configuration
-var ThirdPartyId = require('./models/thirdPartyId');
-passport.use(new StoutfulStrategy(function(userId, accessToken, done) {
+var UserIdentity = require('./models/userIdentity');
+passport.use(new StoutfulStrategy(function(socialId, accessToken, done) {
   winston.info('Verifying auth...');
-  ThirdPartyId.where({ id: userId })
+  UserIdentity.where({ provider_id: socialId })
     .fetch({ withRelated: 'user' })
     .then(function(model) {
       if (model) {

@@ -6,7 +6,7 @@ var database = require('../database');
 var Promise = require('promise');
 var bookshelf = require('bookshelf')(database);
 
-var ThirdPartyId = require('../models/thirdPartyId');
+var UserIdentity = require('../models/userIdentity');
 var User = require('../models/user');
 
 router.post('/', function(req, res) {
@@ -23,7 +23,7 @@ router.post('/', function(req, res) {
   rp(options)
     .then(function(body) {
       var info = JSON.parse(body);
-      var userId = info.user_id;
+      var socialId = info.user_id;
       var redis = new Redis();
 
       // Check for existing key
@@ -32,16 +32,16 @@ router.post('/', function(req, res) {
           res.status(500).end();
         } else {
           if (!result) {
-            redis.set(accessToken, userId);
+            redis.set(accessToken, socialId);
             redis.expire(accessToken, info.expires_in);
           }
 
-          checkForExistingUser(userId)
+          checkForExistingUser(socialId)
             .then(function(user) {
               if (user) {
                 res.status(200).json(user);
               } else {
-                createUser(userId, accessToken)
+                createUser(socialId, accessToken)
                   .then(function(model) {
                     res.status(201).json(model);
                   })
@@ -67,11 +67,11 @@ router.post('/', function(req, res) {
     });
 });
 
-function checkForExistingUser(userId) {
+function checkForExistingUser(socialId) {
   return new Promise(function(resolve, reject) {
-    winston.info('Looking for user with third party id = ' + userId);
+    winston.info('Looking for user with social id = ' + socialId);
 
-    ThirdPartyId.where({ id: userId })
+    UserIdentity.where({ provider_id: socialId })
       .fetch({ withRelated: 'user' })
       .then(function(model) {
         var user = null;
@@ -86,7 +86,7 @@ function checkForExistingUser(userId) {
   });
 }
 
-function createUser(thirdPartyId, accessToken) {
+function createUser(socialId, accessToken) {
   return new Promise(function(resolve, reject) {
     var options =  {
       url: 'https://www.googleapis.com/oauth2/v1/userinfo',
@@ -113,10 +113,10 @@ function createUser(thirdPartyId, accessToken) {
           .save(null, { transacting: t })
           .tap(function(user) {
             // Insert third party id
-            return new ThirdPartyId({
-              id: thirdPartyId,
+            return new UserIdentity({
               user_id: user.id,
-              type: 'google'
+              provider_id: socialId,
+              provider: 'google'
             })
             .save(null, { transacting: t, method: 'insert' });
           });

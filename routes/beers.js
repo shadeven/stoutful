@@ -71,15 +71,15 @@ router.get('/suggestions', auth, function(req, res) {
 
   var accessToken = req.headers.authorization;
   var redis = new Redis();
-  redis.get(accessToken, function(err, thirdPartyId) {
+  redis.get(accessToken, function(err, socialId) {
     if (err) {
       res.status(500).end();
     } else {
       Beer.query(function (qb) {
         var styleSubquery = database('beers')
           .innerJoin('activities', 'beers.id', 'activities.beer_id')
-          .innerJoin('third_party_ids', 'activities.user_id', 'third_party_ids.user_id')
-          .where('third_party_ids.id', thirdPartyId)
+          .innerJoin('user_identities', 'activities.user_id', 'user_identities.user_id')
+          .where('user_identities.provider_id', socialId)
           .andWhere('activities.type', 'like')
           .andWhere('beers.style_id', '!=', -1)
           .groupBy('beers.style_id')
@@ -87,8 +87,8 @@ router.get('/suggestions', auth, function(req, res) {
 
         var beerSubquery = database('beers')
             .innerJoin('activities', 'beers.id', 'activities.beer_id')
-            .innerJoin('third_party_ids', 'activities.user_id', 'third_party_ids.user_id')
-            .where('third_party_ids.id', thirdPartyId)
+            .innerJoin('user_identities', 'activities.user_id', 'user_identities.user_id')
+            .where('user_identities.provider_id', socialId)
             .select('beers.id');
 
         qb.where('style_id', 'IN', styleSubquery)
