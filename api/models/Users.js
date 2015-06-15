@@ -6,7 +6,8 @@
 */
 
 module.exports = {
-
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
   attributes: {
     id: {
       type: 'integer',
@@ -31,7 +32,25 @@ module.exports = {
     },
     image_url: {
       type: 'string'
+    },
+    created_at: {
+      type: 'datetime',
+      notNull: true,
+      defaultsTo: function() {
+        return new Date();
+      }
+    },
+    updated_at: {
+      type: 'datetime',
+      notNull: true,
+      defaultsTo: function() {
+        return new Date();
+      }
     }
+  },
+  beforeUpdate: function(values, cb) {
+    values.updated_at = new Date();
+    cb();
   }
 };
 
