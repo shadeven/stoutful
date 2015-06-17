@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+  tableName: 'breweries',
   autoCreatedAt: false,
   autoUpdatedAt: false,
   attributes: {

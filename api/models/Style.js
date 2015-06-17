@@ -1,11 +1,12 @@
 /**
-* Users.js
+* Styles.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
 module.exports = {
+  tableName: 'styles',
   autoCreatedAt: false,
   autoUpdatedAt: false,
   attributes: {
@@ -14,24 +15,13 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    email: {
-      type: 'email',
-      notNull: true,
-      unique: true,
-      required: true
-    },
-    first_name: {
+    name: {
       type: 'string',
-      notNull: true,
-      required: true
+      notNull: true
     },
-    last_name: {
-      type: 'string',
-      notNull: true,
-      required: true
-    },
-    image_url: {
-      type: 'string'
+    cat_id: {
+      type: 'integer',
+      notNull: true
     },
     created_at: {
       type: 'datetime',

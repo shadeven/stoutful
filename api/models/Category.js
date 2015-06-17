@@ -1,11 +1,12 @@
 /**
-* Beers.js
+* Categories.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
 module.exports = {
+  tableName: 'categories',
   autoCreatedAt: false,
   autoUpdatedAt: false,
   attributes: {
@@ -14,43 +15,7 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    brewery_id: {
-      type: 'integer',
-      notNull: true,
-    },
     name: {
-      type: 'string',
-      notNull: true
-    },
-    cat_id: {
-      type: 'integer',
-      notNull: true
-    },
-    style_id: {
-      type: 'integer',
-      notNull: true
-    },
-    abv: {
-      type: 'float',
-      notNull: true
-    },
-    ibu: {
-      type: 'float',
-      notNull: true
-    },
-    srm: {
-      type: 'float',
-      notNull: true
-    },
-    upc: {
-      type: 'integer',
-      notNull: true
-    },
-    image_url: {
-      type: 'string',
-      notNull: true
-    },
-    description: {
       type: 'string',
       notNull: true
     },

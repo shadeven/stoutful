@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+  tableName: 'activities',
   autoCreatedAt: false,
   autoUpdatedAt: false,
   attributes: {
