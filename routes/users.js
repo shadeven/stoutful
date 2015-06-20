@@ -62,7 +62,7 @@ router.get(/^\/(\d+)\/activities$/, auth, function (req, res) {
   var page = parseInt(req.query.page) || 0;
   var limit = parseInt(req.query.limit) || 10;
 
-  Activity.query({ limit: limit, offset: (page * limit), orderBy: 'id' })
+  Activity.query({ limit: limit, offset: (page * limit) - limit, orderBy: 'id' })
     .where({ user_id: userId })
     .fetchAll({ withRelated: ['beer'] })
     .then(function (models) {
