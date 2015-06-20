@@ -72,6 +72,14 @@ module.exports = {
 
   beforeUpdate: function(values, cb) {
     values.updated_at = new Date();
-    cb();
+    if (values.password) {
+      bcrypt.hash(values.password, 10, function(err, hash) {
+        if (err) cb(err);
+        values.password = hash;
+        cb();
+      });
+    } else {
+      cb();
+    }
   }
 };
