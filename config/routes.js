@@ -36,6 +36,7 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'post /oauth/token': 'AuthController.token'
+  'post /oauth/token': 'AuthController.token',
+  'get /user/:id/activities': 'ActivityController.get'
 
 };
