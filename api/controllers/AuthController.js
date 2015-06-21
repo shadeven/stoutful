@@ -31,8 +31,9 @@ module.exports = {
               .then(generateRefreshToken)
               .then(saveRefreshToken)
               .then(saveAccessToken)
-              .then(setAccessTokenTTL)
               .then(function(token) {
+                // Reformat this token to comply with OAuth2 spec
+                delete token.user;
                 res.status(201).json(token);
               })
               .catch(function(err) {
@@ -50,30 +51,6 @@ module.exports = {
 };
 
 /**
- * Sets an expire time on the given access token.
- */
-function setAccessTokenTTL(accessToken) {
-  return new Promise(function(fulfill, reject) {
-    var AccessToken = this.sails.models.accesstoken;
-
-    AccessToken.native(function(err, redis) {
-      var key = 'waterline:accesstoken:id:' + accessToken.id;
-      var expiresIn = 24 * (60*60); // 24 hours
-      redis.expire([key, expiresIn], function(err, success) {
-        if (err) reject(err);
-        if (success) {
-          accessToken.expires_in = expiresIn;
-          delete accessToken.id; // Drop access token ID as it's not relevant to the client.
-          fulfill(accessToken);
-        } else {
-          reject(new Error('Unable to set TTL time on access token.'));
-        }
-      });
-    });
-  });
-}
-
-/**
  * Stores given access token.
  */
 function saveAccessToken(payload) {
@@ -82,8 +59,20 @@ function saveAccessToken(payload) {
 
     AccessToken.create({ user_id: payload.user.id, token: payload.token })
       .then(function(accessToken) {
-        accessToken.refresh_token = payload.refresh_token;
-        fulfill(accessToken);
+        // Apply a TTL to the access token.
+        AccessToken.native(function(err, redis) {
+          var key = 'waterline:accesstoken:id:' + accessToken.id;
+          var expiresIn = 24 * (60*60); // 24 hours
+          redis.expire([key, expiresIn], function(err, success) {
+            if (err) reject(err);
+            if (success) {
+              payload.expires_in = expiresIn;
+              fulfill(payload);
+            } else {
+              reject(new Error('Unable to set TTL time on access token.'));
+            }
+          });
+        });
       })
       .catch(reject);
   });
@@ -120,7 +109,8 @@ function generateAccessToken(user) {
   return new Promise(function(fulfill) {
     var prefix = crypto.randomBytes(4).toString('hex');
     var body = crypto.randomBytes(60).toString('hex');
-    fulfill({user: user, token: prefix + '.' + body});
+    var type = 'bearer';
+    fulfill({user: user, access_token: prefix + '.' + body, token_type: type});
   });
 }
 
