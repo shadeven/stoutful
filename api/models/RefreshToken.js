@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+  tableName: 'refresh_tokens',
   attributes: {
     user_id: {
       type: 'integer'
