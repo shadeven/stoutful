@@ -18,7 +18,11 @@
 
 
 module.exports.policies = {
+  // Lock down everything
+  '*': ['isAuthenticated'],
+
+  // Open up registration
   UserController: {
-    '*': ['isAuthenticated']
+    'create': true
   }
 };
