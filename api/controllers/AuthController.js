@@ -1,9 +1,6 @@
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
-
-var CLIENT_ID = "$2a$08$y9XgmyXZvOS0ulJHz1ZH0eLcjegUwoKLc2sss0beebAD/wYtWF22O";
-var CLIENT_SECRET = "$2a$10$WGKsiK58U11EdeMJWMmoHOZoScMQ7qvGJixNH6Z9cWEu62M3sD9N6";
+var crypto = require('crypto');
 
 module.exports = {
   token: function(req, res) {
@@ -107,12 +104,9 @@ function saveRefreshToken(payload) {
  */
 function generateRefreshToken(payload) {
   return new Promise(function(fulfill) {
-    var refresh_token = jwt.sign({
-      iss: 'stoutful',
-      aud: CLIENT_ID,
-      sub: payload.token },
-      CLIENT_SECRET,
-      {algorithm: 'HS512'});
+    var prefix = crypto.randomBytes(4).toString('hex');
+    var body = crypto.randomBytes(60).toString('hex');
+    var refresh_token = prefix + '.' + body;
 
     payload.refresh_token = refresh_token;
     fulfill(payload);
@@ -124,8 +118,9 @@ function generateRefreshToken(payload) {
  */
 function generateAccessToken(user) {
   return new Promise(function(fulfill) {
-    var token = jwt.sign({ iss: 'stoutful', aud: CLIENT_ID, sub: user.id }, CLIENT_SECRET);
-    fulfill({user: user, token: token});
+    var prefix = crypto.randomBytes(4).toString('hex');
+    var body = crypto.randomBytes(60).toString('hex');
+    fulfill({user: user, token: prefix + '.' + body});
   });
 }
 
