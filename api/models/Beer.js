@@ -15,21 +15,30 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    brewery_id: {
+    brewery: {
+      columnName: 'brewery_id',
+      model: 'brewery',
       type: 'integer',
       notNull: true,
+      required: true
     },
     name: {
       type: 'string',
       notNull: true
     },
-    cat_id: {
+    category: {
+      columnName: 'cat_id',
+      model: 'category',
       type: 'integer',
-      notNull: true
+      notNull: true,
+      required: true
     },
-    style_id: {
+    style: {
+      columnName: 'style_id',
+      model: 'style',
       type: 'integer',
-      notNull: true
+      notNull: true,
+      required: true
     },
     abv: {
       type: 'float',
@@ -75,4 +84,3 @@ module.exports = {
     cb();
   }
 };
-

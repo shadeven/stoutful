@@ -15,12 +15,18 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    user_id: {
+    user: {
+      columnName: 'user_id',
+      model: 'user',
       type: 'integer',
+      required: true,
       notNull: true
     },
-    beer_id: {
+    beer: {
+      columnName: 'beer_id',
+      model: 'beer',
       type: 'integer',
+      required: true,
       notNull: true
     },
     timestamp: {
@@ -36,4 +42,3 @@ module.exports = {
     }
   }
 };
-
