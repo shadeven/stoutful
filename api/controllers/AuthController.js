@@ -1,7 +1,6 @@
+/* global sails, RefreshToken, AccessToken */
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
-var crypto = require('crypto');
-var moment = require('moment');
 
 module.exports = {
   token: function(req, res) {
@@ -17,6 +16,10 @@ module.exports = {
     } else if (grantType == 'refresh_token') {
       handleRefreshTokenGrant(req, res);
     }
+  },
+
+  provider: function(req, res) {
+    sails.services.passport.endpoint(req, res);
   }
 };
 
@@ -35,7 +38,6 @@ function handleRefreshTokenGrant(req, res) {
   // Authenticate client?
 
   // Validate refresh token
-  var RefreshToken = this.sails.models.refreshtoken;
   RefreshToken.findOne({ token: refreshToken })
     .then(function(result) {
       if (!result) {
@@ -45,10 +47,10 @@ function handleRefreshTokenGrant(req, res) {
 
       // Issue a new access token
       generateAccessToken({ id: result.user_id })
-        .then(saveAccessToken)
         .then(function(token) {
           // Reformat this token to comply with OAuth2 spec
-          delete token.user;
+          delete token.user_id;
+          delete token.id;
           res.status(201).json(token);
         })
         .catch(function(err) {
@@ -81,8 +83,6 @@ function handlePasswordGrant(req, res) {
         return;
       }
 
-      var AccessToken = this.sails.models.accesstoken;
-      var RefreshToken = this.sails.models.refreshtoken;
       AccessToken.findOne({user_id: user.id}, function(err, accessToken) {
         if (err) {
           res.status(500).end();
@@ -107,14 +107,19 @@ function handlePasswordGrant(req, res) {
         } else {
           // We don't already have an access token for this user.
           verifyCredentials(user, password)
-            .then(generateAccessToken)
-            .then(generateRefreshToken)
-            .then(saveRefreshToken)
-            .then(saveAccessToken)
-            .then(function(token) {
-              // Reformat this token to comply with OAuth2 spec
-              delete token.user;
-              res.status(201).json(token);
+            .then(function (user) {
+              return Promise.all([generateAccessToken(user), generateRefreshToken(user)]);
+            })
+            .then(function(values) {
+              var accessToken = values[0];
+              var refreshToken = values[1];
+              var result = {
+                access_token: accessToken.token,
+                refresh_token: refreshToken.token,
+                token_type: accessToken.token_type,
+                expires_in: accessToken.expiresIn()
+              };
+              res.status(201).json(result);
             })
             .catch(function(err) {
               console.log('Error issuing access token: ', err);
@@ -130,67 +135,17 @@ function handlePasswordGrant(req, res) {
 }
 
 /**
- * Stores given access token.
- */
-function saveAccessToken(payload) {
-  return new Promise(function(fulfill, reject) {
-    var AccessToken = this.sails.models.accesstoken;
-    var expiresAt = moment().add(24, 'hours').toDate();
-    AccessToken.create({ user_id: payload.user.id, token: payload.access_token, expires_at: expiresAt })
-      .then(function(accessToken) {
-        // Apply a TTL to the access token.
-        AccessToken.native(function(err, redis) {
-          var key = 'waterline:accesstoken:id:' + accessToken.id;
-          var expiresIn = accessToken.expiresIn();
-          redis.expire([key, expiresIn], function(err, success) {
-            if (err) reject(err);
-            if (success) {
-              payload.expires_in = expiresIn;
-              fulfill(payload);
-            } else {
-              reject(new Error('Unable to set TTL time on access token.'));
-            }
-          });
-        });
-      })
-      .catch(reject);
-  });
-}
-
-function saveRefreshToken(payload) {
-  return new Promise(function(fulfill, reject) {
-    var RefreshToken = this.sails.models.refreshtoken;
-
-    RefreshToken.create({ user_id: payload.user.id, token: payload.refresh_token })
-      .then(function() { fulfill(payload); })
-      .catch(reject);
-  });
-}
-
-/**
  * Generates a refresh token for the given access token.
  */
-function generateRefreshToken(payload) {
-  return new Promise(function(fulfill) {
-    var prefix = crypto.randomBytes(4).toString('hex');
-    var body = crypto.randomBytes(60).toString('hex');
-    var refresh_token = prefix + '.' + body;
-
-    payload.refresh_token = refresh_token;
-    fulfill(payload);
-  });
+function generateRefreshToken(user) {
+  return RefreshToken.generateAndSave(user.id);
 }
 
 /**
  * Generates an access token for the given user.
  */
 function generateAccessToken(user) {
-  var AccessToken = this.sails.models.accesstoken;
-  return new Promise(function(fulfill) {
-    var token = AccessToken.generate();
-    var type = 'bearer';
-    fulfill({user: user, access_token: token, token_type: type});
-  });
+  return AccessToken.generateAndSave(user.id);
 }
 
 /**
@@ -214,7 +169,7 @@ function verifyCredentials(user, password) {
  */
 function findUser(email) {
   return new Promise(function(fulfill, reject) {
-    this.sails.models.user.findOne({ email: email }, function(err, user) {
+    User.findOne({ email: email }, function(err, user) {
       if (err) reject(err);
       fulfill(user);
     });
