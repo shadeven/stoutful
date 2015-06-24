@@ -24,5 +24,10 @@ module.exports.policies = {
   // Open up registration
   UserController: {
     'create': true
+  },
+
+  AuthController: {
+    'provider': true,
+    'token': true
   }
 };

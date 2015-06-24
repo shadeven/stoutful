@@ -1,4 +1,4 @@
-/* global sails, RefreshToken, AccessToken */
+/* global sails, RefreshToken, AccessToken, User */
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
 
@@ -18,8 +18,14 @@ module.exports = {
     }
   },
 
-  provider: function(req, res) {
-    sails.services.passport.endpoint(req, res);
+  provider: function(req, res, next) {
+    sails.services.passport.provider(req, res, next, function(err, user, info) {
+      if (err) {
+        return res.status(500).end();
+      }
+
+      return res.status(200).json(info);
+    });
   }
 };
 
@@ -48,9 +54,6 @@ function handleRefreshTokenGrant(req, res) {
       // Issue a new access token
       generateAccessToken({ id: result.user_id })
         .then(function(token) {
-          // Reformat this token to comply with OAuth2 spec
-          delete token.user_id;
-          delete token.id;
           res.status(201).json(token);
         })
         .catch(function(err) {
@@ -93,12 +96,9 @@ function handlePasswordGrant(req, res) {
           // so we must also have a refresh token
           RefreshToken.findOne({ user_id: accessToken.user_id })
             .then(function(refreshToken) {
-              res.status(200).json({
-                access_token: accessToken.token,
-                refresh_token: refreshToken.token,
-                token_type: 'bearer',
-                expires_in: accessToken.expiresIn()
-              });
+              var result = accessToken.toJSON();
+              result.refresh_token = refreshToken.token;
+              res.status(200).json(result);
             })
             .catch(function(err) {
               console.log('Error querying refresh token: ', err);
@@ -113,12 +113,8 @@ function handlePasswordGrant(req, res) {
             .then(function(values) {
               var accessToken = values[0];
               var refreshToken = values[1];
-              var result = {
-                access_token: accessToken.token,
-                refresh_token: refreshToken.token,
-                token_type: accessToken.token_type,
-                expires_in: accessToken.expiresIn()
-              };
+              var result = accessToken.toJSON();
+              result.refresh_token = refreshToken.token;
               res.status(201).json(result);
             })
             .catch(function(err) {

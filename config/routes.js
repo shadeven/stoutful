@@ -19,24 +19,19 @@
  * For more information on configuring custom routes, check out:
  * http://sailsjs.org/#!/documentation/concepts/Routes/RouteTargetSyntax.html
  */
+ /* global sails */
 
 module.exports.routes = {
-
-  /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+  '/*': function(req, res, next) {
+    sails.log.verbose(req.method, req.url); next();
+  },
 
   '/': {
     view: 'homepage'
   },
 
   'post /oauth/token': 'AuthController.token',
-  'get /user/:id/activities': 'ActivityController.get'
+  'post /auth/:provider': 'AuthController.provider',
 
+  'get /user/:id/activities': 'ActivityController.get'
 };

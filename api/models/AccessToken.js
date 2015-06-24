@@ -34,6 +34,16 @@ module.exports = {
     },
     expiresIn: function() {
       return parseInt(moment.duration(moment(this.expires_at).diff(moment())).asSeconds());
+    },
+    toJSON: function() {
+      var obj = this.toObject();
+      obj.expires_in = this.expiresIn();
+      obj.access_token = obj.token;
+      delete obj.id;
+      delete obj.token;
+      delete obj.user_id;
+      delete obj.expires_at;
+      return obj;
     }
   },
   generate: function(userId) {

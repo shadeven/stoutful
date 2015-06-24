@@ -1,4 +1,4 @@
-/* global sails */
+/* global AccessToken */
 
 module.exports = function(req, res, next) {
   var authorization = req.headers.authorization;
@@ -18,7 +18,7 @@ module.exports = function(req, res, next) {
   var token = match[1];
 
   // Verify access token is correct
-  sails.models.accesstoken.findOne({token: token}, function(err, result) {
+  AccessToken.findOne({token: token}, function(err, result) {
     if (err) return next(err);
 
     if (!result) {
