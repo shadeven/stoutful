@@ -21,6 +21,7 @@ module.exports = {
   provider: function(req, res, next) {
     sails.services.passport.provider(req, res, next, function(err, user, info) {
       if (err) {
+        console.log('Error authorizing user: ', err);
         return res.status(500).end();
       }
 

@@ -1,4 +1,4 @@
-/* global User, AccessToken, RefreshToken */
+/* global User, AccessToken, RefreshToken, UserIdentity */
 var Promise = require('bluebird');
 
 module.exports = function(tokens, profile, done) {
@@ -48,14 +48,24 @@ function handleNewUser(accessToken, profile, done) {
   User.create(user)
     .then(function(user) {
       if (user) {
-        // Generate an access token and refresh token
-        Promise.all([AccessToken.generateAndSave(user.id), RefreshToken.generateAndSave(user.id)])
-          .then(function (values) {
-            var accessToken = values[0];
-            var refreshToken = values[1];
-            var result = accessToken.toJSON();
-            result.refresh_token = refreshToken.token;
-            done(null, user, result);
+        // Create a user identity
+        var identity = {
+          user_id: user.id,
+          provider_id: profile.id,
+          provider: 'google'
+        };
+        UserIdentity.create(identity)
+          .then(function() {
+            // Generate an access token and refresh token
+            Promise.all([AccessToken.generateAndSave(user.id), RefreshToken.generateAndSave(user.id)])
+              .then(function (values) {
+                var accessToken = values[0];
+                var refreshToken = values[1];
+                var result = accessToken.toJSON();
+                result.refresh_token = refreshToken.token;
+                done(null, user, result);
+              })
+              .catch(done);
           })
           .catch(done);
       } else {

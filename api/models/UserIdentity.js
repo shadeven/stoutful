@@ -17,16 +17,18 @@ module.exports = {
     },
     user_id: {
       type: 'integer',
-      notNull: true
+      notNull: true,
+      required: true
     },
     provider_id: {
-      type: 'integer',
-      notNull: true
+      type: 'string',
+      notNull: true,
+      required: true
     },
     provider: {
       type: 'string',
-      notNull: true
+      notNull: true,
+      required: true
     }
   }
 };
-
