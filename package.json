@@ -32,7 +32,6 @@
     "sails-redis": "^0.10.4"
   },
   "scripts": {
-    "debug": "node debug app.js",
     "start": "node app.js"
   },
   "main": "app.js",
