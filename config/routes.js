@@ -34,4 +34,5 @@ module.exports.routes = {
   'post /auth/:provider': 'AuthController.provider',
 
   'get /user/:id/activities': 'ActivityController.get'
+  'get /api/user/me': 'UserController.get'
 };

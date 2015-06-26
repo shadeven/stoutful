@@ -6,6 +6,11 @@
  */
 
 module.exports = {
-
+  get: function(req, res) {
+    if (!req.user) {
+      res.status(401).end();
+    } else {
+      res.status(200).json(req.user);
+    }
+  }
 };
-
