@@ -28,6 +28,8 @@ function handleExistingUser(user, done) {
       if (accessToken) {
         var result = accessToken.toJSON();
         done(null, user, result);
+      } else {
+        done(new Error('Access token not found'), null, null);
       }
     })
     .catch(done);
