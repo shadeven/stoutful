@@ -1,4 +1,6 @@
-/* global AccessToken */
+/* global AccessToken, User */
+
+var Promise = require('bluebird');
 
 module.exports = function(req, res, next) {
   var authorization = req.headers.authorization;
@@ -17,14 +19,30 @@ module.exports = function(req, res, next) {
   }
   var token = match[1];
 
-  // Verify access token is correct
-  AccessToken.findOne({token: token}, function(err, result) {
-    if (err) return next(err);
-
-    if (!result) {
-      return res.status(401).end();
-    }
-
-    next();
-  });
+  // Verify access token is correct and that user exists
+  AccessToken.findOne({token: token})
+    .then(findUser)
+    .then(function (user) {
+      if (user) {
+        req.user = user;
+        next();
+      } else {
+        next(new Error('User not found'));
+      }
+    })
+    .catch(function() {
+      res.status(401).end();
+    });
 };
+
+function findUser(accessToken) {
+  return new Promise(function(fulfill, reject) {
+    if (accessToken) {
+      User.findOne({id: accessToken.user_id})
+        .then(fulfill)
+        .catch(reject);
+    } else {
+      reject(new Error('Access token not found'));
+    }
+  });
+}
