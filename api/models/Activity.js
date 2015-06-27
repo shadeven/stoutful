@@ -38,7 +38,7 @@ module.exports = {
     },
     type: {
       type: 'string',
-      notNull: true
+      required: true
     }
   }
 };

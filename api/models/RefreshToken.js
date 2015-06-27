@@ -11,10 +11,12 @@ module.exports = {
   tableName: 'refresh_tokens',
   attributes: {
     user_id: {
-      type: 'integer'
+      type: 'integer',
+      required: true
     },
     token: {
-      type: 'string'
+      type: 'string',
+      required: true
     }
   },
   generate: function(userId) {
