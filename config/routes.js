@@ -33,6 +33,6 @@ module.exports.routes = {
   'post /oauth/token': 'AuthController.token',
   'post /auth/:provider': 'AuthController.provider',
 
-  'get /api/user/:id/activities': 'ActivityController.get',
-  'get /api/user/me': 'UserController.get'
+  'get /api/users/:id/activities': 'ActivityController.get',
+  'get /api/users/me': 'UserController.get'
 };
