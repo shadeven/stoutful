@@ -5,6 +5,8 @@
     "require": false,
     "console": false,
     "module": false,
-    "__dirname": false
+    "__dirname": false,
+    "process": false,
+    "sails": false
   }
 }

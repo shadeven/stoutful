@@ -1,4 +1,5 @@
 {
   "validateIndentation": 2,
-  "disallowTrailingWhitespace": true
+  "disallowTrailingWhitespace": true,
+  "disallowMixedSpacesAndTabs": true
 }
