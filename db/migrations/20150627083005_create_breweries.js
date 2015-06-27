@@ -5,6 +5,7 @@ module.exports.up = function(knex) {
     table.string('address1').notNullable();
     table.string('address2').notNullable();
     table.string('city').notNullable();
+    table.string('state').notNullable();
     table.string('code').notNullable();
     table.string('country').notNullable();
     table.string('phone').notNullable();

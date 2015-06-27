@@ -3,7 +3,8 @@ module.exports.up = function(knex) {
     table.increments('id').primary().notNullable();
     table.integer('brewery_id').notNullable();
     table.string('name').notNullable();
-    table.integer('category_id').notNullable();
+    table.integer('cat_id').notNullable();
+    table.integer('style_id').notNullable();
     table.decimal('abv').notNullable().defaultsTo(0);
     table.decimal('ibu').notNullable().defaultsTo(0);
     table.decimal('srm').notNullable().defaultsTo(0);
