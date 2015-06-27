@@ -6,6 +6,7 @@
     "console": false,
     "module": false,
     "__dirname": false,
-    "process": false
+    "process": false,
+    "sails": false
   }
 }
