@@ -40,5 +40,8 @@
     "url": "git://github.com/alexfu/stoutful.git"
   },
   "author": "alexfu",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "localtunnel": "^1.5.1"
+  }
 }

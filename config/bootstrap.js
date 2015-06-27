@@ -13,5 +13,18 @@ module.exports.bootstrap = function(cb) {
 
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
-  cb();
+
+  if (sails.config.environment === 'development') {
+    var localtunnel = require('localtunnel');
+    localtunnel(sails.config.port, {subdomain: 'stoutful'}, function(err, tunnel) {
+      if (err) {
+        return console.log('Error starting localtunnel: ', err);
+      }
+
+      console.log('Tunnel has started at ' + tunnel.url);
+      cb();
+    });
+  } else {
+    cb();
+  }
 };
