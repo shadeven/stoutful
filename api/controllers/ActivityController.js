@@ -11,10 +11,10 @@ module.exports = {
   get: function(req, res) {
     var userId = req.params.id;
     var limit = req.query.limit || 10;
-    var offset = ((req.query.page || 1) * limit) - limit;
+    var skip = req.query.skip || 0;
 
     // Get activities belonging to a user
-    sails.models.activity.find({user_id: userId}).skip(offset).limit(limit)
+    sails.models.activity.find({user_id: userId}).skip(skip).limit(limit)
       .then(function(result) {
         res.status(200).json(result);
       })
