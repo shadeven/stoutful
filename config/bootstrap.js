@@ -18,10 +18,10 @@ module.exports.bootstrap = function(cb) {
     var localtunnel = require('localtunnel');
     localtunnel(sails.config.port, {subdomain: 'stoutful'}, function(err, tunnel) {
       if (err) {
-        return console.log('Error starting localtunnel: ', err);
+        return sails.log.error('Error starting localtunnel: ', err);
       }
 
-      console.log('Tunnel has started at ' + tunnel.url);
+      sails.log.info('Tunnel has started at ' + tunnel.url);
       cb();
     });
   } else {
