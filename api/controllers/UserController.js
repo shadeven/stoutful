@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  get: function(req, res) {
+  me: function(req, res) {
     if (!req.user) {
       res.status(401).end();
     } else {
