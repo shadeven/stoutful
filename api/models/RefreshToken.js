@@ -9,6 +9,8 @@ var crypto = require('crypto');
 
 module.exports = {
   tableName: 'refresh_tokens',
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
   attributes: {
     user_id: {
       type: 'integer',
@@ -17,7 +19,25 @@ module.exports = {
     token: {
       type: 'string',
       required: true
+    },
+    created_at: {
+      type: 'datetime',
+      notNull: true,
+      defaultsTo: function() {
+        return new Date();
+      }
+    },
+    updated_at: {
+      type: 'datetime',
+      notNull: true,
+      defaultsTo: function() {
+        return new Date();
+      }
     }
+  },
+  beforeUpdate: function(values, cb) {
+    values.updated_at = new Date();
+    cb();
   },
   generate: function(userId) {
     var prefix = crypto.randomBytes(4).toString('hex');
