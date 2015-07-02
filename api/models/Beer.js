@@ -79,6 +79,20 @@ module.exports = {
       }
     }
   },
+  search: function(query) {
+    var self = this;
+
+    return sails.services.elasticsearch.search({
+      index: 'stoutful',
+      body: { query: { match: { name: query } } }
+    })
+    .then(function (results) {
+      var ids = results.hits.hits.map(function (hit) {
+        return {id: parseInt(hit._id)};
+      });
+      return self.find(ids);
+    });
+  },
   beforeUpdate: function(values, cb) {
     values.updated_at = new Date();
     cb();

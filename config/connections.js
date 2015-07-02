@@ -35,6 +35,13 @@ module.exports.connections = {
   redis: {
     adapter: 'sails-redis',
     host: '0.0.0.0'
+  },
+
+  // Not for use with an adapter
+  // See services/elasticsearch.js
+  elasticsearch: {
+    host: 'localhost:9200',
+    log: 'trace'
   }
 
 };

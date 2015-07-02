@@ -34,5 +34,7 @@ module.exports.routes = {
   'post /auth/:provider': 'AuthController.provider',
 
   'get /api/users/:id/activities': 'ActivityController.get',
-  'get /api/users/me': 'UserController.me'
+  'get /api/users/me': 'UserController.me',
+  'get /api/beers/suggestions': 'BeerController.suggestions',
+  'get /api/beers/search': 'BeerController.search'
 };
