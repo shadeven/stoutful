@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-/* global sails */
+/* global Activity */
 
 module.exports = {
   get: function(req, res) {
@@ -14,7 +14,9 @@ module.exports = {
     var skip = req.query.skip || 0;
 
     // Get activities belonging to a user
-    sails.models.activity.find({user_id: userId}).skip(skip).limit(limit)
+    Activity.find({user_id: userId})
+      .skip(skip)
+      .limit(limit)
       .then(function(result) {
         res.status(200).json(result);
       })
