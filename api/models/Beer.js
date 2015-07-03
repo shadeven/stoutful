@@ -90,7 +90,10 @@ module.exports = {
       var ids = results.hits.hits.map(function (hit) {
         return {id: parseInt(hit._id)};
       });
-      return self.find(ids).populate('brewery');
+      return self.find(ids)
+        .populate('brewery')
+        .populate('category')
+        .populate('style');
     });
   },
   beforeUpdate: function(values, cb) {
