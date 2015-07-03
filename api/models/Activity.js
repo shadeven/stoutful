@@ -15,9 +15,7 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    user: {
-      columnName: 'user_id',
-      model: 'user',
+    user_id: {
       type: 'integer',
       required: true,
       notNull: true
