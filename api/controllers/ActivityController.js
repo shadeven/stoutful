@@ -5,24 +5,55 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-/* global Activity */
+/* global Activity, Beer, Brewery */
+var Rx = require('rx');
 
 module.exports = {
   get: function(req, res) {
-    var userId = req.params.id;
-    var limit = req.query.limit || 10;
-    var skip = req.query.skip || 0;
-
     // Get activities belonging to a user
-    Activity.find({user_id: userId})
-      .skip(skip)
-      .limit(limit)
-      .then(function(result) {
-        res.status(200).json(result);
+    Rx.Observable.fromPromise(findActivities(req))
+      .flatMap(function (activities) {
+        return Rx.Observable.from(activities);
       })
-      .catch(function(err) {
-        console.log('Error fetching activities for user: ', err);
-        res.status(500).end();
-      });
+      .flatMap(function (activity) {
+        return populateBeer(activity);
+      })
+      .toArray()
+      .subscribe(
+        function (activities) {
+          res.json(activities);
+        }
+      );
   }
 };
+
+function findActivities(req) {
+  var userId = req.params.id;
+  var limit = req.query.limit || 10;
+  var offset = req.query.offset || 0;
+
+  return Activity
+    .find({user_id: userId})
+    .skip(offset)
+    .limit(limit);
+}
+
+function populateBeer(activity) {
+  return Rx.Observable.fromPromise(Beer.findOne({id: activity.beer}))
+    .flatMap(function (beer) {
+      activity.beer = beer;
+      return populateBrewery(beer)
+        .map(function (beer) {
+          activity.beer = beer;
+          return activity;
+        });
+    });
+}
+
+function populateBrewery(beer) {
+  return Rx.Observable.fromPromise(Brewery.findOne({id: beer.brewery}))
+    .map(function (brewery) {
+      beer.brewery = brewery;
+      return beer;
+    });
+}
