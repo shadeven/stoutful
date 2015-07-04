@@ -19,13 +19,17 @@ module.exports = {
   },
 
   provider: function(req, res, next) {
-    sails.services.passport.provider(req, res, next, function(err, user, info) {
+    sails.services.passport.provider(req, res, next, function(err, user, accessToken) {
       if (err) {
         console.log('Error authorizing user: ', err);
         return res.status(500).end();
       }
 
-      return res.status(200).json(info);
+      if (!accessToken) {
+        return res.status(401).end();
+      }
+
+      return res.status(200).json(accessToken);
     });
   }
 };

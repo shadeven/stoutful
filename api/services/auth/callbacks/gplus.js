@@ -29,7 +29,12 @@ function handleExistingUser(user, done) {
         var result = accessToken.toJSON();
         done(null, user, result);
       } else {
-        done(new Error('Access token not found'), null, null);
+        // Issue a new access token
+        AccessToken.generateAndSave(user.id)
+          .then(function (accessToken) {
+            done(null, user, accessToken);
+          })
+          .catch(done);
       }
     })
     .catch(done);
