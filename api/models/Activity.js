@@ -37,11 +37,6 @@ module.exports = {
     type: {
       type: 'string',
       required: true
-    },
-    toJSON: function() {
-      var obj = this.toObject();
-      delete obj.user_id;
-      return obj;
     }
   }
 };
