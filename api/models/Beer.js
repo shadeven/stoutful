@@ -85,6 +85,8 @@ module.exports = {
         if (typeof obj[relationship] !== 'object') {
           obj[relationship + '_id'] = obj[relationship];
           delete obj[relationship];
+        } else if (obj[relationship].id) {
+          obj[relationship + '_id'] = obj[relationship].id;
         }
       });
       return obj;
