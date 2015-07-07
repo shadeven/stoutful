@@ -45,6 +45,5 @@
   "author": "alexfu",
   "license": "",
   "devDependencies": {
-    "localtunnel": "^1.5.1"
   }
 }
