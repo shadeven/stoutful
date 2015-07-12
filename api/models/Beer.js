@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+  connection: ['pg', 'elasticsearch'],
   tableName: 'beers',
   autoCreatedAt: false,
   autoUpdatedAt: false,
@@ -91,23 +92,6 @@ module.exports = {
       });
       return obj;
     }
-  },
-  search: function(query) {
-    var self = this;
-
-    return sails.services.elasticsearch.search({
-      index: 'stoutful',
-      body: { query: { match: { name: query } } }
-    })
-    .then(function (results) {
-      var ids = results.hits.hits.map(function (hit) {
-        return {id: parseInt(hit._id)};
-      });
-      return self.find(ids)
-        .populate('brewery')
-        .populate('category')
-        .populate('style');
-    });
   },
   beforeUpdate: function(values, cb) {
     values.updated_at = new Date();

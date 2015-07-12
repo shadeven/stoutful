@@ -40,8 +40,9 @@ module.exports.connections = {
   // Not for use with an adapter
   // See services/elasticsearch.js
   elasticsearch: {
-    host: 'localhost:9200',
-    log: 'trace'
+    adapter: 'elasticsearch',
+    host: '0.0.0.0:9200',
+    log: 'error'
   }
 
 };
