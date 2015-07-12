@@ -7,6 +7,7 @@
   "dependencies": {
     "bcrypt": "^0.8.3",
     "bluebird": "^2.9.30",
+    "coffee-script": "^1.9.3",
     "ejs": "~0.8.4",
     "elasticsearch": "^5.0.0",
     "grunt": "0.4.2",
@@ -45,5 +46,6 @@
   "author": "alexfu",
   "license": "",
   "devDependencies": {
+    "gulp": "^3.9.0"
   }
 }
