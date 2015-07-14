@@ -23,19 +23,26 @@ module.exports = function(tokens, profile, done) {
 };
 
 function handleExistingUser(user, done) {
-  AccessToken.findOne({user_id: user.id})
-    .then(function(accessToken) {
-      if (accessToken) {
-        var result = accessToken.toJSON();
-        done(null, user, result);
-      } else {
-        // Issue a new access token
-        AccessToken.generateAndSave(user.id)
-          .then(function (accessToken) {
-            done(null, user, accessToken);
-          })
-          .catch(done);
-      }
+  RefreshToken.findOne({user_id: user.id})
+    .then(function (refreshToken) {
+      AccessToken.findOne({user_id: user.id})
+        .then(function(accessToken) {
+          if (accessToken) {
+            var result = accessToken.toJSON();
+            result.refresh_token = refreshToken.token;
+            done(null, user, result);
+          } else {
+            // Issue a new access token
+            AccessToken.generateAndSave(user.id)
+              .then(function (accessToken) {
+                var result = accessToken.toJSON();
+                result.refresh_token = refreshToken.token;
+                done(null, user, result);
+              })
+              .catch(done);
+          }
+        })
+        .catch(done);
     })
     .catch(done);
 }
