@@ -37,12 +37,11 @@ module.exports = {
     },
     toJSON: function() {
       var obj = this.toObject();
-      obj.expires_in = this.expiresIn();
+      obj.expires_at = moment(obj.expires_at).valueOf();
       obj.access_token = obj.token;
       delete obj.id;
       delete obj.token;
       delete obj.user_id;
-      delete obj.expires_at;
       return obj;
     }
   },
