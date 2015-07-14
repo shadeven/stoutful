@@ -12,8 +12,8 @@ gulp.task('elasticsearch:index', function(cb) {
       .flatMap(function(beers) {
         return Rx.Observable.from(beers);
       })
-      .doOnNext(function(beer) {
-        Beer.index({
+      .flatMapLatest(function(beer) {
+        var promise = Beer.index({
           index: 'stoutful',
           type: 'beer',
           id: beer.id,
@@ -22,6 +22,8 @@ gulp.task('elasticsearch:index', function(cb) {
             description: beer.description
           }
         });
+
+        return Rx.Observable.fromPromise(promise);
       });
 
     // Brewery index
@@ -29,8 +31,8 @@ gulp.task('elasticsearch:index', function(cb) {
       .flatMap(function(breweries) {
         return Rx.Observable.from(breweries);
       })
-      .doOnNext(function(brewery) {
-        Brewery.index({
+      .flatMapLatest(function(brewery) {
+        var promise = Brewery.index({
           index: 'stoutful',
           type: 'brewery',
           id: brewery.id,
@@ -39,6 +41,8 @@ gulp.task('elasticsearch:index', function(cb) {
             description: brewery.description
           }
         });
+
+        return Rx.Observable.fromPromise(promise);
       });
 
     Rx.Observable.forkJoin(indexBeers, indexBrewery)
