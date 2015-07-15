@@ -27,21 +27,21 @@ module.exports.connections = {
 
   pg: {
     adapter: 'sails-postgresql',
-    host: '0.0.0.0',
+    host: process.env.stoutful-postgres_PORT_5432_TCP_ADDR,
     user: 'postgres',
     database: 'stoutful'
   },
 
   redis: {
     adapter: 'sails-redis',
-    host: '0.0.0.0'
+    host: process.env.stoutful-redis_PORT_6379_TCP_ADDR,
   },
 
   // Not for use with an adapter
   // See services/elasticsearch.js
   elasticsearch: {
     adapter: 'elasticsearch',
-    host: '0.0.0.0:9200',
+    host: process.env.stoutful-elasticsearch_PORT_9200_TCP_ADDR,
     log: 'error'
   }
 
