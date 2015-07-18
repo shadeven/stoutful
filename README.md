@@ -7,7 +7,9 @@ Run `npm install` to download all needed dependencies.
 To start the server you can simply run `sails lift` or `node start`.
 
 ## Migrations
-Database migrations are handled through a tool called `sails-migrations`. In order to user it, it's recommended that you install it globally...
+Database migrations are handled through a tool called `sails-migrations`. Migrations only handle schema creations and schema updates. It will **NOT** import any data.
+
+In order to use `sails-migrations`, you must install it globally...
 
 ```
 npm install -g sails-migrations
@@ -26,6 +28,11 @@ sails-migrations migrate
 ```
 
 To view all commands available, run `sails-migrations` without any arguments.
+
+## Seed Data
+We do have a set of initial seed data as SQL scripts. These SQL scripts are located in a separate repository: [stoutful/db-schema]( https://gitlab.com/stoutful/db-schema).
+
+**NOTE:** The name of the repository can be misleading since it has nothing to do with the database schema. The name is simply artifact from when it used to contain schema related tasks.
 
 ## Docker
 
