@@ -32,7 +32,7 @@ To view all commands available, run `sails-migrations` without any arguments.
 ## Seed Data
 We do have a set of initial seed data as SQL scripts. These SQL scripts are located in a separate repository: [stoutful/db-schema]( https://gitlab.com/stoutful/db-schema).
 
-**NOTE:** The name of the repository can be misleading since it has nothing to do with the database schema. The name is simply artifact from when it used to contain schema related tasks.
+**NOTE:** The name of the repository can be misleading since it has nothing to do with the database schema. The name is simply an artifact from when it used to contain schema related tasks.
 
 ## Docker
 
