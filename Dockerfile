@@ -1,4 +1,4 @@
-FROM    centos:centos6
+FROM centos:centos6
 
 # Enable repository for Node.js
 RUN curl --silent --location https://rpm.nodesource.com/setup | bash -
@@ -6,10 +6,14 @@ RUN curl --silent --location https://rpm.nodesource.com/setup | bash -
 # Install Node.js (npm included) and build tools (to compile native packages)
 RUN yum install -y nodejs gcc-c++ make
 
-# Bundle app source
-COPY . /stoutful-server
-# Install app dependencies
-RUN cd /stoutful-server && npm install
+# Creates a mount dir at /app
+VOLUME /app
 
-EXPOSE  8080
-CMD ["node", "stoutful-server/app.js"]
+# Set working directory to /app
+WORKDIR /app
+
+# Expose port 1337
+EXPOSE 1337
+
+# Run /bin/bash when we start the container
+CMD ["/bin/bash"]
