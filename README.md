@@ -35,7 +35,15 @@ Included in the project is a `Dockerfile` which you can use to create a Docker c
 docker build -t stoutful-server .
 ```
 
-Once it's done building, you can run it using
+Once it's done building, you need to run the following applications which `stoutful-server` will link to.
+
+```
+docker run --name stoutful-postgres -p 5432:5432 -d postgres
+docker run --name stoutful-elasticsearch -p 9200:9200 -p 9300:9300 -d elasticsearch
+docker run --name stoutful-redis -p 6379:6379 -d redis
+```
+
+Then you can run `stoutful-server` using
 
 ```
 docker run -it --name stoutful-server -v $(pwd):/app -p 1337:1337 --link stoutful-redis:stoutful_redis --link stoutful-elasticsearch:stoutful_elasticsearch --link stoutful-postgres:stoutful_postgres stoutful-server
