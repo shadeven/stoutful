@@ -43,22 +43,26 @@ docker run --name stoutful-elasticsearch -p 9200:9200 -p 9300:9300 -d elasticsea
 docker run --name stoutful-redis -p 6379:6379 -d redis
 ```
 
-Before you run `stoutful-server`,
-* replace `$(pwd)` with the absolute path where your `stoutful-server` project is.
-* if you are on Windows, use double slash e.g. `//c/Projects/stoutful-server`
+Then you can run stoutful-server using...
 
 ```
-docker run -it --name stoutful-server -v $(pwd):/app -p 1337:1337 --link stoutful-redis:stoutful_redis --link stoutful-elasticsearch:stoutful_elasticsearch --link stoutful-postgres:stoutful_postgres stoutful-server
+docker run -it --name stoutful-server -v /path/to/stoutful-server:/app -p 1337:1337 --link stoutful-redis:stoutful_redis --link stoutful-elasticsearch:stoutful_elasticsearch --link stoutful-postgres:stoutful_postgres stoutful-server
 ```
+
+**NOTE:** If you're on Windows, you must use double forward slashes (`//`) when specifying the volume source path, e.g. `//c/path/to/stoutful-server`.
 
 This should drop you into a bash shell of the running Docker container. From here, you can run the server as usual using `npm start`.
 
 ### Note for OSX and Windows users
 
-Since OSX and Windows cannot natively run Docker, you must run Docker through either [boot2docker](http://boot2docker.io/) or [docker machine](https://docs.docker.com/machine/). Because of this, you need to set up port forwarding in order to access the server from your computer:
+Since OSX and Windows cannot natively run Docker, you must run Docker through either [boot2docker](http://boot2docker.io/) or [docker machine](https://docs.docker.com/machine/). Because of this, you need to set up port forwarding in order to access the server, redis, postgres, and elasticsearch from your computer:
 
 ```
 VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port1337,tcp,,1337,,1337";
+VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port5432,tcp,,5432,,5432";
+VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port9200,tcp,,9200,,9200";
+VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port9300,tcp,,9300,,9300";
+VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port6379,tcp,,6379,,6379";
 ```
 
 For **docker machine** users, replace `boot2docker-vm` with your VM name.
