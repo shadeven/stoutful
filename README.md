@@ -43,7 +43,9 @@ docker run --name stoutful-elasticsearch -p 9200:9200 -p 9300:9300 -d elasticsea
 docker run --name stoutful-redis -p 6379:6379 -d redis
 ```
 
-Then you can run `stoutful-server` using
+Before you run `stoutful-server`,
+* replace `$(pwd)` with the absolute path where your `stoutful-server` project is.
+* if you are on Windows, use double slash e.g. `//c/Projects/stoutful-server`
 
 ```
 docker run -it --name stoutful-server -v $(pwd):/app -p 1337:1337 --link stoutful-redis:stoutful_redis --link stoutful-elasticsearch:stoutful_elasticsearch --link stoutful-postgres:stoutful_postgres stoutful-server
