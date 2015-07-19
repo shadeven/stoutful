@@ -78,19 +78,6 @@ module.exports = {
       defaultsTo: function() {
         return new Date();
       }
-    },
-    toJSON: function() {
-      var obj = this.toObject();
-      var relationships = ['brewery', 'category', 'style'];
-      relationships.forEach(function (relationship) {
-        if (typeof obj[relationship] !== 'object') {
-          obj[relationship + '_id'] = obj[relationship];
-          delete obj[relationship];
-        } else if (obj[relationship].id) {
-          obj[relationship + '_id'] = obj[relationship].id;
-        }
-      });
-      return obj;
     }
   },
   beforeUpdate: function(values, cb) {
