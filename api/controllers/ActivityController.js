@@ -40,7 +40,6 @@ module.exports = {
         res.status(201).json(result);
       })
       .catch(function (err) {
-        console.log(err);
         res.serverError(err);
       });
   }

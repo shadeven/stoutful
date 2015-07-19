@@ -20,9 +20,7 @@ module.exports = {
       required: true,
       notNull: true
     },
-    beer: {
-      columnName: 'beer_id',
-      model: 'beer',
+    beer_id: {
       type: 'integer',
       required: true,
       notNull: true
