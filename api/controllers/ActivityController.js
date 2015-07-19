@@ -24,6 +24,25 @@ module.exports = {
           res.json(activities);
         }
       );
+  },
+
+  create: function(req, res) {
+    var user = req.user; // current authenticated user
+    var body = req.body;
+
+    // user can only create an Activity for themselves!
+    if (user.id != body.user_id) {
+      return res.forbidden({error: 'Users can only create an Activity for themselves.'});
+    }
+
+    Activity.create(body)
+      .then(function (result) {
+        res.status(201).json(result);
+      })
+      .catch(function (err) {
+        console.log(err);
+        res.serverError(err);
+      });
   }
 };
 
