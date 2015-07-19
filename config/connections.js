@@ -37,8 +37,6 @@ module.exports.connections = {
     host: process.env.STOUTFUL_REDIS_PORT_6379_TCP_ADDR || '0.0.0.0',
   },
 
-  // Not for use with an adapter
-  // See services/elasticsearch.js
   elasticsearch: {
     adapter: 'elasticsearch',
     host: process.env.STOUTFUL_ELASTICSEARCH_PORT_9200_TCP_ADDR || '0.0.0.0',

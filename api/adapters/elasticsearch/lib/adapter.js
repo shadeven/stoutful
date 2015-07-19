@@ -74,7 +74,8 @@ module.exports = (function () {
 
     // Default configuration for connections
     defaults: {
-      host: 'localhost:9200'
+      host: 'localhost',
+      port: 9200
     },
 
     /**
@@ -90,6 +91,12 @@ module.exports = (function () {
     registerConnection: function(connection, collections, cb) {
       if(!connection.identity) return cb(new Error('Connection is missing an identity.'));
       if(connections[connection.identity]) return cb(new Error('Connection is already registered.'));
+
+      // Merge port with host
+      if (connection.port) {
+        connection.host += ":" + connection.port;
+        delete connection.port;
+      }
 
       // Add in logic here to initialize connection
       // e.g. connections[connection.identity] = new Database(connection, collections);
