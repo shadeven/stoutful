@@ -7,7 +7,9 @@ RUN curl --silent --location https://rpm.nodesource.com/setup | bash -
 RUN yum install -y nodejs gcc-c++ make
 
 # Install dependencies
-RUN npm install -g npm sails gulp
+RUN npm install -g npm
+RUN npm install -g gulp
+RUN npm install -g sails
 
 # Creates a mount dir at /app
 VOLUME /app
