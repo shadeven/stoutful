@@ -16,7 +16,7 @@ module.exports = {
         return Rx.Observable.from(activities);
       })
       .flatMap(function (activity) {
-        return populateBeer(activity);
+        return populate(activity);
       })
       .toArray()
       .subscribe(
@@ -56,22 +56,31 @@ function findActivities(req) {
     .limit(limit);
 }
 
-function populateBeer(activity) {
-  return Rx.Observable.fromPromise(Beer.findOne({id: activity.beer}))
+function populate(activity) {
+  return Rx.Observable.fromPromise(Beer.findOne({id: activity.beer_id}))
     .flatMap(function (beer) {
-      activity.beer = beer;
-      return populateBrewery(beer)
-        .map(function (beer) {
+      var brewery = getBrewery(beer.brewery);
+      var category = getCategory(beer.category);
+      var style = getStyle(beer.style);
+      return Rx.Observable.forkJoin(brewery, category, style)
+        .map(function (results) {
+          beer.brewery = results[0];
+          beer.category = results[1];
+          beer.style = results[2];
           activity.beer = beer;
           return activity;
         });
     });
 }
 
-function populateBrewery(beer) {
-  return Rx.Observable.fromPromise(Brewery.findOne({id: beer.brewery}))
-    .map(function (brewery) {
-      beer.brewery = brewery;
-      return beer;
-    });
+function getBrewery(breweryId) {
+  return Rx.Observable.fromPromise(Brewery.findOne({id: breweryId}));
+}
+
+function getCategory(categoryId) {
+  return Rx.Observable.fromPromise(Category.findOne({id: categoryId}));
+}
+
+function getStyle(styleId) {
+  return Rx.Observable.fromPromise(Style.findOne({id: styleId}));
 }
