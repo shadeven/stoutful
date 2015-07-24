@@ -35,6 +35,11 @@ module.exports = {
       return res.forbidden({error: 'Users can only create an Activity for themselves.'});
     }
 
+    // Sanitize before inserting
+    if ('id' in body) {
+      delete body.id;
+    }
+
     Activity.create(body)
       .then(function (result) {
         res.status(201).json(result);
