@@ -65,8 +65,11 @@ function populate(activity) {
       return Rx.Observable.forkJoin(brewery, category, style)
         .map(function (results) {
           beer.brewery = results[0];
+          beer.brewery_id = beer.brewery.id;
           beer.category = results[1];
+          beer.cat_id = beer.category.id;
           beer.style = results[2];
+          beer.style_id = beer.style.id;
           activity.beer = beer;
           return activity;
         });
