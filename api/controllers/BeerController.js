@@ -28,26 +28,17 @@ module.exports = {
   },
   search: function(req, res) {
     var query = req.query.query;
-    Beer.search({
-      index: 'stoutful',
-      body: { query: { match: { name: query } } }
-    })
-    .then(function(results) {
-      var ids = results.hits.hits.map(function (hit) {
-        return {id: parseInt(hit._id)};
+    searchBeer(query)
+      .flatMap(function (beers) {
+        return Rx.Observable.from(beers);
+      })
+      .flatMap(populate)
+      .toArray()
+      .subscribe(function (beers) {
+        res.json(beers);
+      }, function (err) {
+        res.serverError(err);
       });
-      return Beer.find(ids)
-        .populate('brewery')
-        .populate('category')
-        .populate('style');
-    })
-    .then(function (beers) {
-      res.json(beers);
-    })
-    .catch(function (err) {
-      console.log('Error searching for beers: ', err);
-      res.status(500).end();
-    });
   }
 };
 
@@ -58,6 +49,23 @@ function populate(beer) {
     beer.style = style;
     beer.category = category;
     return beer;
+  });
+}
+
+function searchBeer(query) {
+  return Rx.Observable.fromPromise(Beer.search({
+    index: 'stoutful',
+    body: { query: { match: { name: query }}}
+  }))
+  .flatMap(function (result) {
+    return Rx.Observable.from(result.hits.hits);
+  })
+  .map(function (hit) {
+    return {id: parseInt(hit._id)};
+  })
+  .toArray()
+  .switchMap(function (ids) {
+    return Rx.Observable.fromPromise(Beer.find(ids));
   });
 }
 
