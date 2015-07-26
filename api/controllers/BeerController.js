@@ -11,6 +11,10 @@ module.exports = {
   findOne: function(req, res) {
     var id = req.params.id;
 
+    if (isNaN(id)) {
+      return res.badRequest({error: 'id is not a number'});
+    }
+
     return Rx.Observable.fromPromise(Beer.findOne({id: id}))
       .flatMap(populate)
       .subscribe(function (beer) {
