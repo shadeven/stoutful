@@ -33,10 +33,13 @@ module.exports.routes = {
   'post /oauth/token': 'AuthController.token',
   'post /auth/:provider': 'AuthController.provider',
 
-  'get /api/beers/:id': 'BeerController.findOne',
   'get /api/activities': 'ActivityController.find',
   'get /api/users/me': 'UserController.me',
+
+  // Beers
   'get /api/beers/suggestions': 'BeerController.suggestions',
   'get /api/beers/search': 'BeerController.search',
+  'get /api/beers/:id': 'BeerController.findOne',
+
   'post /api/users/activity': 'ActivityController.create'
 };
