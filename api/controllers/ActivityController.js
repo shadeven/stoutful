@@ -5,9 +5,28 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-/* global Activity */
+/* global Activity, Beer, Brewery */
+var Rx = require('rx');
 
 module.exports = {
+  find: function(req, res) {
+    Rx.Observable.fromPromise(Activity.find(req.query))
+      .flatMap(function (activities) {
+        return Rx.Observable.from(activities);
+      })
+      .switchMap(function (activity) {
+        return Rx.Observable.zip(Rx.Observable.just(activity), beerObservable(activity.beer_id), function (activity, beer) {
+          activity.beer = beer;
+          return activity;
+        });
+      })
+      .toArray()
+      .subscribe(function (activities) {
+        res.json(activities);
+      }, function (error) {
+        res.serverError(error);
+      });
+  },
   create: function(req, res) {
     var user = req.user; // current authenticated user
     var body = req.body;
@@ -31,3 +50,17 @@ module.exports = {
       });
   }
 };
+
+function beerObservable(beerId) {
+  return Rx.Observable.fromPromise(Beer.findOne({id: beerId}))
+    .switchMap(function (beer) {
+      return Rx.Observable.zip(Rx.Observable.just(beer), breweryObservable(beer.brewery_id), function (beer, brewery) {
+        beer.brewery = brewery;
+        return beer;
+      });
+    });
+}
+
+function breweryObservable(breweryId) {
+  return Rx.Observable.fromPromise(Brewery.findOne({id: breweryId}));
+}
