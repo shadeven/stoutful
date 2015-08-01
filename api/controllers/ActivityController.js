@@ -17,6 +17,15 @@ module.exports = {
       delete query.start_date;
     }
 
+    if (query.end_date) {
+      query.timestamp = {'<': query.end_date};
+      delete query.end_date;
+    }
+
+    if (!query.limit) {
+      query.limit = 10;
+    }
+
     var promise = Activity.find(query).sort('timestamp desc');
 
     Rx.Observable.fromPromise(promise)
