@@ -10,7 +10,14 @@ var Rx = require('rx');
 
 module.exports = {
   find: function(req, res) {
-    Rx.Observable.fromPromise(Activity.find(req.query))
+    var query = req.query;
+
+    if (query.start_date) {
+      query.timestamp = {'>': query.start_date};
+      delete query.start_date;
+    }
+
+    Rx.Observable.fromPromise(Activity.find(query))
       .flatMap(function (activities) {
         return Rx.Observable.from(activities);
       })
