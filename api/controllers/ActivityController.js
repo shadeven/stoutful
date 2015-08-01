@@ -17,7 +17,9 @@ module.exports = {
       delete query.start_date;
     }
 
-    Rx.Observable.fromPromise(Activity.find(query).sort('timestamp desc'))
+    var promise = Activity.find(query).sort('timestamp desc');
+
+    Rx.Observable.fromPromise(promise)
       .flatMap(function (activities) {
         return Rx.Observable.from(activities);
       })
