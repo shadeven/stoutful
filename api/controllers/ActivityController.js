@@ -14,7 +14,7 @@ module.exports = {
       .flatMap(function (activities) {
         return Rx.Observable.from(activities);
       })
-      .switchMap(function (activity) {
+      .selectMany(function (activity) {
         return Rx.Observable.zip(Rx.Observable.just(activity), beerObservable(activity.beer_id), function (activity, beer) {
           activity.beer = beer;
           return activity;
