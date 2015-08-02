@@ -37,13 +37,6 @@ module.exports.connections = {
     adapter: 'elasticsearch',
     host: process.env.STOUTFUL_ELASTICSEARCH_PORT_9200_TCP_ADDR || '0.0.0.0',
     log: 'error'
-  },
-
-  'pg-test': {
-    adapter: 'sails-postgresql',
-    host: process.env.STOUTFUL_POSTGRES_PORT_5432_TCP_ADDR || '0.0.0.0',
-    user: 'postgres',
-    database: 'stoutful-test'
   }
 
 };

@@ -98,7 +98,7 @@ gulp.task('pre-test', function (cb) {
 });
 
 gulp.task('test', function (cb) {
-  runSequence('pre-test', 'mocha', cb);
+  runSequence('mocha', cb);
 });
 
 gulp.on('stop', function() {

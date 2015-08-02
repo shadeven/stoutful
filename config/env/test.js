@@ -1,5 +1,7 @@
 module.exports = {
-  models: {
-    connection: 'pg-test'
+  connections: {
+    pg: {
+      adapter: 'sails-memory'
+    }
   }
 };
