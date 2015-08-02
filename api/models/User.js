@@ -38,7 +38,8 @@ module.exports = {
       required: true
     },
     image_url: {
-      type: 'string'
+      type: 'string',
+      required: false
     },
     created_at: {
       type: 'datetime',
