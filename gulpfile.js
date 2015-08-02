@@ -82,15 +82,19 @@ gulp.task('elasticsearch:index', function(cb) {
   });
 });
 
-gulp.task('test', function () {
-  return gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
+gulp.task('mocha', function (cb) {
+  gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
     .pipe(mocha({reporter: 'spec'}))
-    .on('error', function () {
-      process.exit(1);
+    .on('error', function (err) {
+      cb(err);
     })
     .on('end', function () {
-      process.exit();
+      cb();
     });
+});
+
+gulp.task('test', function (cb) {
+  runSequence('db:test:drop', 'db:test:create', 'mocha', cb);
 });
 
 gulp.on('stop', function() {
