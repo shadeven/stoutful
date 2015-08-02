@@ -7,6 +7,7 @@
 
 /* global Activity, Beer, Brewery */
 var Rx = require('rx');
+var moment = require('moment');
 
 module.exports = {
   find: function(req, res) {

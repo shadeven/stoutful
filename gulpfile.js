@@ -82,19 +82,23 @@ gulp.task('elasticsearch:index', function(cb) {
   });
 });
 
-gulp.task('mocha', function (cb) {
-  gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
+gulp.task('mocha', function () {
+  return gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
     .pipe(mocha({reporter: 'spec'}))
-    .on('error', function (err) {
-      cb(err);
+    .on('error', function () {
+      process.exit(1);
     })
     .on('end', function () {
-      cb();
+      process.exit();
     });
 });
 
+gulp.task('pre-test', function (cb) {
+  runSequence('db:test:drop', 'db:test:create', 'db:test:migrate', cb);
+});
+
 gulp.task('test', function (cb) {
-  runSequence('db:test:drop', 'db:test:create', 'mocha', cb);
+  runSequence('pre-test', 'mocha', cb);
 });
 
 gulp.on('stop', function() {
