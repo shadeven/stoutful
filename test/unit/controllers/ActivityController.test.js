@@ -1,29 +1,29 @@
 var request = require('supertest');
 var moment = require('moment');
 var urlencode = require('urlencode');
-var Barrels = require('barrels');
+var factory = require('sails-factory');
 
 var helpers = require('../../helpers/user');
 
 describe.only('ActivityController', function () {
 
-  var accessToken;
-
   before(function (done) {
-    // Load fixtures
-    var barrels = new Barrels();
-    barrels.populate(['user', 'activity'], function (err) {
-      if (err) return done(err);
-
-      var user = barrels.data.user[0];
-      helpers.signIn(user, function (err, token) {
-        accessToken = token;
-        done(err);
-      });
-    });
+    factory.load();
   });
 
   describe('#find()', function () {
+    var accessToken;
+
+    before(function (done) {
+      var user = factory.build('user');
+      User.create(user).exec(function (err, model) {
+        helpers.signIn(user, function (err, token) {
+          accessToken = token;
+          done(err);
+        });
+      });
+    });
+
     context('with end_date parameter', function () {
       it('should return 200', function (done) {
         var startDate = urlencode("'" + moment().utc().format() + "'");
