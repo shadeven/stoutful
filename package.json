@@ -49,7 +49,6 @@
     "gulp": "^3.9.0",
     "gulp-mocha": "^2.1.3",
     "mocha": "^2.2.5",
-    "run-sequence": "^1.1.2",
     "sails-factory": "^0.3.3",
     "sails-memory": "^0.10.5",
     "supertest": "^1.0.1",
