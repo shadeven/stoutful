@@ -1,6 +1,7 @@
 {
   "unused": true,
   "undef": true,
+  "mocha": true,
   "globals": {
     "require": false,
     "console": false,

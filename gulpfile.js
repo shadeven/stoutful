@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var Rx = require('rx');
 var Sails = require('sails');
+var mocha = require('gulp-mocha');
 var migration = require('sails-migrations');
 
 gulp.task('db:create', function () {
@@ -79,6 +80,17 @@ gulp.task('elasticsearch:index', function(cb) {
         cb();
       });
   });
+});
+
+gulp.task('test', function () {
+  return gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
+    .pipe(mocha({reporter: 'spec'}))
+    .on('error', function () {
+      process.exit(1);
+    })
+    .on('end', function () {
+      process.exit();
+    });
 });
 
 gulp.on('stop', function() {
