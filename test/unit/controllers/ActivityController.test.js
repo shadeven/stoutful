@@ -7,7 +7,7 @@ var helpers = require('../../helpers/user');
 
 describe.only('ActivityController', function () {
 
-  before(function (done) {
+  before(function () {
     factory.load();
   });
 
@@ -16,7 +16,9 @@ describe.only('ActivityController', function () {
 
     before(function (done) {
       var user = factory.build('user');
-      User.create(user).exec(function (err, model) {
+      User.create(user).exec(function (err) {
+        if (err) return done(err);
+
         helpers.signIn(user, function (err, token) {
           accessToken = token;
           done(err);

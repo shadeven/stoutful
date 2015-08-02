@@ -6,9 +6,7 @@ module.exports = {
       .post('/oauth/token')
       .send({grant_type: 'password', username: user.email, password: user.password})
       .end(function (err, res) {
-        if (err) {
-          cb(err);
-        }
+        if (err) return cb(err);
         cb(null, res.body);
       });
   }
