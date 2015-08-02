@@ -1,6 +1,35 @@
 var gulp = require('gulp');
+var runSequence = require('run-sequence');
 var Rx = require('rx');
 var Sails = require('sails');
+var migration = require('sails-migrations');
+
+gulp.task('db:create', function () {
+  return migration.createDatabase();
+});
+
+gulp.task('db:migrate', function () {
+  return migration.migrate();
+});
+
+gulp.task('db:drop', function () {
+  return migration.dropDatabase();
+});
+
+gulp.task('db:test:create', function () {
+  process.env.NODE_ENV = 'test';
+  return migration.createDatabase();
+});
+
+gulp.task('db:test:migrate', function () {
+  process.env.NODE_ENV = 'test';
+  return migration.migrate();
+});
+
+gulp.task('db:test:drop', function () {
+  process.env.NODE_ENV = 'test';
+  return migration.dropDatabase();
+});
 
 gulp.task('elasticsearch:index', function(cb) {
   Sails.load(function (err, sails) {
