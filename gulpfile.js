@@ -17,21 +17,6 @@ gulp.task('db:drop', function () {
   return migration.dropDatabase();
 });
 
-gulp.task('db:test:create', function () {
-  process.env.NODE_ENV = 'test';
-  return migration.createDatabase();
-});
-
-gulp.task('db:test:migrate', function () {
-  process.env.NODE_ENV = 'test';
-  return migration.migrate();
-});
-
-gulp.task('db:test:drop', function () {
-  process.env.NODE_ENV = 'test';
-  return migration.dropDatabase();
-});
-
 gulp.task('elasticsearch:index', function(cb) {
   Sails.load(function (err, sails) {
     var Beer = sails.models.beer;
@@ -82,23 +67,15 @@ gulp.task('elasticsearch:index', function(cb) {
   });
 });
 
-gulp.task('mocha', function () {
+gulp.task('test', function () {
   return gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
     .pipe(mocha({reporter: 'spec'}))
-    .on('error', function () {
+    .once('error', function () {
       process.exit(1);
     })
-    .on('end', function () {
+    .once('end', function () {
       process.exit();
     });
-});
-
-gulp.task('pre-test', function (cb) {
-  runSequence('db:test:drop', 'db:test:create', 'db:test:migrate', cb);
-});
-
-gulp.task('test', function (cb) {
-  runSequence('mocha', cb);
 });
 
 gulp.on('stop', function() {
