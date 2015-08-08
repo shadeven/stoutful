@@ -6,6 +6,6 @@ module.exports = function (factory) {
     .attr("user_id", 1)
     .attr("beer_id", 1)
     .attr("type", "check_in")
-    .attr("timestamp", moment().utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"))
+    .attr("timestamp", moment().utc().toDate().toJSON())
     .attr("beer", factory.build('beer'));
 };
