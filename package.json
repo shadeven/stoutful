@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "barrels": "^1.5.0",
     "bcrypt": "^0.8.3",
     "bluebird": "^2.9.30",
     "coffee-script": "^1.9.3",

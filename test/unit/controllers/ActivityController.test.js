@@ -1,25 +1,29 @@
+/* global User, Activity */
+
 var request = require('supertest');
 var moment = require('moment');
 var urlencode = require('urlencode');
 var factory = require('sails-factory');
-
+var Barrels = require('barrels');
 var helpers = require('../../helpers/user');
 
 describe.only('ActivityController', function () {
 
-  before(function () {
+  before(function (done) {
     factory.load();
+    var barrels = new Barrels();
+    barrels.populate(['user', 'brewery', 'beer'], function (err) {
+      done(err);
+    });
   });
 
   describe('#find()', function () {
     var accessToken;
 
     before(function (done) {
-      var user = factory.build('user');
-      User.create(user).exec(function (err) {
+      User.find().limit(1).exec(function (err, users) {
         if (err) return done(err);
-
-        helpers.signIn(user, function (err, token) {
+        helpers.signIn(users[0], function (err, token) {
           accessToken = token;
           done(err);
         });
@@ -27,12 +31,34 @@ describe.only('ActivityController', function () {
     });
 
     context('with end_date parameter', function () {
+      var activity;
+
+      before(function (done) {
+        var attrs = factory.build('activity', {"type": "check_in"});
+        Activity.create(attrs).exec(function (err, model) {
+          activity = model;
+          done(err);
+        });
+      });
+
       it('should return 200', function (done) {
-        var startDate = urlencode("'" + moment().utc().format() + "'");
+        var endDate = urlencode(moment().utc().add(1, 'days').format());
         request(sails.hooks.http.app)
-          .get('/api/activities?end_date=' + startDate)
+          .get('/api/activities?end_date=' + endDate)
           .set('Authorization', 'Bearer ' + accessToken.access_token)
           .expect(200, done);
+      });
+
+      it('should return the correct JSON', function (done) {
+        var expectedJSON = [factory.build('/api/activities', {
+          'timestamp': activity.timestamp.toJSON()
+        })];
+
+        var endDate = urlencode(moment().utc().add(1, 'days').format());
+        request(sails.hooks.http.app)
+          .get('/api/activities?end_date=' + endDate)
+          .set('Authorization', 'Bearer ' + accessToken.access_token)
+          .expect(expectedJSON, done);
       });
     });
   });

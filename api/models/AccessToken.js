@@ -64,6 +64,10 @@ module.exports = {
   },
   setTTL: function(id, ttl) {
     return new Promise(function (fulfill, reject) {
+      if (!AccessToken.native) {
+        fulfill();
+        return;
+      }
       AccessToken.native(function(err, redis) {
         var key = 'waterline:accesstoken:id:' + id;
         redis.expire([key, ttl], function(err, success) {
