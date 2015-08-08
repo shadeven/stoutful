@@ -34,15 +34,21 @@ describe.only('ActivityController', function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build('activity', {"type": "check_in"});
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in"});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
         });
       });
 
+      after(function (done) {
+        Activity.destroy().exec(function (err) {
+          done(err);
+        });
+      });
+
       it('should return 200', function (done) {
-        var endDate = urlencode(moment().utc().add(1, 'days').format());
+        var endDate = urlencode(moment().utc().add(1, 'hours').format());
         request(sails.hooks.http.app)
           .get('/api/activities?end_date=' + endDate)
           .set('Authorization', 'Bearer ' + accessToken.access_token)
@@ -54,13 +60,46 @@ describe.only('ActivityController', function () {
           'timestamp': activity.timestamp.toJSON()
         })];
 
-        var endDate = urlencode(moment().utc().add(1, 'days').format());
+        var endDate = urlencode(moment().utc().add(1, 'hours').format());
         request(sails.hooks.http.app)
           .get('/api/activities?end_date=' + endDate)
           .set('Authorization', 'Bearer ' + accessToken.access_token)
           .expect(expectedJSON, done);
       });
     });
+
+    context('with start_date parameter', function () {
+      var activity;
+
+      before(function (done) {
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in"});
+        Activity.create(attrs).exec(function (err, model) {
+          activity = model;
+          done(err);
+        });
+      });
+
+      it('should return 200', function (done) {
+        var startDate = urlencode(moment().utc().subtract(1, 'hours').format());
+        request(sails.hooks.http.app)
+          .get('/api/activities?start_date=' + startDate)
+          .set('Authorization', 'Bearer ' + accessToken.access_token)
+          .expect(200, done);
+      });
+
+      it('should return the correct JSON', function (done) {
+        var expectedJSON = [factory.build('/api/activities', {
+          'timestamp': activity.timestamp.toJSON()
+        })];
+
+        var startDate = urlencode(moment().utc().subtract(1, 'hours').format());
+        request(sails.hooks.http.app)
+          .get('/api/activities?start_date=' + startDate)
+          .set('Authorization', 'Bearer ' + accessToken.access_token)
+          .expect(expectedJSON, done);
+      });
+    });
+
   });
 
 });
