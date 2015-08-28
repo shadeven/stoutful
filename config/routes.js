@@ -40,6 +40,7 @@ module.exports.routes = {
   'get /api/beers/suggestions': 'BeerController.suggestions',
   'get /api/beers/search': 'BeerController.search',
   'get /api/beers/:id': 'BeerController.findOne',
+  'put /api/beers/:id': 'BeerController.update',
 
   'post /api/users/activity': 'ActivityController.create'
 };
