@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Install app dependencies
+npm install
+
+# Check if database exists
+DB=stoutful
+DB_HOST=$POSTGRES_PORT_5432_TCP_ADDR
+DB_USER=postgres
+
+psql -lqt -h $DB_HOST -U $DB_USER | cut -d \| -f 1 | grep -w $DB
+if [[ $? -ne 0 ]]; then
+  # Database doesn't exist
+  gulp db:create
+  gulp db:migrate
+fi
+
+sails lift --silly
