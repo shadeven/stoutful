@@ -21,4 +21,9 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
 
+  cors: {
+    allRoutes: true,
+    origin: '*'
+  }
+
 };
