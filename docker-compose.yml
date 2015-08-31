@@ -1,6 +1,6 @@
 web:
   build: .
-  dockerfile: Dockerfile
+  dockerfile: docker/Dockerfile
   ports:
     - "1337:1337"
   volumes:
