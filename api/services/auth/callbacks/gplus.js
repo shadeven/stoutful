@@ -10,9 +10,11 @@ module.exports = function(tokens, profile, done) {
     .then(function(result) {
       if (result) {
         // Existing user
+        console.log('User with email ' + email + ' exists.');
         handleExistingUser(result, done);
       } else {
         // New user here, let create them an account
+        console.log('User with email ' + email + ' does not exist.');
         handleNewUser(accessToken, profile, done);
       }
     })
