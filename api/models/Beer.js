@@ -72,6 +72,13 @@ module.exports = {
       defaultsTo: function() {
         return new Date();
       }
+    },
+    toJSON: function() {
+      var obj = this.toObject();
+      obj.abv = parseFloat(obj.abv);
+      obj.ibu = parseFloat(obj.ibu);
+      obj.srm = parseFloat(obj.srm);
+      return obj;
     }
   },
   beforeUpdate: function(values, cb) {
