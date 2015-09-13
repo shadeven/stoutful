@@ -117,25 +117,26 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
     $scope.onSuccess = function(googleUser) {
       var authResponse = googleUser.getAuthResponse();
       var accessToken = authResponse.access_token;
-      if (!accessToken) {
-        googleUser.disconnect();
-        return;
-      }
+
       var req = {
         method: 'POST',
-        url: '/auth/google',
-        data: {'access_token': accessToken}
+        url: '/login/google'
       };
 
+      if (accessToken) {
+        req.data = {'access_token': accessToken};
+      }
+
       $http(req)
-        .then(function(data) {
-          var accessToken = data.data;
-          $timeout(function() { console.log($cookies.session); });
+        .then(function() {
           // Store access token and navigate to search page.
           $window.location.href= '/#/search';
         })
         .catch(function(err) {
-          console.log('Err: ', err);
+          console.log('Error logging in: ', err);
+          if (err.status == 401) {
+            googleUser.disconnect();
+          }
         });
     };
 

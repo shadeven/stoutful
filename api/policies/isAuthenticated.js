@@ -3,6 +3,10 @@
 var Promise = require('bluebird');
 
 module.exports = function(req, res, next) {
+  if (req.user) {
+    return next();
+  }
+
   var authorization = req.headers.authorization;
 
   // No access token no access

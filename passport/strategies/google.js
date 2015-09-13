@@ -12,6 +12,12 @@ var Strategy = function(options, callback) {
 Strategy.prototype.authenticate = function(req) {
   var self = this;
   var accessToken = req.body.access_token;
+
+  // Bail out if access token is not valid
+  if (!accessToken) {
+    return self.fail();
+  }
+
   var oauth2 = googleapis.oauth2('v2');
 
   var done = function(err, user, tokens) {
@@ -23,6 +29,7 @@ Strategy.prototype.authenticate = function(req) {
   // Verify access token
   oauth2.tokeninfo({access_token: accessToken}, function(err, data) {
     if (err) {
+      console.log('Error getting token info: ', err);
       return done(err);
     }
 
@@ -50,6 +57,8 @@ Strategy.prototype.authenticate = function(req) {
         // Verify with Stoutful
         self.callback({access_token: accessToken}, profile, done);
       });
+    } else {
+      done(data);
     }
 
   });

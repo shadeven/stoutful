@@ -21,11 +21,6 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
 
-  cors: {
-    allRoutes: true,
-    origin: '*'
-  },
-
   aws: {
     key: 'AKIAJNW3FLAVY2C73AHA',
     secret: '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'

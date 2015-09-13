@@ -29,5 +29,9 @@ module.exports.policies = {
   AuthController: {
     'provider': true,
     'token': true
+  },
+
+  LoginController: {
+    'provider': true
   }
 };
