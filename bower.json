@@ -1,0 +1,20 @@
+{
+  "name": "stoutful-web",
+  "version": "0.0.1",
+  "authors": [
+    "Alex Fu <alex.fu914@gmail.com>"
+  ],
+  "description": "Stoutful web front end",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.3",
+    "bootstrap": "~3.3.5",
+    "angular-bootstrap": "~0.13.3",
+    "ng-file-upload": "~6.2.1",
+    "underscore": "~1.8.3",
+    "ladda-angular": "~1.0.1",
+    "angular-route": "~1.4.5",
+    "oclazyload": "~1.0.4",
+    "angular-cookies": "~1.4.5"
+  }
+}

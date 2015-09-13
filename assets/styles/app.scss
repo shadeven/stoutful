@@ -1,0 +1,41 @@
+@import 'card';
+
+.search {
+  .search-bar {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .search-result {
+    @include card(1);
+    padding: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+
+    img {
+      width: 100px;
+      height: 100px;
+      background-position: center;
+      background-size:100% auto;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+.beer-details {
+  form {
+    textarea {
+      height: 150px;
+    }
+  }
+
+  #image {
+    input {
+      margin-bottom: 10px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  }
+}

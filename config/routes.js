@@ -27,7 +27,7 @@ module.exports.routes = {
   },
 
   '/': {
-    view: 'homepage'
+    view: 'index'
   },
 
   'post /oauth/token': 'AuthController.token',
