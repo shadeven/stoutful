@@ -1,16 +1,20 @@
-FROM centos:centos6
-
-# Enable repository for Node.js
-RUN curl --silent --location https://rpm.nodesource.com/setup | bash -
+FROM ubuntu:14.04
 
 # For running the app
-RUN yum install -y nodejs
+RUN apt-get update
+RUN apt-get install -y nodejs npm
 
 # For building native npm packages
-RUN yum install -y gcc-c++ make
+RUN apt-get install -y build-essential checkinstall
+
+# For sass
+RUN apt-get install -y ruby-full
+RUN gem install sass
 
 # For access to psql command
-RUN yum install -y postgresql
+RUN apt-get install -y postgresql
+
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Install dependencies
 RUN npm install -g npm
