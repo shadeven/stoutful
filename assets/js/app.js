@@ -10,5 +10,9 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   when('/search', {
     templateUrl: 'partials/search.html',
     controller: 'SearchController'
+  }).
+  when('/profile', {
+    templateUrl: 'partials/profile.html',
+    controller: 'ProfileController'
   });
 });

@@ -143,4 +143,6 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
     $scope.onFailure = function() {
       // TODO
     };
+  }).
+  controller('ProfileController', function() {
   });
