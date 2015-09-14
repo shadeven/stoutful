@@ -19,7 +19,7 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
     };
 
     $scope.open = function (beer) {
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'partials/edit-beer.html',
         controller: 'EditBeerCtrl',
         windowClass: 'beer-details',
@@ -74,7 +74,7 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
 
       $scope.loading = true;
       Upload.upload(req)
-      .success(function(data, status, headers, config) {
+      .success(function() {
         $scope.loading = false;
         $modalInstance.close();
       })
@@ -92,11 +92,11 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
 
     // We use a custom onSelect function because the "model" ends up being the name
     // and not the actual model.
-    $scope.onSelect = function($item, $model, $label) {
+    $scope.onSelect = function($item) {
       $scope.beer.brewery = $item;
     };
   }).
-  controller('LoginController', function($scope, $http, $ocLazyLoad, $window, $cookies, $timeout) {
+  controller('LoginController', function($scope, $http, $ocLazyLoad, $window) {
     $scope.renderButton = function() {
       gapi.signin2.render('g-signin2', {
         'scope': 'https://www.googleapis.com/auth/plus.login email',
