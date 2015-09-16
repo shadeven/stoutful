@@ -96,7 +96,7 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
       $scope.beer.brewery = $item;
     };
   }).
-  controller('LoginController', function($scope, $http, $ocLazyLoad, $window) {
+  controller('LoginController', function($scope, $http, $ocLazyLoad, $window, session) {
     $scope.renderButton = function() {
       gapi.signin2.render('g-signin2', {
         'scope': 'https://www.googleapis.com/auth/plus.login email',
@@ -129,8 +129,13 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
 
       $http(req)
         .then(function() {
+          // Fetch user data
+          return $http({ method: 'GET', url: '/api/users/me' });
+        })
+        .then(function(response) {
+          session.user = response.data;
           // Store access token and navigate to search page.
-          $window.location.href= '/#/search';
+          $window.location.href= '/#/profile';
         })
         .catch(function(err) {
           console.log('Error logging in: ', err);
@@ -144,5 +149,7 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
       // TODO
     };
   }).
-  controller('ProfileController', function() {
+  controller('ProfileController', function($scope, session) {
+    $scope.user = session.user;
+    console.log('user = ', session.user);
   });

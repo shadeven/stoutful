@@ -1,4 +1,4 @@
-var app = angular.module('stoutful', ['ngRoute', 'stoutful.controllers', 'stoutful.directives']);
+var app = angular.module('stoutful', ['ngRoute', 'stoutful.controllers', 'stoutful.directives', 'stoutful.services']);
 
 app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   /* Configure routes */
