@@ -140,7 +140,10 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
         .catch(function(err) {
           console.log('Error logging in: ', err);
           if (err.status == 401) {
-            googleUser.disconnect();
+            gapi.auth2.getAuthInstance().signOut()
+              .then(function() {
+                console.log('signed out.');
+              });
           }
         });
     };
