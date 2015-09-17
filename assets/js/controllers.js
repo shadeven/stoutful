@@ -178,7 +178,7 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
         .catch(function(err) {
           console.log('Error logging in: ', err);
           if (err.status == 401) {
-            auth2.getAuthInstance().signOut()
+            auth2.signOut()
               .then(function() {
                 console.log('signed out.');
               });
