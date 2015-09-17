@@ -1,4 +1,4 @@
-<div class="modal-header">
+<div class="modal-header" ng-if="isLoggedIn">
   <h3 class="modal-title">Edit Beer</h3>
 </div>
 
@@ -68,5 +68,5 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-default" ng-click="close()">Close</button>
-  <button ladda-button="loading" data-style="expand-right" type="button" class="btn btn-primary ladda-button" ng-click="save()" ng-class="{'disabled': editForm.$invalid}">Save changes</button>
+  <button ladda-button="loading" data-style="expand-right" type="button" class="btn btn-primary ladda-button" ng-click="save()" ng-class="{'disabled': editForm.$invalid}" ng-if="isLoggedIn">Save changes</button>
 </div>

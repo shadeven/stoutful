@@ -80,11 +80,12 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
       });
     };
   }).
-  controller('EditBeerCtrl', function ($scope, $modalInstance, $http, Upload, beer) {
+  controller('EditBeerCtrl', function ($scope, $modalInstance, $http, Upload, beer, session) {
     $scope.beer = beer;
     $scope.image = $scope.beer.image_url;
     $scope.selectedBrewery = beer.brewery;
     $scope.loading = false;
+    $scope.isLoggedIn = session.user !== undefined;
 
     // Although Angular handles 2-way data binding for us, below is for recording which
     // attributes were changed so when it comes time to PUT, we only PUT the attributes
