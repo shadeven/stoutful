@@ -28,10 +28,12 @@ module.exports.policies = {
 
   AuthController: {
     'provider': true,
-    'token': true
+    'token': true,
+    'login': true,
+    'logout': true
   },
 
-  LoginController: {
-    'provider': true
+  BeerController: {
+    'search': true
   }
 };

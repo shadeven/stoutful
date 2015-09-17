@@ -1,4 +1,53 @@
 angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazyLoad', 'ngCookies', 'stoutful.directives', 'ladda']).
+  controller('NavBarController', function($scope, $modal, $http, session) {
+    var auth2;
+    gapi.load('auth2', function() {
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      auth2 = gapi.auth2.init({
+        client_id: '1068487601849-a0ep88imse3bn202daabmndcni4abhgl.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        scope: 'https://www.googleapis.com/auth/plus.login email'
+      });
+
+      $http({ method: 'GET', url: '/api/users/me' })
+        .then(function(response) {
+          $scope.user = response.data;
+          $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    });
+
+    // Watch for session user change
+    $scope.$watch(function() { return session.user; }, function() {
+      $scope.user = session.user;
+      if ($scope.user) {
+        $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
+      }
+    });
+
+    $scope.openLogin = function() {
+      $modal.open({
+        templateUrl: 'partials/login.html',
+        controller: 'LoginController'
+      });
+    };
+
+    $scope.logout = function() {
+      $http({method: 'GET', url: '/logout'}).
+        then(function() {
+          return auth2.signOut();
+        }).
+        then(function() {
+          $scope.user = undefined;
+          $scope.userName = undefined;
+        }).
+        catch(function(err) {
+          console.log('Error logging out: ', err);
+        });
+    };
+  }).
   controller('SearchController', function($scope, $modal, $http) {
     $scope.searchQuery = { query: '' };
     $scope.beers = [];
@@ -96,23 +145,12 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
       $scope.beer.brewery = $item;
     };
   }).
-  controller('LoginController', function($scope, $http, $ocLazyLoad, $window, session) {
-    $scope.renderButton = function() {
-      gapi.signin2.render('g-signin2', {
-        'scope': 'https://www.googleapis.com/auth/plus.login email',
-        'width': 220,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': $scope.onSuccess,
-        'onfailure': $scope.onFailure
-      });
-    };
+  controller('LoginController', function($scope, $modalInstance, $http, $ocLazyLoad, $window, session) {
+    var auth2 = gapi.auth2.getAuthInstance();
 
-    $ocLazyLoad.load('https://apis.google.com/js/platform.js')
-      .then(function() {
-        $scope.renderButton();
-      });
+    $scope.signIn = function() {
+      auth2.signIn().then($scope.onSuccess, $scope.onFailure);
+    };
 
     $scope.onSuccess = function(googleUser) {
       var authResponse = googleUser.getAuthResponse();
@@ -134,13 +172,12 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
         })
         .then(function(response) {
           session.user = response.data;
-          // Store access token and navigate to search page.
-          $window.location.href= '/#/profile';
+          $modalInstance.close();
         })
         .catch(function(err) {
           console.log('Error logging in: ', err);
           if (err.status == 401) {
-            gapi.auth2.getAuthInstance().signOut()
+            auth2.getAuthInstance().signOut()
               .then(function() {
                 console.log('signed out.');
               });
@@ -148,8 +185,8 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
         });
     };
 
-    $scope.onFailure = function() {
-      // TODO
+    $scope.onFailure = function(err) {
+      console.log(err);
     };
   }).
   controller('ProfileController', function($scope, session) {

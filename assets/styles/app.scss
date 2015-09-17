@@ -22,6 +22,10 @@
   }
 }
 
+.navbar .container-fluid > * {
+  float: right;
+}
+
 .beer-details {
   form {
     textarea {
