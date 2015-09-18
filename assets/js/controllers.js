@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazyLoad', 'ngCookies', 'stoutful.directives', 'ladda']).
-  controller('NavBarController', function($scope, $modal, $http, session) {
+  controller('NavBarController', function($scope, $modal, $http, session, $window) {
     var auth2;
     gapi.load('auth2', function() {
       // Retrieve the singleton for the GoogleAuth library and set up the client.
@@ -11,7 +11,7 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
 
       $http({ method: 'GET', url: '/api/users/me' })
         .then(function(response) {
-          $scope.user = response.data;
+          $scope.user = session.user = response.data;
           $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
         })
         .catch(function(err) {
@@ -46,6 +46,10 @@ angular.module('stoutful.controllers', ['ui.bootstrap', 'ngFileUpload', 'oc.lazy
         catch(function(err) {
           console.log('Error logging out: ', err);
         });
+    };
+
+    $scope.onClickMyProfile = function() {
+      $window.location.href = '/#/profile';
     };
   }).
   controller('SearchController', function($scope, $modal, $http) {
