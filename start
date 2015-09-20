@@ -2,6 +2,7 @@
 
 # Install app dependencies
 npm install
+node_modules/.bin/bower install
 
 # Check if database exists
 DB=stoutful

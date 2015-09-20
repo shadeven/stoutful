@@ -49,6 +49,7 @@
   "author": "alexfu",
   "license": "",
   "devDependencies": {
+    "bower": "^1.5.2",
     "chai": "^3.2.0",
     "gulp": "^3.9.0",
     "gulp-mocha": "^2.1.3",
