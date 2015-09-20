@@ -1,11 +1,16 @@
 FROM ubuntu:14.04
 
-# For running the app
 RUN apt-get update
-RUN apt-get install -y nodejs npm
+RUN apt-get upgrade -y
+RUN apt-get install -y curl
+
+# For running the app
+RUN curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
+RUN apt-get install -y nodejs git
 
 # For building native npm packages
-RUN apt-get install -y build-essential checkinstall
+RUN apt-get install -y build-essential checkinstall python2.7
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
 
 # For sass
 RUN apt-get install -y ruby-full
