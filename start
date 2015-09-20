@@ -12,8 +12,8 @@ DB_USER=postgres
 psql -lqt -h $DB_HOST -U $DB_USER | cut -d \| -f 1 | grep -w $DB
 if [[ $? -ne 0 ]]; then
   # Database doesn't exist
-  gulp db:create
-  gulp db:migrate
+  node_modules/.bin/gulp db:create
+  node_modules/.bin/gulp db:migrate
 fi
 
-sails lift --silly
+node_modules/.bin/sails lift --silly

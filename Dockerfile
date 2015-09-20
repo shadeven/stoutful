@@ -14,13 +14,6 @@ RUN gem install sass
 # For access to psql command
 RUN apt-get install -y postgresql
 
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-# Install dependencies
-RUN npm install -g npm
-RUN npm install -g gulp
-RUN npm install -g sails
-
 # Creates a mount dir at /app
 VOLUME /app
 
