@@ -1,23 +1,23 @@
-FROM ubuntu:14.04
+FROM node:0.12.7-wheezy
 
 RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install -y curl
+RUN apt-get -y upgrade
 
 # For running the app
-RUN curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
-RUN apt-get install -y nodejs git
+RUN apt-get -y install git
 
 # For building native npm packages
-RUN apt-get install -y build-essential checkinstall python2.7
-RUN ln -s /usr/bin/python2.7 /usr/bin/python
+RUN apt-get -y install build-essential
 
-# For sass
-RUN apt-get install -y ruby-full
+# For SASS
+RUN apt-get -y install ruby-full
 RUN gem install sass
 
 # For access to psql command
-RUN apt-get install -y postgresql
+RUN apt-get -y install postgresql
+
+RUN npm install -g sails
+RUN npm install -g knex
 
 # Creates a mount dir at /app
 VOLUME /app

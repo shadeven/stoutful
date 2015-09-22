@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# Clean npm cache
+npm cache clean
+
 # Install app dependencies
 npm install
-node_modules/.bin/bower install
+node_modules/.bin/bower install --allow-root
 
 # Check if database exists
 DB=stoutful
@@ -12,8 +15,9 @@ DB_USER=postgres
 psql -lqt -h $DB_HOST -U $DB_USER | cut -d \| -f 1 | grep -w $DB
 if [[ $? -ne 0 ]]; then
   # Database doesn't exist
-  node_modules/.bin/gulp db:create
-  node_modules/.bin/gulp db:migrate
+  echo "Database does not exist, creating..."
+  psql -h $DB_HOST -U $DB_USER -c 'CREATE DATABASE stoutful'
+  knex migrate:latest
 fi
 
-node_modules/.bin/sails lift --silly
+sails lift --silly
