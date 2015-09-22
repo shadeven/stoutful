@@ -2,19 +2,6 @@ var gulp = require('gulp');
 var Rx = require('rx');
 var Sails = require('sails');
 var mocha = require('gulp-mocha');
-var migration = require('sails-migrations');
-
-gulp.task('db:create', function () {
-  return migration.createDatabase();
-});
-
-gulp.task('db:migrate', function () {
-  return migration.migrate();
-});
-
-gulp.task('db:drop', function () {
-  return migration.dropDatabase();
-});
 
 gulp.task('elasticsearch:index', function(cb) {
   Sails.load(function (err, sails) {
