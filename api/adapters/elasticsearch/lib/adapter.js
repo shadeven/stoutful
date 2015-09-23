@@ -177,6 +177,11 @@ module.exports = (function () {
     index: function (connection, collection, options) {
       var client = connections[connection];
       return client.index(options);
+    },
+
+    bulkIndex: function (connection, collection, options) {
+      var client = connections[connection];
+      return client.bulk(options);
     }
 
     /*

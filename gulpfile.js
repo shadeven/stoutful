@@ -11,44 +11,40 @@ gulp.task('elasticsearch:index', function(cb) {
     // Beers index
     var indexBeers = Rx.Observable.fromPromise(Beer.find())
       .flatMap(function(beers) {
-        return Rx.Observable.from(beers);
-      })
-      .flatMapLatest(function(beer) {
-        var promise = Beer.index({
-          index: 'stoutful',
-          type: 'beer',
-          id: beer.id,
-          body: {
-            name: beer.name,
-            description: beer.description
-          }
+        var body = [];
+
+        beers.forEach(function(beer) {
+          var action = {index: {_index: 'stoutful', _type: 'beer', _id: beer.id}};
+          var document = {name: beer.name, description: beer.description};
+          body.push(action);
+          body.push(document);
         });
 
+        var promise = Beer.bulkIndex({body: body});
         return Rx.Observable.fromPromise(promise);
       });
 
     // Brewery index
     var indexBrewery = Rx.Observable.fromPromise(Brewery.find())
       .flatMap(function(breweries) {
-        return Rx.Observable.from(breweries);
-      })
-      .flatMapLatest(function(brewery) {
-        var promise = Brewery.index({
-          index: 'stoutful',
-          type: 'brewery',
-          id: brewery.id,
-          body: {
-            name: brewery.name,
-            description: brewery.description
-          }
+        var body = [];
+
+        breweries.forEach(function(brewery) {
+          var action = {index: {_index: 'stoutful', _type: 'brewery', _id: brewery.id}};
+          var document = {name: brewery.name, description: brewery.description};
+          body.push(action);
+          body.push(document);
         });
 
+        var promise = Brewery.bulkIndex({body: body});
         return Rx.Observable.fromPromise(promise);
       });
 
     Rx.Observable.forkJoin(indexBeers, indexBrewery)
       .subscribe(function () {
         cb();
+      }, function(err) {
+        cb(err);
       });
   });
 });
