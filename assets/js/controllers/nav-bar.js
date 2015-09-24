@@ -30,7 +30,8 @@ angular.module('stoutful.controllers').
     $scope.openLogin = function() {
       $modal.open({
         templateUrl: 'partials/login.html',
-        controller: 'LoginController'
+        controller: 'LoginController',
+        windowClass: 'login',
       });
     };
 
