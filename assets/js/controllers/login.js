@@ -1,7 +1,5 @@
 angular.module('stoutful.controllers').
   controller('LoginController', function($scope, $modalInstance, $http, $ocLazyLoad, $window, session) {
-    var auth2 = gapi.auth2.getAuthInstance();
-
     $scope.signIn = function() {
       auth2.signIn().then($scope.onSuccess, $scope.onFailure);
     };
@@ -42,4 +40,10 @@ angular.module('stoutful.controllers').
     $scope.onFailure = function(err) {
       console.log(err);
     };
+
+    var auth2 = gapi.auth2.getAuthInstance();
+
+    if (auth2.isSignedIn.get()) {
+      $scope.signIn();
+    }
   });
