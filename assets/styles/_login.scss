@@ -12,5 +12,16 @@
     &:active {
       background-image: url('../images/btn_google_signin_dark_pressed_web.png');
     }
+
+    &[disabled] {
+      background-image: url('../images/btn_google_signin_dark_disabled_web.png');
+    }
+  }
+
+  .ladda-button {
+    &:hover {
+      border: 0;
+      background-color: transparent;
+    }
   }
 }

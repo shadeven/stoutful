@@ -17,16 +17,19 @@ angular.module('stoutful.controllers').
         req.data = {'access_token': accessToken};
       }
 
+      $scope.loading = true;
       $http(req)
         .then(function() {
           // Fetch user data
           return $http({ method: 'GET', url: '/api/users/me' });
         })
         .then(function(response) {
+          $scope.loading = false;
           session.user = response.data;
           $modalInstance.close();
         })
         .catch(function(err) {
+          $scope.loading = false;
           console.log('Error logging in: ', err);
           if (err.status == 401) {
             auth2.signOut()
