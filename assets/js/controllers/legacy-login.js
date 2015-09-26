@@ -11,11 +11,14 @@ angular.module('stoutful.controllers').
         }
       };
 
+      $scope.loading = true;
       $http(req)
         .then(function(response) {
+          $scope.loading = false;
           console.log(response);
         })
         .catch(function(err) {
+          $scope.loading = false;
           var message = "Unexpected error occurred.";
           if (err.status === 401) {
             message = "Email/password incorrect.";

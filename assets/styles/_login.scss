@@ -1,7 +1,22 @@
 .login {
-  .modal-body  {
-    > div:not(.legacy) {
-      text-align: center;
+  button {
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      outline: none;
+    }
+  }
+}
+
+.provider-login {
+  text-align: center;
+
+  .ladda-button {
+    &:hover {
+      border: 0;
+      background-color: transparent;
     }
   }
 
@@ -9,7 +24,6 @@
     width: 193px;
     height: 48px;
     padding: 0;
-    outline: none;
     border: 0;
     background: none;
     background-image: url('../images/btn_google_signin_dark_normal_web.png');
@@ -25,13 +39,6 @@
 
     &[disabled] {
       background-image: url('../images/btn_google_signin_dark_disabled_web.png');
-    }
-  }
-
-  .ladda-button {
-    &:hover {
-      border: 0;
-      background-color: transparent;
     }
   }
 }
