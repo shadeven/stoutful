@@ -55,6 +55,10 @@ module.exports = {
         return new Date();
       }
     },
+    identities: {
+      collection: 'UserIdentity',
+      via: 'user'
+    },
     toJSON: function() {
       // Filter out password
       var obj = this.toObject();

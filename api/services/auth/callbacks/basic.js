@@ -1,8 +1,8 @@
 /* global User */
 module.exports = function(email, password, done) {
-  User.findOne({ email: email })
+  User.findOne({ email: email }).populate('identities')
     .then(function(user) {
-      if (user) {
+      if (user && user.identities.length === 0) {
         user.verifyPassword(password, function(err, verified) {
           if (err) return done(err);
           done(false, verified ? user : false);
