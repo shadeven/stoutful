@@ -66,7 +66,7 @@ function handleNewUser(accessToken, profile, done) {
       if (user) {
         // Create a user identity
         var identity = {
-          user_id: user.id,
+          user: user.id,
           provider_id: profile.id,
           provider: 'google'
         };
