@@ -5,6 +5,7 @@
 <div class="modal-body">
   <!-- Legacy login form -->
   <div ng-show="legacy" class="legacy" ng-controller="LegacyLoginController">
+    <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
     <form name="legacyForm" novalidate>
       <div class="form-group" ng-class="{'has-error': legacyForm.email.$invalid}">
         <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>

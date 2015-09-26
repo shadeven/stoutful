@@ -16,7 +16,14 @@ angular.module('stoutful.controllers').
           console.log(response);
         })
         .catch(function(err) {
-          console.log(err);
+          var message = "Unexpected error occurred.";
+          if (err.status === 401) {
+            message = "Email/password incorrect.";
+          }
+          $scope.error = {
+            type: 'danger',
+            msg: message
+          };
         });
     };
   });
