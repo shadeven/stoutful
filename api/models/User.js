@@ -60,6 +60,13 @@ module.exports = {
       var obj = this.toObject();
       delete obj.password;
       return obj;
+    },
+    verifyPassword: function(password, cb) {
+      var obj = this.toObject();
+      bcrypt.hash(password, 10, function(err, hash) {
+        if (err) return cb(err);
+        cb(false, hash === obj.password);
+      });
     }
   },
 
