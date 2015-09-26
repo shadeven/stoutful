@@ -1,5 +1,9 @@
 .login {
-  button {
+  .modal-body {
+    text-align: center;
+  }
+
+  .btn-google {
     width: 193px;
     height: 48px;
     padding: 0;
@@ -11,6 +15,10 @@
 
     &:active {
       background-image: url('../images/btn_google_signin_dark_pressed_web.png');
+    }
+
+    &:focus {
+      background-image: url('../images/btn_google_signin_dark_focus_web.png');
     }
 
     &[disabled] {

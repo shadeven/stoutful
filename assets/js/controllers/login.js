@@ -44,6 +44,10 @@ angular.module('stoutful.controllers').
       console.log(err);
     };
 
+    $scope.legacySignIn = function() {
+      $scope.legacy = true;
+    }
+
     var auth2 = gapi.auth2.getAuthInstance();
 
     if (auth2.isSignedIn.get()) {
