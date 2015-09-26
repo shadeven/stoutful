@@ -1,7 +1,27 @@
 angular.module('stoutful.controllers').
-  controller('LoginController', function($scope, $modalInstance, $http, $ocLazyLoad, $window, session) {
+  controller('LoginController', function($scope, $modalInstance, $http, $ocLazyLoad, $window, session, $base64) {
     $scope.signIn = function() {
       auth2.signIn().then($scope.onSuccess, $scope.onFailure);
+    };
+
+    $scope.legacySignIn = function() {
+      if ($scope.legacyForm.$invalid) return;
+
+      var req = {
+        method: 'POST',
+        url: '/login/basic',
+        headers: {
+          'Authorization': 'Basic ' + $base64.encode($scope.email + ':' + $scope.password)
+        }
+      };
+
+      $http(req)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     };
 
     $scope.onSuccess = function(googleUser) {
@@ -44,9 +64,9 @@ angular.module('stoutful.controllers').
       console.log(err);
     };
 
-    $scope.legacySignIn = function() {
-      $scope.legacy = true;
-    }
+    $scope.showLegacySignIn = function(showLegacy) {
+      $scope.legacy = showLegacy;
+    };
 
     var auth2 = gapi.auth2.getAuthInstance();
 

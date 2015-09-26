@@ -8,13 +8,14 @@
   "private": true,
   "dependencies": {
     "angular": "~1.4.3",
-    "bootstrap": "~3.3.5",
+    "angular-base64": "~2.0.5",
     "angular-bootstrap": "~0.13.3",
-    "ng-file-upload": "~6.2.1",
-    "underscore": "~1.8.3",
-    "ladda-angular": "~1.0.1",
+    "angular-cookies": "~1.4.5",
     "angular-route": "~1.4.5",
+    "bootstrap": "~3.3.5",
+    "ladda-angular": "~1.0.1",
+    "ng-file-upload": "~6.2.1",
     "oclazyload": "~1.0.4",
-    "angular-cookies": "~1.4.5"
+    "underscore": "~1.8.3"
   }
 }

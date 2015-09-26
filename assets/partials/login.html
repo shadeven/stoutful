@@ -3,20 +3,23 @@
 </div>
 
 <div class="modal-body">
-  <div ng-if="legacy">
-    <form>
-      <div class="form-group">
-        <input type="email" class="form-control" placeholder="Email">
+  <!-- Legacy login form -->
+  <div ng-show="legacy" class="legacy">
+    <form name="legacyForm" novalidate>
+      <div class="form-group" ng-class="{'has-error': legacyForm.email.$invalid}">
+        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
       </div>
-      <div class="form-group">
-        <input type="password" class="form-control" placeholder="Password">
+      <div class="form-group" ng-class="{'has-error': legacyForm.password.$invalid}">
+        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
       </div>
-      <button type="submit" class="btn btn-default">Sign In</button>
+      <button type="submit" class="btn btn-default" ng-click="legacySignIn()">Sign In</button>
     </form>
   </div>
-  <div ng-if="!legacy">
+
+  <!-- New login form -->
+  <div ng-show="!legacy">
     <button class="ladda-button btn-google" data-style="zoom-in" ladda-button="loading" ng-disabled="loading" ng-click="signIn()"></button>
     <h5>OR</h5>
-    <button class="btn btn-default" ng-model="legacy" ng-click="legacySignIn()">Sign in with email and password</button>
+    <button class="btn btn-default" ng-model="legacy" ng-click="showLegacySignIn(true)">Sign in with email and password</button>
   </div>
 </div>

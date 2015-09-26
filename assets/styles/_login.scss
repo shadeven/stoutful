@@ -1,6 +1,8 @@
 .login {
-  .modal-body {
-    text-align: center;
+  .modal-body  {
+    > div:not(.legacy) {
+      text-align: center;
+    }
   }
 
   .btn-google {
