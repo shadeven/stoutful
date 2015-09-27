@@ -67,9 +67,9 @@ module.exports = {
     },
     verifyPassword: function(password, cb) {
       var obj = this.toObject();
-      bcrypt.hash(password, 10, function(err, hash) {
+      bcrypt.compare(password, obj.password, function(err, res) {
         if (err) return cb(err);
-        cb(false, hash === obj.password);
+        cb(false, res);
       });
     }
   },
