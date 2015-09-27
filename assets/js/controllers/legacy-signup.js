@@ -10,9 +10,9 @@ angular.module('stoutful.controllers').
 
       $scope.loading = true;
       $http.post('/api/users/create', data)
-        .then(function(user) {
+        .then(function(response) {
           $scope.loading = false;
-          session.user = user;
+          session.user = response.data;
           $scope.modalInstance.close();
         })
         .catch(function(err) {

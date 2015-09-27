@@ -13,9 +13,13 @@ angular.module('stoutful.controllers').
 
       $scope.loading = true;
       $http(req)
+        .then(function() {
+          return $http.get('/api/users/me');
+        })
         .then(function(response) {
           $scope.loading = false;
-          console.log(response);
+          session.user = response.data;
+          $scope.modalInstance.close();
         })
         .catch(function(err) {
           $scope.loading = false;
