@@ -58,8 +58,14 @@ module.exports = {
   },
 
   logout: function(req, res) {
-    req.logout();
-    res.status(200).end();
+    req.session.destroy(function(err) {
+      if (err) {
+        console.log('Error destroying session: ', err);
+        return res.status(500).end();
+      }
+      req.logout();
+      res.status(200).end();
+    });
   },
 };
 
