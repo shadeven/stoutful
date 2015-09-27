@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('LegacySignupController', function($scope, $http, $window, session) {
+  controller('LegacySignupController', function($scope, $http, $window, session, basicAuth) {
     $scope.legacySignUp = function() {
       var data = {
         first_name: $scope.firstName,
@@ -10,6 +10,12 @@ angular.module('stoutful.controllers').
 
       $scope.loading = true;
       $http.post('/api/users/create', data)
+        .then(function() {
+          return basicAuth.login($scope.email, $scope.password);
+        })
+        .then(function() {
+          return $http.get('/api/users/me');
+        })
         .then(function(response) {
           $scope.loading = false;
           session.user = response.data;
