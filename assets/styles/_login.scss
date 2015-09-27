@@ -8,15 +8,15 @@
       outline: none;
     }
   }
-}
 
-.provider-login {
-  text-align: center;
+  .provider-login, .provider-signup {
+    text-align: center;
 
-  .ladda-button {
-    &:hover {
-      border: 0;
-      background-color: transparent;
+    .ladda-button {
+      &:hover {
+        border: 0;
+        background-color: transparent;
+      }
     }
   }
 
@@ -26,19 +26,38 @@
     padding: 0;
     border: 0;
     background: none;
-    background-image: url('../images/btn_google_signin_dark_normal_web.png');
     background-repeat: no-repeat;
+  }
 
-    &:active {
-      background-image: url('../images/btn_google_signin_dark_pressed_web.png');
-    }
+  .btn-google-login {
+    background-image: url('../images/btn_google_signin_dark_normal_web.png');
 
     &:focus {
       background-image: url('../images/btn_google_signin_dark_focus_web.png');
     }
 
+    &:active {
+      background-image: url('../images/btn_google_signin_dark_pressed_web.png');
+    }
+
     &[disabled] {
       background-image: url('../images/btn_google_signin_dark_disabled_web.png');
+    }
+  }
+
+  .btn-google-signup {
+    background-image: url('../images/btn_google_signup_dark_normal_web.png');
+
+    &:focus {
+      background-image: url('../images/btn_google_signup_dark_focus_web.png');
+    }
+
+    &:active {
+      background-image: url('../images/btn_google_signup_dark_pressed_web.png');
+    }
+
+    &[disabled] {
+      background-image: url('../images/btn_google_signup_dark_disabled_web.png');
     }
   }
 }

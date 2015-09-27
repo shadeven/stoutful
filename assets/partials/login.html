@@ -1,28 +1,11 @@
 <div class="modal-header">
-  <h3 class="modal-title">Sign In</h3>
+  <h3 class="modal-title">{{ title }}</h3>
 </div>
 
 <div class="modal-body">
   <!-- Legacy login form -->
-  <div ng-show="legacy" class="legacy-login" ng-controller="LegacyLoginController">
-    <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
-    <form name="legacyForm" novalidate>
-      <div class="form-group" ng-class="{'has-error': legacyForm.email.$invalid}">
-        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': legacyForm.password.$invalid}">
-        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
-      </div>
-      <button class="ladda-button btn btn-primary" data-style="expand-right" ladda-button="loading" ng-click="legacySignIn()">
-        <span class="ladda-label">Sign In</span>
-      </button>
-    </form>
-  </div>
+  <ng-include ng-show="legacy" src="legacyTemplate"></ng-include>
 
   <!-- New login form -->
-  <div ng-show="!legacy" class="provider-login" ng-controller="ProviderLoginController">
-    <button class="ladda-button btn-google" data-style="zoom-in" ladda-button="loading" ng-disabled="loading" ng-click="signIn()"></button>
-    <h5>OR</h5>
-    <button class="btn btn-default" ng-model="legacy" ng-click="showLegacySignIn(true)">Sign in with email and password</button>
-  </div>
+  <ng-include ng-show="!legacy" src="contentTemplate"></ng-include>
 </div>

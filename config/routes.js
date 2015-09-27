@@ -37,6 +37,7 @@ module.exports.routes = {
 
   'get /api/activities': 'ActivityController.find',
   'get /api/users/me': 'UserController.me',
+  'post /api/users/create': 'UserController.create',
 
   // Beers
   'get /api/beers/suggestions': 'BeerController.suggestions',
