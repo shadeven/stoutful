@@ -17,7 +17,9 @@ if [[ $? -ne 0 ]]; then
   # Database doesn't exist
   echo "Database does not exist, creating..."
   psql -h $DB_HOST -U $DB_USER -c 'CREATE DATABASE stoutful'
-  knex migrate:latest
 fi
+
+# Ensure database is at the latest version
+knex migrate:latest
 
 sails lift --silly

@@ -1,13 +1,40 @@
 .login {
   button {
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      outline: none;
+    }
+  }
+
+  .provider-login, .provider-signup {
+    text-align: center;
+
+    .ladda-button {
+      &:hover {
+        border: 0;
+        background-color: transparent;
+      }
+    }
+  }
+
+  .btn-google {
     width: 193px;
     height: 48px;
     padding: 0;
-    outline: none;
     border: 0;
     background: none;
-    background-image: url('../images/btn_google_signin_dark_normal_web.png');
     background-repeat: no-repeat;
+  }
+
+  .btn-google-login {
+    background-image: url('../images/btn_google_signin_dark_normal_web.png');
+
+    &:focus {
+      background-image: url('../images/btn_google_signin_dark_focus_web.png');
+    }
 
     &:active {
       background-image: url('../images/btn_google_signin_dark_pressed_web.png');
@@ -18,10 +45,19 @@
     }
   }
 
-  .ladda-button {
-    &:hover {
-      border: 0;
-      background-color: transparent;
+  .btn-google-signup {
+    background-image: url('../images/btn_google_signup_dark_normal_web.png');
+
+    &:focus {
+      background-image: url('../images/btn_google_signup_dark_focus_web.png');
+    }
+
+    &:active {
+      background-image: url('../images/btn_google_signup_dark_pressed_web.png');
+    }
+
+    &[disabled] {
+      background-image: url('../images/btn_google_signup_dark_disabled_web.png');
     }
   }
 }

@@ -55,11 +55,22 @@ module.exports = {
         return new Date();
       }
     },
+    identities: {
+      collection: 'UserIdentity',
+      via: 'user'
+    },
     toJSON: function() {
       // Filter out password
       var obj = this.toObject();
       delete obj.password;
       return obj;
+    },
+    verifyPassword: function(password, cb) {
+      var obj = this.toObject();
+      bcrypt.compare(password, obj.password, function(err, res) {
+        if (err) return cb(err);
+        cb(false, res);
+      });
     }
   },
 

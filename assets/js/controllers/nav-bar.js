@@ -32,6 +32,39 @@ angular.module('stoutful.controllers').
         templateUrl: 'partials/login.html',
         controller: 'LoginController',
         windowClass: 'login',
+        resolve: {
+          title: function() {
+            return 'Log In';
+          },
+          contentTemplate: function() {
+            return 'partials/provider-login.html';
+          },
+          legacyTemplate: function() {
+            return 'partials/legacy-login.html';
+          }
+        }
+      });
+    };
+
+    $scope.openSignup = function() {
+      $modal.open({
+        templateUrl: 'partials/login.html',
+        controller: 'LoginController',
+        windowClass: 'login',
+        resolve: {
+          title: function() {
+            return 'Sign Up';
+          },
+          contentTemplate: function() {
+            return 'partials/provider-signup.html';
+          },
+          legacyTemplate: function() {
+            return 'partials/legacy-signup.html';
+          },
+          legacyText: function() {
+            return 'Sign up with email and password';
+          }
+        }
       });
     };
 

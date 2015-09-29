@@ -1,7 +1,11 @@
 <div class="modal-header">
-  <h3 class="modal-title">Sign In</h3>
+  <h3 class="modal-title">{{ title }}</h3>
 </div>
 
 <div class="modal-body">
-  <button class="ladda-button" data-style="zoom-in" ladda-button="loading" ng-disabled="loading" ng-click="signIn()"></button>
+  <!-- Legacy login form -->
+  <ng-include ng-show="legacy" src="legacyTemplate"></ng-include>
+
+  <!-- New login form -->
+  <ng-include ng-show="!legacy" src="contentTemplate"></ng-include>
 </div>

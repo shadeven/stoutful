@@ -1,11 +1,11 @@
 /* global sails, User */
 var passport = require('passport');
 
-passport.provider = function(req, res, next, callback) {
+passport.provider = function(req, res, next, done) {
   var provider = req.params.provider;
   if (!provider) return res.status(400).end();
 
-  this.authenticate(provider, callback)(req, res, next);
+  this.authenticate(provider, done)(req, res, next);
 };
 
 passport.loadStrategies = function() {
