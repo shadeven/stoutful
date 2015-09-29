@@ -19,14 +19,47 @@ describe.only('ActivityController', function () {
 
   describe('#find()', function () {
     var accessToken;
+    var user;
 
     before(function (done) {
       User.find().limit(1).exec(function (err, users) {
         if (err) return done(err);
-        helpers.signIn(users[0], function (err, token) {
+        user = users[0];
+        helpers.signIn(user, function (err, token) {
           accessToken = token;
           done(err);
         });
+      });
+    });
+
+    context('with signed in user', function() {
+      var activities;
+
+      before(function (done) {
+        var attrs1 = factory.build('activity', {"id": 1, "type": "check_in", "user_id": user.id});
+        var attrs2 = factory.build('activity', {"id": 2, "type": "check_in", "user_id": user.id + 1});
+
+        Activity.create([attrs1, attrs2]).exec(function (err, models) {
+          activities = models;
+          done(err);
+        });
+      });
+
+      after(function (done) {
+        Activity.destroy().exec(function (err) {
+          done(err);
+        });
+      });
+
+      it('should return activities belonging to the user', function (done) {
+        var expectedJSON = [factory.build('/api/activities', {
+          'timestamp': activities[0].timestamp.toJSON()
+        })];
+
+        request(sails.hooks.http.app)
+          .get('/api/activities')
+          .set('Authorization', 'Bearer ' + accessToken.access_token)
+          .expect(expectedJSON, done);
       });
     });
 
@@ -34,7 +67,7 @@ describe.only('ActivityController', function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build('activity', {"id": 1, "type": "check_in"});
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": user.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
@@ -72,9 +105,15 @@ describe.only('ActivityController', function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build('activity', {"id": 1, "type": "check_in"});
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": user.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
+          done(err);
+        });
+      });
+
+      after(function (done) {
+        Activity.destroy().exec(function (err) {
           done(err);
         });
       });
