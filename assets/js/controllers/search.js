@@ -30,8 +30,10 @@ angular.module('stoutful.controllers').
     };
 
     $scope.open = function (model) {
+      var opts = {};
+
       if (model.brewery) {
-        $modal.open({
+        opts = {
           templateUrl: 'partials/edit-beer.html',
           controller: 'EditBeerCtrl',
           windowClass: 'beer-details',
@@ -40,7 +42,20 @@ angular.module('stoutful.controllers').
               return model;
             }
           }
-        });
+        };
+      } else {
+        opts = {
+          templateUrl: 'partials/edit-brewery.html',
+          controller: 'EditBreweryCtrl',
+          windowClass: 'brewery-details',
+          resolve: {
+            brewery: function() {
+              return model;
+            }
+          }
+        };
       }
+
+      $modal.open(opts);
     };
   });

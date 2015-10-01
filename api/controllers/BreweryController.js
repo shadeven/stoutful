@@ -7,6 +7,7 @@
 
  /* global Brewery */
 var Rx = require('rx');
+var update = require('sails/lib/hooks/blueprints/actions/update');
 
 module.exports = {
   search: function(req, res) {
@@ -21,6 +22,26 @@ module.exports = {
       }, function (err) {
         res.serverError(err);
       });
+  },
+  update: function(req, res) {
+    var file = req.file('file');
+    var opt = {
+      adapter: require('skipper-s3'),
+      key: sails.config.aws.key,
+      secret: sails.config.aws.secret,
+      bucket: 'stoutful-dev'
+    };
+    file.upload(opt, function(err, uploadedFiles) {
+      if (err) {
+        console.log('Error uploading files: ', err);
+      } else {
+        if (uploadedFiles.length > 0) {
+          req.params.all().image_url = uploadedFiles[0].extra.Location;
+        }
+      }
+
+      update(req, res);
+    });
   }
 };
 

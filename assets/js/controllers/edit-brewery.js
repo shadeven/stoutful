@@ -1,26 +1,21 @@
 angular.module('stoutful.controllers').
-  controller('EditBeerCtrl', function ($scope, $modalInstance, $http, Upload, beer, session) {
-    $scope.beer = beer;
-    $scope.image = $scope.beer.image_url;
-    $scope.selectedBrewery = beer.brewery;
-    $scope.loading = false;
+  controller('EditBreweryCtrl', function ($scope, $modalInstance, $http, Upload, brewery, session) {
+    $scope.brewery = brewery;
+    $scope.image = $scope.brewery.image_url;
     $scope.isLoggedIn = session.user !== undefined;
 
     // Although Angular handles 2-way data binding for us, below is for recording which
     // attributes were changed so when it comes time to PUT, we only PUT the attributes
     // that were changed instead of all attributes.
-    var watchAttributes = ['name', 'abv', 'ibu', 'description', 'brewery'];
+    var watchAttributes = ['name', 'address1', 'address2', 'city', 'state', 'phone', 'website',
+      'description'];
     var changedAttributes = {};
     watchAttributes.forEach(function(attribute) {
-      $scope.$watch(function() { return $scope.beer[attribute]; }, function(newValue, oldValue) {
+      $scope.$watch(function() { return $scope.brewery[attribute]; }, function(newValue, oldValue) {
         if (_.isEqual(newValue, oldValue) || !newValue) return; // Invalid states, ignore
 
         console.log(attribute + ' has been changed.');
-        if (attribute === 'brewery') {
-          changedAttributes.brewery_id = newValue.id;
-        } else {
-          changedAttributes[attribute] = newValue;
-        }
+        changedAttributes[attribute] = newValue;
       });
     });
 
@@ -32,7 +27,7 @@ angular.module('stoutful.controllers').
       if (!$scope.editForm.$valid) return;
 
       var req = {
-        url: '/api/beers/' + beer.id,
+        url: '/api/breweries/' + brewery.id,
         method: 'PUT',
         fields: changedAttributes
       };
@@ -50,18 +45,5 @@ angular.module('stoutful.controllers').
         .error(function(err) {
           console.log('Err = ', err);
         });
-    };
-
-    $scope.searchBrewery = function(value) {
-      return $http.get('/api/breweries/search?query=' + value)
-        .then(function(response) {
-          return response.data;
-        });
-    };
-
-    // We use a custom onSelect function because the "model" ends up being the name
-    // and not the actual model.
-    $scope.onSelect = function($item) {
-      $scope.beer.brewery = $item;
     };
   });
