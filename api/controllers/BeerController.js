@@ -6,7 +6,7 @@
  */
 /* global Beer, Brewery, Style, Category */
 var Rx = require('rx');
-var update = require('sails/lib/hooks/blueprints/actions/update');
+var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 
 module.exports = {
   findOne: function(req, res) {
@@ -58,7 +58,35 @@ module.exports = {
         }
       }
 
-      update(req, res);
+      var values = actionUtil.parseValues(req);
+      var id = req.params.id;
+      Beer.update(id, values)
+        .then(function(beers) {
+          var beer = beers[0];
+          if (!beer) return res.serverError('Could not find record after updating!');
+          return Beer.updateIndex({
+            index: 'stoutful',
+            type: 'beer',
+            id: id,
+            body: {
+              doc: {
+                name: beer.name,
+                description: beer.description
+              }
+            }
+          });
+        })
+        .then(function(response) {
+          var id = response._id;
+          return Beer.findOne(id);
+        })
+        .then(function(beer) {
+          if (!beer) return res.serverError('Could not find record after updating!');
+          res.ok(beer);
+        })
+        .catch(function(err) {
+          res.serverError(err);
+        });
     });
   }
 };

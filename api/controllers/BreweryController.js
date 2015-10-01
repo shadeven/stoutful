@@ -7,7 +7,7 @@
 
  /* global Brewery */
 var Rx = require('rx');
-var update = require('sails/lib/hooks/blueprints/actions/update');
+var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 
 module.exports = {
   search: function(req, res) {
@@ -40,7 +40,35 @@ module.exports = {
         }
       }
 
-      update(req, res);
+      var values = actionUtil.parseValues(req);
+      var id = req.params.id;
+      Brewery.update(id, values)
+        .then(function(breweries) {
+          var brewery = breweries[0];
+          if (!brewery) return res.serverError('Could not find record after updating!');
+          return Brewery.updateIndex({
+            index: 'stoutful',
+            type: 'brewery',
+            id: id,
+            body: {
+              doc: {
+                name: brewery.name,
+                description: brewery.description
+              }
+            }
+          });
+        })
+        .then(function(response) {
+          var id = response._id;
+          return Brewery.findOne(id);
+        })
+        .then(function(brewery) {
+          if (!brewery) return res.serverError('Could not find record after updating!');
+          res.ok(brewery);
+        })
+        .catch(function(err) {
+          res.serverError(err);
+        });
     });
   }
 };
