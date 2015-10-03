@@ -6,9 +6,13 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   $routeProvider.when('/', {
     templateUrl: 'partials/search.html',
     controller: 'SearchController'
-  }).
-  when('/profile', {
+  })
+  .when('/profile', {
     templateUrl: 'partials/profile.html',
     controller: 'ProfileController'
+  })
+  .when('/beer/:beerId', {
+    templateUrl: 'partials/beer-details.html',
+    controller: 'BeerDetailsController'
   });
 });

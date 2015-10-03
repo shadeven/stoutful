@@ -1,0 +1,27 @@
+<div class="container beer-details">
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="header">
+        <img class="icon img-circle" ng-background-image="{{ beer.image_url || 'http://placehold.it/120x120' }}"/>
+        <h1>{{ beer.name }}</h1>
+        <h4>{{ beer.brewery.name }}</h4>
+        <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
+        <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
+      </div>
+
+      <p class="description">{{ beer.description }}</p>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h2>Recent Activity</h2>
+
+    </div>
+  </div>
+
+</div>
