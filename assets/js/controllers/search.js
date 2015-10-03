@@ -1,7 +1,6 @@
 angular.module('stoutful.controllers').
-  controller('SearchController', function($scope, $modal, $http) {
+  controller('SearchController', function($scope, $modal, $http, rx) {
     $scope.searchQuery = { query: '' };
-    $scope.beers = [];
 
     $scope.isValid = function() {
       return $scope.searchQuery.query.length > 0;
@@ -9,25 +8,54 @@ angular.module('stoutful.controllers').
 
     $scope.performSearch = function(event) {
       var value = event.target.value;
-      $http.get('/api/beers/search?query=' + value)
-        .then(function (data) {
-          $scope.beers = data.data;
+      var searchBeers = rx.Observable.fromPromise($http.get('/api/beers/search?query=' + value));
+      var searchBreweries = rx.Observable.fromPromise($http.get('/api/breweries/search?query=' + value));
+
+      $scope.models = [];
+      rx.Observable.forkJoin(searchBeers, searchBreweries)
+        .flatMapLatest(function(dataArray) {
+          return rx.Observable.from(dataArray);
         })
-        .catch(function (err) {
-          console.log('Err = ', err);
-        });
+        .map(function(data) {
+          return data.data;
+        })
+        .subscribe(
+          function(data) {
+            $scope.models = $scope.models.concat(data);
+          },
+          function(err) {
+            console.log('Err = ', err);
+          }
+        );
     };
 
-    $scope.open = function (beer) {
-      $modal.open({
-        templateUrl: 'partials/edit-beer.html',
-        controller: 'EditBeerCtrl',
-        windowClass: 'beer-details',
-        resolve: {
-          beer: function() {
-            return beer;
+    $scope.open = function (model) {
+      var opts = {};
+
+      if (model.brewery) {
+        opts = {
+          templateUrl: 'partials/edit-beer.html',
+          controller: 'EditBeerCtrl',
+          windowClass: 'beer-details',
+          resolve: {
+            beer: function() {
+              return model;
+            }
           }
-        }
-      });
+        };
+      } else {
+        opts = {
+          templateUrl: 'partials/edit-brewery.html',
+          controller: 'EditBreweryCtrl',
+          windowClass: 'brewery-details',
+          resolve: {
+            brewery: function() {
+              return model;
+            }
+          }
+        };
+      }
+
+      $modal.open(opts);
     };
   });

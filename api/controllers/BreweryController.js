@@ -7,6 +7,7 @@
 
  /* global Brewery */
 var Rx = require('rx');
+var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 
 module.exports = {
   search: function(req, res) {
@@ -21,6 +22,54 @@ module.exports = {
       }, function (err) {
         res.serverError(err);
       });
+  },
+  update: function(req, res) {
+    var file = req.file('file');
+    var opt = {
+      adapter: require('skipper-s3'),
+      key: sails.config.aws.key,
+      secret: sails.config.aws.secret,
+      bucket: 'stoutful-dev'
+    };
+    file.upload(opt, function(err, uploadedFiles) {
+      if (err) {
+        console.log('Error uploading files: ', err);
+      } else {
+        if (uploadedFiles.length > 0) {
+          req.params.all().image_url = uploadedFiles[0].extra.Location;
+        }
+      }
+
+      var values = actionUtil.parseValues(req);
+      var id = req.params.id;
+      Brewery.update(id, values)
+        .then(function(breweries) {
+          var brewery = breweries[0];
+          if (!brewery) return res.serverError('Could not find record after updating!');
+          return Brewery.updateIndex({
+            index: 'stoutful',
+            type: 'brewery',
+            id: id,
+            body: {
+              doc: {
+                name: brewery.name,
+                description: brewery.description
+              }
+            }
+          });
+        })
+        .then(function(response) {
+          var id = response._id;
+          return Brewery.findOne(id);
+        })
+        .then(function(brewery) {
+          if (!brewery) return res.serverError('Could not find record after updating!');
+          res.ok(brewery);
+        })
+        .catch(function(err) {
+          res.serverError(err);
+        });
+    });
   }
 };
 
