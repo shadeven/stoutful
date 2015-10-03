@@ -11,6 +11,7 @@
       <div class="col-sm-10">
         <input type="text" name="name" class="form-control" value="{{ brewery.name }}"
           ng-model="brewery.name"
+          ng-readonly="!isLoggedIn"
           required>
       </div>
     </div>
@@ -20,6 +21,7 @@
       <label class="col-sm-2 control-label">Address 1</label>
       <div class="col-sm-10">
           <input name="address1" type="text" class="form-control" ng-model="brewery.address1"
+            ng-readonly="!isLoggedIn"
             required>
       </div>
     </div>
@@ -28,7 +30,8 @@
     <div class="form-group" ng-class="{'has-error': editForm.address2.$invalid}">
       <label class="col-sm-2 control-label">Address 2</label>
       <div class="col-sm-10">
-          <input name="address2" type="text" class="form-control" ng-model="brewery.address2">
+          <input name="address2" type="text" class="form-control" ng-model="brewery.address2"
+            ng-readonly="!isLoggedIn">
       </div>
     </div>
 
@@ -37,7 +40,10 @@
       <div ng-class="{'has-error': editForm.city.$invalid}">
         <label class="col-sm-2 control-label">City</label>
         <div class="col-sm-4">
-          <input name="city" type="text" class="form-control" value="{{ brewery.city }}" ng-model="brewery.city" required>
+          <input name="city" type="text" class="form-control" value="{{ brewery.city }}"
+            ng-model="brewery.city"
+            ng-readonly="!isLoggedIn"
+            required>
         </div>
       </div>
 
@@ -45,7 +51,10 @@
       <div ng-class="{'has-error': editForm.state.$invalid}">
         <label class="col-sm-2 control-label">State</label>
         <div class="col-sm-4">
-          <input name="ibu" type="text" class="form-control" value="{{ brewery.state }}" ng-model="brewery.state" required>
+          <input name="ibu" type="text" class="form-control" value="{{ brewery.state }}"
+            ng-model="brewery.state"
+            ng-readonly="!isLoggedIn"
+            required>
         </div>
       </div>
     </div>
@@ -54,7 +63,10 @@
     <div class="form-group" ng-class="{'has-error': editForm.phone.$invalid}">
       <label class="col-sm-2 control-label">Phone</label>
       <div class="col-sm-10">
-        <input name="phone" type="tel" class="form-control" value="{{ brewery.phone }}" ng-model="brewery.phone" required>
+        <input name="phone" type="tel" class="form-control" value="{{ brewery.phone }}"
+          ng-model="brewery.phone"
+          ng-readonly="!isLoggedIn"
+          required>
       </div>
     </div>
 
@@ -62,7 +74,9 @@
     <div class="form-group" ng-class="{'has-error': editForm.website.$invalid}">
       <label class="col-sm-2 control-label">Website</label>
       <div class="col-sm-10">
-        <input name="website" type="text" class="form-control" value="{{ brewery.website }}" ng-model="brewery.website">
+        <input name="website" type="text" class="form-control" value="{{ brewery.website }}"
+          ng-readonly="!isLoggedIn"
+          ng-model="brewery.website">
       </div>
     </div>
 
@@ -70,7 +84,11 @@
     <div class="form-group" ng-class="{'has-error': editForm.description.$invalid}">
       <label class="col-sm-2 control-label">Description</label>
       <div class="col-sm-10">
-        <textarea name="description" class="form-control" ng-model="brewery.description" required>{{ brewery.description }}</textarea>
+        <textarea name="description" class="form-control" ng-model="brewery.description"
+          ng-readonly="!isLoggedIn"
+          required>
+            {{ brewery.description }}
+        </textarea>
       </div>
     </div>
 
@@ -78,7 +96,8 @@
     <div id="image" class="form-group">
       <label class="col-sm-2 control-label">Image</label>
       <div class="col-sm-10">
-        <input ngf-select ng-model="image" type="file" class="form-control">
+        <input ngf-select ng-model="image" type="file" class="form-control"
+          ng-disabled="!isLoggedIn">
         <img ngf-src="image">
       </div>
     </div>
