@@ -1,26 +1,32 @@
 <div class="container beer-details">
 
-  <div class="row">
+  <div class="row details">
     <div class="col-sm-12">
 
-      <div class="header">
-        <img class="icon img-circle" ng-background-image="{{ beer.image_url || 'http://placehold.it/120x120' }}"/>
+      <div class="jumbotron" ng-background-image="{{ beer.image_url || 'http://placehold.it/120x120' }}">
         <h1>{{ beer.name }}</h1>
         <h4>{{ beer.brewery.name }}</h4>
         <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
         <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
       </div>
 
+      <h3>Description</h3>
       <p class="description">{{ beer.description }}</p>
 
+      <a href class="correction">Submit correction</a>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row recent-activity">
     <div class="col-sm-12">
-
-      <h2>Recent Activity</h2>
-
+      <h3>Recent Activity</h3>
+      <span ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
+      <ul class="activities" ng-show="activities && activities.length > 0">
+        <li class="item" ng-repeat="activity in activities">
+          {{activity.user.first_name}} {{actionVerbForActivityType(activity.type)}} this beer on
+          {{formattedTimestamp(activity.timestamp)}}.
+        </li>
+      </ul>
     </div>
   </div>
 

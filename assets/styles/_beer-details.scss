@@ -1,24 +1,40 @@
 .beer-details {
-  .header {
+  .row {
+    margin-bottom: 20px;
+  }
+
+  .jumbotron {
     overflow: auto;
     margin-bottom: 15px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 
     h1 {
       margin-top: 5px;
     }
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      float: left;
+      margin-right: 10px;
+    }
+
+    .abv {
+      margin-right: 4px;
+    }
   }
 
-  .icon {
-    width: 120px;
-    height: 120px;
-    float: left;
-    margin-right: 10px;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+  .details {
+    .correction {
+      float: right;
+    }
   }
 
-  .abv {
-    margin-right: 4px;
+  .activities {
+    .item {
+      font-style: italic;
+    }
   }
 }
