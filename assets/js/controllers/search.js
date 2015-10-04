@@ -2,12 +2,17 @@ angular.module('stoutful.controllers').
   controller('SearchController', function($scope, $http, rx, $location) {
     $scope.searchQuery = { query: '' };
 
+    $scope.$watch('searchQuery.query', function(newValue) {
+      if (!newValue) return;
+      $scope.performSearch(newValue);
+    });
+
     $scope.isValid = function() {
       return $scope.searchQuery.query.length > 0;
     };
 
-    $scope.performSearch = function(event) {
-      var value = event.target.value;
+    $scope.performSearch = function(query) {
+      var value = query;
       var searchBeers = rx.Observable.fromPromise($http.get('/api/beers/search?query=' + value));
       var searchBreweries = rx.Observable.fromPromise($http.get('/api/breweries/search?query=' + value));
 
