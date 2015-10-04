@@ -2,7 +2,7 @@ angular.module('stoutful.controllers').
   controller('EditBreweryCtrl', function ($scope, $modalInstance, $http, Upload, brewery, session) {
     $scope.brewery = brewery;
     $scope.image = $scope.brewery.image_url;
-    $scope.isLoggedIn = session.user !== undefined;
+    $scope.isLoggedIn = session.isLoggedIn();
 
     // Although Angular handles 2-way data binding for us, below is for recording which
     // attributes were changed so when it comes time to PUT, we only PUT the attributes

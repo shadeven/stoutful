@@ -19,8 +19,8 @@ angular.module('stoutful.controllers').
 
       $scope.loading = true;
       $http(req)
-        .then(function() {
-          // Fetch user data
+        .then(function(response) {
+          session.setExpiresAt(response.data.expires_at);
           return $http({ method: 'GET', url: '/api/users/me' });
         })
         .then(function(response) {
@@ -32,6 +32,7 @@ angular.module('stoutful.controllers').
           $scope.loading = false;
           console.log('Error logging in: ', err);
           if (err.status == 401) {
+            session.destroy();
             auth2.signOut()
               .then(function() {
                 console.log('signed out.');

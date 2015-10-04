@@ -1,6 +1,7 @@
 angular.module('stoutful.controllers').
-  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, $modal) {
+  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, $modal, session) {
     var beerId = $routeParams.beerId;
+    $scope.showAlert = session.isLoggedIn();
 
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {

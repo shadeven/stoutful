@@ -1,6 +1,7 @@
 /* global sails, RefreshToken, AccessToken, User */
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
+var moment = require('moment');
 
 module.exports = {
   token: function(req, res) {
@@ -52,7 +53,11 @@ module.exports = {
           return res.status(401).end();
         }
 
-        return res.status(200).end();
+        var resp = {
+          'expires_at': moment(req.session.cookie._expires).valueOf()
+        };
+
+        return res.json(resp);
       });
     });
   },
