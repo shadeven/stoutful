@@ -44,6 +44,12 @@
     }
   }
 
+  .recent-activity {
+    .empty {
+      font-style: italic;
+    }
+  }
+
   .activities {
     .item {
       font-style: italic;
