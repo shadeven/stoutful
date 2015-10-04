@@ -3,6 +3,9 @@
   <div class="row details">
     <div class="col-sm-12">
 
+      <alert type="info" ng-show="showAlert" close="showAlert = false">Notice a mistake?
+        <a href ng-click="editBeer()">Submit a patch!</a>
+      </alert>
       <div class="jumbotron">
         <img class="background" ng-model="beer.image_url" ng-background-image="{{ beer.image_url }}">
         <h1>{{ beer.name }}</h1>
@@ -14,11 +17,6 @@
       <h3>Description</h3>
       <p class="description">{{ beer.description }}</p>
 
-      <span class="correction">
-        <a href ng-click="editBeer()">Submit correction</a>
-        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"
-          tooltip="See a mistake? Submit a patch"></span>
-      </span>
     </div>
   </div>
 
