@@ -30,7 +30,7 @@ module.exports = function(grunt) {
       }, {
         expand: true,
         cwd: './bower_components',
-        src: ['bootstrap/fonts/glyphicons-halflings-regular.ttf'],
+        src: ['bootstrap/fonts/glyphicons-halflings-regular.*'],
         flatten: true,
         dest: '.tmp/public/styles/fonts'
       }]
