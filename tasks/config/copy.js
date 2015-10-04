@@ -27,6 +27,12 @@ module.exports = function(grunt) {
         src: ['ladda/dist/ladda.min.css', 'bootstrap/dist/css/bootstrap.css'],
         flatten: true,
         dest: '.tmp/public/styles/vendor'
+      }, {
+        expand: true,
+        cwd: './bower_components',
+        src: ['bootstrap/fonts/glyphicons-halflings-regular.ttf'],
+        flatten: true,
+        dest: '.tmp/public/styles/fonts'
       }]
     },
     build: {
