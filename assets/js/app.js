@@ -14,5 +14,9 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   .when('/beer/:beerId', {
     templateUrl: 'partials/beer-details.html',
     controller: 'BeerDetailsController'
+  })
+  .when('/brewery/:breweryId', {
+    templateUrl: 'partials/brewery-details.html',
+    controller: 'BreweryDetailsController'
   });
 });

@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('SearchController', function($scope, $modal, $http, rx, $location) {
+  controller('SearchController', function($scope, $http, rx, $location) {
     $scope.searchQuery = { query: '' };
 
     $scope.isValid = function() {
@@ -30,33 +30,10 @@ angular.module('stoutful.controllers').
     };
 
     $scope.open = function (model) {
-      $location.url('/beer/' + model.id);
-      // var opts = {};
-      //
-      // if (model.brewery) {
-      //   opts = {
-      //     templateUrl: 'partials/edit-beer.html',
-      //     controller: 'EditBeerCtrl',
-      //     windowClass: 'beer-details',
-      //     resolve: {
-      //       beer: function() {
-      //         return model;
-      //       }
-      //     }
-      //   };
-      // } else {
-      //   opts = {
-      //     templateUrl: 'partials/edit-brewery.html',
-      //     controller: 'EditBreweryCtrl',
-      //     windowClass: 'brewery-details',
-      //     resolve: {
-      //       brewery: function() {
-      //         return model;
-      //       }
-      //     }
-      //   };
-      // }
-      //
-      // $modal.open(opts);
+      if (model.brewery) {
+        $location.url('/beer/' + model.id);
+      } else {
+        $location.url('/brewery/' + model.id);
+      }
     };
   });
