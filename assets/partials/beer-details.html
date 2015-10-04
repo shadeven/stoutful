@@ -3,7 +3,8 @@
   <div class="row details">
     <div class="col-sm-12">
 
-      <div class="jumbotron" ng-background-image="{{ beer.image_url || 'http://placehold.it/120x120' }}">
+      <div class="jumbotron">
+        <img class="background" ng-model="beer.image_url" ng-background-image="{{ beer.image_url }}">
         <h1>{{ beer.name }}</h1>
         <h4>{{ beer.brewery.name }}</h4>
         <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
