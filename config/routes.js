@@ -47,8 +47,8 @@ module.exports.routes = {
   'put /api/beers/:id': 'BeerController.update',
 
   // Breweries
-  'get /api/breweries/:id': 'BreweryController.findOne',
   'get /api/breweries/search': 'BreweryController.search',
+  'get /api/breweries/:id': 'BreweryController.findOne',
   'put /api/breweries/:id': 'BreweryController.update',
 
   'post /api/users/activity': 'ActivityController.create'
