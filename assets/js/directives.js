@@ -6,11 +6,15 @@ angular.module('stoutful.directives', []).
       link: function(scope, elem, attr) {
         if (attr.ngModel) {
           scope.$watch(attr.ngModel, function(newValue) {
+            if (!newValue) return;
             elem.css('background-image', 'url(\'' + newValue + '\')');
           });
         }
-        elem.css('background-image', 'url(\'' + attr.ngBackgroundImage + '\')');
-        attr.$set('ngBackgroundImage', null);
+
+        if (attr.ngBackgroundImage) {
+          elem.css('background-image', 'url(\'' + attr.ngBackgroundImage + '\')');
+          attr.$set('ngBackgroundImage', null);
+        }
       }
     };
   });
