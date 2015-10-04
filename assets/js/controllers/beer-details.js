@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('BeerDetailsController', function($scope, $routeParams, $http, rx) {
+  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, $modal) {
     var beerId = $routeParams.beerId;
 
     $scope.actionVerbForActivityType = function(type) {
@@ -23,6 +23,19 @@ angular.module('stoutful.controllers').
         format = 'MMMM Do YYYY';
       }
       return date.format(format);
+    };
+
+    $scope.editBeer = function() {
+      $modal.open({
+        templateUrl: 'partials/edit-beer.html',
+        controller: 'EditBeerCtrl',
+        windowClass: 'beer-details',
+        resolve: {
+          beer: function() {
+            return $scope.beer;
+          }
+        }
+      });
     };
 
     // Fetch beer
