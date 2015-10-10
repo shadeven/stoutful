@@ -5,8 +5,10 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 /* global Beer, Brewery, Style, Category */
+var Promise = require('bluebird');
 var Rx = require('rx');
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+var Patch = require('../models/mongoose/Patch');
 
 module.exports = {
   findOne: function(req, res) {
@@ -42,6 +44,11 @@ module.exports = {
       });
   },
   update: function(req, res) {
+    // Do we have a user?
+    var user = req.user;
+    if (!user) return res.unAuthorized();
+
+    // Upload incoming image, if there is one
     var file = req.file('file');
     var opt = {
       adapter: require('skipper-s3'),
@@ -58,8 +65,24 @@ module.exports = {
         }
       }
 
+      // Parse out values
       var values = actionUtil.parseValues(req);
       var id = req.params.id;
+
+      // If user is an editor, we save changes to the "staging" db for review
+      if (user.isEditor()) {
+        savePatch(id, values)
+          .then(function() {
+            res.ok();
+          })
+          .catch(function(err) {
+            console.log('Error staging changes: ', err);
+            res.serverError(err);
+          });
+        return;
+      }
+
+      // Update directly to the database
       Beer.update(id, values)
         .then(function(beers) {
           var beer = beers[0];
@@ -90,6 +113,19 @@ module.exports = {
     });
   }
 };
+
+function savePatch(beerId, changes) {
+  changes.id = beerId;
+  return new Promise(function(fulfill, reject) {
+    new Patch({type: 'beer', values: changes}).save(function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        fulfill();
+      }
+    });
+  });
+}
 
 function populate(beer) {
   var beerObservable = Rx.Observable.just(beer);
