@@ -4,11 +4,9 @@
  * @description :: Server-side logic for managing beers
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-/* global Beer, Brewery, Style, Category */
-var Promise = require('bluebird');
+/* global Beer, Brewery, Style, Category, Patch */
 var Rx = require('rx');
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
-var Patch = require('../models/mongoose/Patch');
 
 module.exports = {
   findOne: function(req, res) {
@@ -69,9 +67,9 @@ module.exports = {
       var values = actionUtil.parseValues(req);
       var id = req.params.id;
 
-      // If user is an editor, we save changes to the "staging" db for review
+      // If user is an editor, we save changes to patches
       if (user.isEditor()) {
-        savePatch(id, values)
+        Patch.create({editor: user.id, model: id, type: 'beer', changes: values})
           .then(function() {
             res.ok();
           })
@@ -113,19 +111,6 @@ module.exports = {
     });
   }
 };
-
-function savePatch(beerId, changes) {
-  changes.id = beerId;
-  return new Promise(function(fulfill, reject) {
-    new Patch({type: 'beer', values: changes}).save(function(err) {
-      if (err) {
-        reject(err);
-      } else {
-        fulfill();
-      }
-    });
-  });
-}
 
 function populate(beer) {
   var beerObservable = Rx.Observable.just(beer);

@@ -5,11 +5,9 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
- /* global Brewery */
-var Promise = require('bluebird');
+ /* global Brewery, Patch */
 var Rx = require('rx');
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
-var Patch = require('../models/mongoose/Patch');
 
 module.exports = {
   search: function(req, res) {
@@ -51,7 +49,7 @@ module.exports = {
 
       // If user is an editor, we save changes to the "staging" db for review
       if (user.isEditor()) {
-        savePatch(id, values)
+        Patch.create({editor: user.id, model: id, type: 'brewery', changes: values})
           .then(function() {
             res.ok();
           })
@@ -92,19 +90,6 @@ module.exports = {
     });
   }
 };
-
-function savePatch(breweryId, changes) {
-  changes.id = breweryId;
-  return new Promise(function(fulfill, reject) {
-    new Patch({type: 'brewery', values: changes}).save(function(err) {
-      if (err) {
-        reject(err);
-      } else {
-        fulfill();
-      }
-    });
-  });
-}
 
 function searchBrewery(query) {
   return Rx.Observable.fromPromise(Brewery.search({
