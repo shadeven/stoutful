@@ -1,13 +1,18 @@
 angular.module('stoutful.controllers').
-  controller('SearchController', function($scope, $modal, $http, rx) {
+  controller('SearchController', function($scope, $http, rx, $location) {
     $scope.searchQuery = { query: '' };
+
+    $scope.$watch('searchQuery.query', function(newValue) {
+      if (!newValue) return;
+      $scope.performSearch(newValue);
+    });
 
     $scope.isValid = function() {
       return $scope.searchQuery.query.length > 0;
     };
 
-    $scope.performSearch = function(event) {
-      var value = event.target.value;
+    $scope.performSearch = function(query) {
+      var value = query;
       var searchBeers = rx.Observable.fromPromise($http.get('/api/beers/search?query=' + value));
       var searchBreweries = rx.Observable.fromPromise($http.get('/api/breweries/search?query=' + value));
 
@@ -30,32 +35,10 @@ angular.module('stoutful.controllers').
     };
 
     $scope.open = function (model) {
-      var opts = {};
-
       if (model.brewery) {
-        opts = {
-          templateUrl: 'partials/edit-beer.html',
-          controller: 'EditBeerCtrl',
-          windowClass: 'beer-details',
-          resolve: {
-            beer: function() {
-              return model;
-            }
-          }
-        };
+        $location.url('/beer/' + model.id);
       } else {
-        opts = {
-          templateUrl: 'partials/edit-brewery.html',
-          controller: 'EditBreweryCtrl',
-          windowClass: 'brewery-details',
-          resolve: {
-            brewery: function() {
-              return model;
-            }
-          }
-        };
+        $location.url('/brewery/' + model.id);
       }
-
-      $modal.open(opts);
     };
   });

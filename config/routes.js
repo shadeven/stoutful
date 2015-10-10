@@ -38,6 +38,7 @@ module.exports.routes = {
   'get /api/activities': 'ActivityController.find',
   'get /api/users/me': 'UserController.me',
   'post /api/users/create': 'UserController.create',
+  'get /api/users/:id': 'UserController.findOne',
 
   // Beers
   'get /api/beers/suggestions': 'BeerController.suggestions',
@@ -47,6 +48,7 @@ module.exports.routes = {
 
   // Breweries
   'get /api/breweries/search': 'BreweryController.search',
+  'get /api/breweries/:id': 'BreweryController.findOne',
   'put /api/breweries/:id': 'BreweryController.update',
 
   'post /api/users/activity': 'ActivityController.create'

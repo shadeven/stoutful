@@ -1,0 +1,36 @@
+<div class="container beer-details">
+
+  <div class="row details">
+    <div class="col-sm-12">
+
+      <alert type="info" ng-show="showAlert" close="showAlert = false">Notice a mistake?
+        <a href ng-click="editBeer()">Submit a patch!</a>
+      </alert>
+      <div class="jumbotron">
+        <img class="background" ng-model="beer.image_url" ng-background-image="{{ beer.image_url }}">
+        <h1>{{ beer.name }}</h1>
+        <h4>{{ beer.brewery.name }}</h4>
+        <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
+        <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
+      </div>
+
+      <h3>Description</h3>
+      <p class="description">{{ beer.description }}</p>
+
+    </div>
+  </div>
+
+  <div class="row recent-activity">
+    <div class="col-sm-12">
+      <h3>Recent Activity</h3>
+      <span class="empty" ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
+      <ul class="activities" ng-show="activities && activities.length > 0">
+        <li class="item" ng-repeat="activity in activities">
+          {{activity.user.first_name}} {{actionVerbForActivityType(activity.type)}} this beer on
+          {{formattedTimestamp(activity.timestamp)}}.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,21 @@
+<div class="container brewery-details">
+
+  <div class="row details">
+    <div class="col-sm-12">
+
+      <alert type="info" ng-show="showAlert" close="showAlert = false">Notice a mistake?
+        <a href ng-click="editBrewery()">Submit a patch!</a>
+      </alert>
+      <div class="jumbotron">
+        <img class="background" ng-model="brewery.image_url" ng-background-image="{{ brewery.image_url }}">
+        <h1>{{brewery.name}}</h1>
+        <h4>{{brewery.city}}, {{brewery.state}}</h4>
+      </div>
+
+      <h3>Description</h3>
+      <p class="description">{{ brewery.description }}</p>
+
+    </div>
+  </div>
+
+</div>

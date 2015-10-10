@@ -1,6 +1,22 @@
-angular.module('stoutful.services', []).
-  service('session', function() {
-    var session;
+angular.module('stoutful.services', ['ngCookies']).
+  service('session', function($cookies) {
+    var session = {
+      user: undefined,
+      destroy: function() {
+        this.user = undefined;
+        this.setExpiresAt(0);
+      },
+      setExpiresAt: function(expiresAt) {
+        $cookies.put('expires_at', expiresAt);
+      },
+      isExpired: function() {
+        var expiresAt = $cookies.get('expires_at');
+        return !expiresAt || (expiresAt - moment().valueOf()) <= 0;
+      },
+      isLoggedIn: function() {
+        return !this.isExpired();
+      }
+    };
     return session;
   }).
   service('basicAuth', function($http, $base64) {
