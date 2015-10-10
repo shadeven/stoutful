@@ -9,6 +9,7 @@ web:
     - postgres
     - redis
     - elasticsearch
+    - mongo
 postgres:
   image: postgres
   ports:
@@ -22,3 +23,7 @@ elasticsearch:
   ports:
     - "9200:9200"
     - "9300:9300"
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"
