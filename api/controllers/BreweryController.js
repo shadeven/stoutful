@@ -6,8 +6,10 @@
  */
 
  /* global Brewery */
+var Promise = require('bluebird');
 var Rx = require('rx');
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+var Patch = require('../models/mongoose/Patch');
 
 module.exports = {
   search: function(req, res) {
@@ -24,6 +26,10 @@ module.exports = {
       });
   },
   update: function(req, res) {
+    // Do we have a user?
+    var user = req.user;
+    if (!user) return res.unAuthorized();
+
     var file = req.file('file');
     var opt = {
       adapter: require('skipper-s3'),
@@ -42,6 +48,20 @@ module.exports = {
 
       var values = actionUtil.parseValues(req);
       var id = req.params.id;
+
+      // If user is an editor, we save changes to the "staging" db for review
+      if (user.isEditor()) {
+        savePatch(id, values)
+          .then(function() {
+            res.ok();
+          })
+          .catch(function(err) {
+            console.log('Error saving brewery patch: ', err);
+            res.serverError(err);
+          });
+        return;
+      }
+
       Brewery.update(id, values)
         .then(function(breweries) {
           var brewery = breweries[0];
@@ -72,6 +92,19 @@ module.exports = {
     });
   }
 };
+
+function savePatch(breweryId, changes) {
+  changes.id = breweryId;
+  return new Promise(function(fulfill, reject) {
+    new Patch({type: 'brewery', values: changes}).save(function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        fulfill();
+      }
+    });
+  });
+}
 
 function searchBrewery(query) {
   return Rx.Observable.fromPromise(Brewery.search({

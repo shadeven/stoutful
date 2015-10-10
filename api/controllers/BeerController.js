@@ -76,7 +76,7 @@ module.exports = {
             res.ok();
           })
           .catch(function(err) {
-            console.log('Error staging changes: ', err);
+            console.log('Error saving beer patch: ', err);
             res.serverError(err);
           });
         return;
