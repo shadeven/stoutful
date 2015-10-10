@@ -11,7 +11,7 @@ angular.module('stoutful.services', ['ngCookies']).
       },
       isExpired: function() {
         var expiresAt = $cookies.get('expires_at');
-        return !expiresAt || (moment().valueOf() - expiresAt) <= 0;
+        return !expiresAt || (expiresAt - moment().valueOf()) <= 0;
       },
       isLoggedIn: function() {
         return !this.isExpired();
