@@ -45,6 +45,9 @@ module.exports = {
       defaultsTo: function() {
         return new Date();
       }
+    },
+    deleted_at: {
+      type: 'datetime'
     }
   },
   beforeUpdate: function(values, cb) {
