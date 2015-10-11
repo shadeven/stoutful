@@ -18,5 +18,9 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   .when('/brewery/:breweryId', {
     templateUrl: 'partials/brewery-details.html',
     controller: 'BreweryDetailsController'
+  })
+  .when('/patches', {
+    templateUrl: 'partials/patch.html',
+    controller: 'PatchController'
   });
 });
