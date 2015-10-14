@@ -12,7 +12,7 @@
       <span class="empty" ng-show="!activities || activities.length == 0">No activity for this user :(</span>
       <ul class="activities" ng-show="activities && activities.length > 0">
         <li class="item" ng-repeat="activity in activities">
-          {{actionVerbForActivityType(activity.type)}} {{activity.beer.name}} by {{activity.beer.brewery.name}}.
+          {{actionVerbForActivityType(activity.type)}} <a ng-href="#/beer/{{activity.beer.id}}">{{activity.beer.name}} by {{activity.beer.brewery.name}}</a>.
         </li>
       </ul>
     </div>
