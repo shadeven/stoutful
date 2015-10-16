@@ -1,7 +1,8 @@
 angular.module('stoutful.controllers')
-  .controller('PatchController', function($scope, $http) {
+  .controller('PatchController', function($scope, $http, patchCache, $location) {
     $scope.onPatchClicked = function(patch) {
-      console.log('Patch clicked = ', patch);
+      patchCache.push(patch);
+      $location.url('/patches/' + patch.id);
     };
 
     $scope.formattedTimestamp = function(timestamp) {
