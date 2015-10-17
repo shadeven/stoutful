@@ -48,6 +48,16 @@ module.exports = {
     },
     deleted_at: {
       type: 'datetime'
+    },
+    toJSON: function() {
+      var obj = this.toObject();
+      if (obj.type === 'beer') {
+        obj.modelUrl = '/api/beers/' + obj.model;
+      }
+      if (obj.type === 'brewery') {
+        obj.modelUrl = '/api/breweries/' + obj.model;
+      }
+      return obj;
     }
   },
   beforeUpdate: function(values, cb) {

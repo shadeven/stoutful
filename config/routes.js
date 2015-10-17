@@ -57,4 +57,5 @@ module.exports.routes = {
 
   // Patches
   'get /api/patches': 'PatchController.find',
+  'get /api/patches/:id': 'PatchController.findOne',
 };

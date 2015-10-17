@@ -1,12 +1,16 @@
-<div class="container">
+<div class="patch-details container">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col col-sm-5">
       <h2>Original</h2>
-      {{ original }}
+      <form class="form-horizontal">
+        <formly-form model="original" fields="form.fields.original" options="form.options"></formly-form>
+      </form>
     </div>
-    <div class="col-sm-6">
+    <div class="col col-sm-5 col-sm-offset-2">
       <h2>New</h2>
-      {{ patch.changes }}
+      <form class="form-horizontal">
+        <formly-form model="patched" fields="form.fields.patch" options="form.options"></formly-form>
+      </form>
     </div>
   </div>
 </div>

@@ -1,0 +1,15 @@
+.patch-details {
+  .col {
+    @include card(1);
+
+    h2 {
+      margin-bottom: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.4);
+    }
+  }
+
+  .control-label {
+    text-align: left;
+  }
+}

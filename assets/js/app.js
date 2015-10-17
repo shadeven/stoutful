@@ -1,5 +1,16 @@
 var app = angular.module('stoutful', ['ngRoute', 'stoutful.controllers', 'stoutful.directives', 'stoutful.services']);
 
+app.run(function(formlyConfig) {
+  formlyConfig.setType([{
+    name: 'input',
+    templateUrl: 'partials/formly/input.html',
+    overwriteOk: true
+  }, {
+    name: 'patch-input',
+    templateUrl: 'partials/formly/patch-input.html'
+  }]);
+});
+
 app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   /* Configure routes */
 

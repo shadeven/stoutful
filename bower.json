@@ -11,6 +11,8 @@
     "angular-base64": "~2.0.5",
     "angular-bootstrap": "~0.13.3",
     "angular-cookies": "~1.4.5",
+    "angular-formly": "~7.2.1",
+    "angular-formly-templates-bootstrap": "~6.1.5",
     "angular-moment": "~0.10.3",
     "angular-route": "~1.4.5",
     "bootstrap": "~3.3.5",
