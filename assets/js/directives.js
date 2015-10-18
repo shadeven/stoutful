@@ -17,4 +17,14 @@ angular.module('stoutful.directives', []).
         }
       }
     };
+  })
+  .directive('empty', function() {
+    return {
+      restrict: 'E',
+      scope: {
+        title: '=',
+        message: '='
+      },
+      templateUrl: 'partials/empty.html'
+    };
   });

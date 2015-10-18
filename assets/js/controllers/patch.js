@@ -1,5 +1,8 @@
 angular.module('stoutful.controllers')
   .controller('PatchController', function($scope, $http, patchCache, $location) {
+    $scope.emptyTitle = 'Sorry!';
+    $scope.emptyMessage = 'No patches available.';
+
     $scope.onPatchClicked = function(patch) {
       patchCache.push(patch);
       $location.url('/patches/' + patch.id);

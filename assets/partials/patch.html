@@ -1,4 +1,7 @@
 <div class="container patches">
+  <empty title="emptyTitle" message="emptyMessage"
+    ng-if="!patches || patches.length == 0"></empty>
+
   <div class="row">
     <div class="col-sm-12 list-group">
       <div class="item list-group-item" ng-repeat="patch in patches" ng-click="onPatchClicked(patch)">
