@@ -12,13 +12,21 @@
     }
   }
 
-  .control-label {
-    text-align: left;
+  .diff {
+    margin-bottom: 20px;
+
+    .control-label {
+      text-align: left;
+    }
+
+    img {
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
   }
 
-  img {
-    width: 100%;
-    margin-top: 15px;
-    margin-bottom: 15px;
+  .bottom {
+    text-align: right;
   }
 }

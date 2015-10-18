@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers')
-  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http) {
+  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location) {
     var patchId = $routeParams.patchId;
 
     $scope.original = {};
@@ -16,6 +16,21 @@ angular.module('stoutful.controllers')
           readOnly: true
         }
       }
+    };
+
+    $scope.onAcceptChanges = function() {
+      $scope.submitting = true;
+      $http.delete('/api/patches/' + patchId)
+        .then(function() {
+          $scope.submitting = false;
+
+          // Redirect back to patches listing
+          $location.url('/patches');
+        })
+        .catch(function(err) {
+          $scope.submitting = false;
+          console.log(err);
+        });
     };
 
     if (!$scope.model) {
