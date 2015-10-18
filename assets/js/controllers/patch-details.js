@@ -37,11 +37,11 @@ angular.module('stoutful.controllers')
       });
 
       _.each(keys.sort(), function(key) {
-        array.push(buildFormlyField(key));
+        array.push(buildFormlyField(model, key));
       });
     }
 
-    function buildFormlyField(key) {
+    function buildFormlyField(model, key) {
       var type = 'patch-input';
       var label = S(key).humanize().s;
 
@@ -55,7 +55,8 @@ angular.module('stoutful.controllers')
         key: key,
         templateOptions: {
           label: label,
-          diff: _.indexOf(_.keys($scope.model.changes), key) != -1,
+          removed: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] != model[key],
+          added: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] === model[key],
           render: function(key, model) {
             if (key === 'brewery' || key === 'category' || key === 'style') {
               return model[key].name;
