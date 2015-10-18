@@ -1,4 +1,7 @@
 .patch-details {
+  .title {
+    margin-bottom: 20px;
+  }
   .col {
     @include card(1);
 

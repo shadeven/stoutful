@@ -1,4 +1,11 @@
 <div class="patch-details container">
+  <!-- Title -->
+  <div class="row title" ng-if="original && model">
+    <h1>Patch for {{original.name}}</h1>
+    <h4>Submitted by {{model.editor.first_name}}</h4>
+  </div>
+
+  <!-- Diff -->
   <div class="row">
     <div class="col col-sm-5">
       <h2>Original</h2>
