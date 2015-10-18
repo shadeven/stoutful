@@ -8,6 +8,9 @@ app.run(function(formlyConfig) {
   }, {
     name: 'patch-input',
     templateUrl: 'partials/formly/patch-input.html'
+  }, {
+    name: 'input-image',
+    templateUrl: 'partials/formly/input-image.html'
   }]);
 });
 

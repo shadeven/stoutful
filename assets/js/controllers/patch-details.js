@@ -9,7 +9,7 @@ angular.module('stoutful.controllers')
       fields: {
         original: [],
         patch: [],
-        excludes: ['id', 'created_at', 'updated_at']
+        excludes: ['id', 'created_at', 'updated_at', 'brewery_id', 'cat_id', 'style_id']
       },
       options: {
         formState: {
@@ -36,18 +36,32 @@ angular.module('stoutful.controllers')
         return _.indexOf($scope.form.fields.excludes, key) == -1;
       });
 
-      _.each(keys, function(key) {
+      _.each(keys.sort(), function(key) {
         array.push(buildFormlyField(key));
       });
     }
 
     function buildFormlyField(key) {
+      var type = 'patch-input';
+      var label = S(key).humanize().s;
+
+      if (key === 'image_url') {
+        type = 'input-image';
+        label = 'Image';
+      }
+
       return {
-        type: 'patch-input',
+        type: type,
         key: key,
         templateOptions: {
-          label: key,
-          diff: _.indexOf(_.keys($scope.model.changes), key) != -1
+          label: label,
+          diff: _.indexOf(_.keys($scope.model.changes), key) != -1,
+          render: function(key, model) {
+            if (key === 'brewery' || key === 'category' || key === 'style') {
+              return model[key].name;
+            }
+            return model[key];
+          }
         }
       };
     }
