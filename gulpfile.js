@@ -52,7 +52,8 @@ gulp.task('elasticsearch:index', function(cb) {
 gulp.task('test', function () {
   return gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
     .pipe(mocha({reporter: 'spec'}))
-    .once('error', function () {
+    .once('error', function (err) {
+      console.error(err);
       process.exit(1);
     })
     .once('end', function () {
