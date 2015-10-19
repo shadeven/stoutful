@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('EditBreweryCtrl', function ($scope, $modalInstance, $http, Upload, brewery, session) {
+  controller('EditBreweryCtrl', function ($scope, $modalInstance, $http, Upload, brewery, session, $modal) {
     $scope.brewery = brewery;
     $scope.image = $scope.brewery.image_url;
     $scope.isLoggedIn = session.isLoggedIn();
@@ -41,6 +41,20 @@ angular.module('stoutful.controllers').
         .success(function() {
           $scope.loading = false;
           $modalInstance.close();
+
+          // Show alert message
+          $modal.open({
+            templateUrl: 'partials/alert.html',
+            controller: 'AlertCtrl',
+            resolve: {
+              title: function() {
+                return 'Thanks!';
+              },
+              message: function() {
+                return 'Your changes are currently under review';
+              }
+            }
+          });
         })
         .error(function(err) {
           console.log('Err = ', err);
