@@ -6,11 +6,21 @@ app.run(function(formlyConfig) {
     templateUrl: 'partials/formly/input.html',
     overwriteOk: true
   }, {
-    name: 'patch-input',
-    templateUrl: 'partials/formly/patch-input.html'
+    name: 'brewery-input',
+    templateUrl: 'partials/formly/brewery-input.html',
+    overwriteOk: true
   }, {
-    name: 'input-image',
-    templateUrl: 'partials/formly/input-image.html'
+    name: 'category-input',
+    templateUrl: 'partials/formly/category-input.html',
+    overwriteOk: true
+  }, {
+    name: 'image',
+    templateUrl: 'partials/formly/image.html',
+    overwriteOk: true
+  }, {
+    name: 'textarea',
+    templateUrl: 'partials/formly/textarea.html',
+    overwriteOk: true
   }]);
 });
 

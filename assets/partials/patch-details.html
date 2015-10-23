@@ -1,20 +1,22 @@
 <div class="patch-details container">
   <!-- Title -->
-  <div class="row title" ng-if="original && model">
+  <div class="title" ng-if="original && model">
     <h1>Patch for {{original.name}}</h1>
     <h4>Submitted by {{model.editor.first_name}}</h4>
   </div>
 
   <!-- Diff -->
   <div class="row diff">
-    <div class="col col-sm-5">
+    <div class="col col-sm-6">
       <h2>Current</h2>
       <form class="form-horizontal">
         <formly-form model="original" fields="form.fields.original" options="form.options"></formly-form>
       </form>
     </div>
-    <div class="col col-sm-5 col-sm-offset-2">
-      <h2>Suggested Changes</h2>
+    <div class="col col-sm-6">
+      <h2>Suggested Changes
+        <button class="btn btn-default" ng-click="onEditClicked()">Edit</button>
+      </h2>
       <form class="form-horizontal">
         <formly-form model="patched" fields="form.fields.patch" options="form.options"></formly-form>
       </form>

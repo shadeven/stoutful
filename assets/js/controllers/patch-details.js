@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers')
-  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location) {
+  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location, $modal) {
     var patchId = $routeParams.patchId;
 
     $scope.original = {};
@@ -33,6 +33,39 @@ angular.module('stoutful.controllers')
         });
     };
 
+    $scope.onEditClicked = function() {
+      var modalOptions = {};
+      if ($scope.original.brewery) {
+        // Beer
+        modalOptions = {
+          templateUrl: 'partials/edit-beer.html',
+          controller: 'EditBeerCtrl',
+          windowClass: 'beer-details',
+          resolve: {
+            beer: function() {
+              return $scope.patched;
+            }
+          }
+        };
+      } else {
+        // Brewery
+        modalOptions = {
+          templateUrl: 'partials/edit-brewery.html',
+          controller: 'EditBreweryCtrl',
+          windowClass: 'brewery-details',
+          resolve: {
+            brewery: function() {
+              return $scope.patched;
+            }
+          }
+        };
+      }
+
+      $modal.open(modalOptions);
+    };
+
+    // Main
+
     if (!$scope.model) {
       $http.get('/api/patches/' + patchId)
         .then(function(response) {
@@ -46,6 +79,8 @@ angular.module('stoutful.controllers')
       loadPatchModel();
     }
 
+    // Helper methods
+
     function addFormlyFields(model, array) {
       var keys = _.filter(_.keys(model), function(key) {
         return _.indexOf($scope.form.fields.excludes, key) == -1;
@@ -57,28 +92,34 @@ angular.module('stoutful.controllers')
     }
 
     function buildFormlyField(model, key) {
-      var type = 'patch-input';
-      var label = S(key).humanize().s;
+      var type = 'input';
+      var templateOptions = {
+        label: S(key).humanize().s,
+        removed: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] != model[key],
+        added: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] === model[key]
+      };
+
+      if (key === 'brewery') {
+        type = 'brewery-input';
+      }
+
+      if (key === 'category') {
+        type = 'category-input';
+      }
 
       if (key === 'image_url') {
-        type = 'input-image';
-        label = 'Image';
+        type = 'image';
+        templateOptions.label = 'Image';
+      }
+
+      if (key === 'description') {
+        type = 'textarea';
       }
 
       return {
         type: type,
         key: key,
-        templateOptions: {
-          label: label,
-          removed: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] != model[key],
-          added: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] === model[key],
-          render: function(key, model) {
-            if (key === 'brewery' || key === 'category' || key === 'style') {
-              return model[key].name;
-            }
-            return model[key];
-          }
-        }
+        templateOptions: templateOptions
       };
     }
 

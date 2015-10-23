@@ -60,6 +60,8 @@ module.exports = {
       } else {
         if (uploadedFiles.length > 0) {
           req.params.all().image_url = uploadedFiles[0].extra.Location;
+        } else {
+          delete req.params.all().file;
         }
       }
 

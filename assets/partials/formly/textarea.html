@@ -1,7 +1,7 @@
 <div class="form-group" ng-class="{'bg-success': to.added, 'bg-danger': to.removed}">
   <label class="col-sm-3 control-label">{{to.label}}</label>
   <div class="col-sm-9">
-    <input class="form-control" ng-if="!formState.readOnly" ng-model="model[options.key]">
+    <textarea class="form-control" ng-if="!formState.readOnly" ng-model="model[options.key]"></textarea>
     <p class="form-control-static" ng-if="formState.readOnly">{{model[options.key]}}</p>
   </div>
 </div>
