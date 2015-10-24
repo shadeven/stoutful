@@ -1,6 +1,9 @@
 @import 'card';
+@import 'empty';
 @import 'login';
 @import 'beer-details';
+@import 'patches';
+@import 'patch-details';
 
 h1, h2, h3 {
   margin-top: 0;

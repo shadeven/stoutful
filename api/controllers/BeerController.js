@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing beers
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-/* global Beer, Brewery, Style, Category */
+/* global Beer, Brewery, Style, Category, Patch */
 var Rx = require('rx');
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 
@@ -42,6 +42,11 @@ module.exports = {
       });
   },
   update: function(req, res) {
+    // Do we have a user?
+    var user = req.user;
+    if (!user) return res.unAuthorized();
+
+    // Upload incoming image, if there is one
     var file = req.file('file');
     var opt = {
       adapter: require('skipper-s3'),
@@ -55,11 +60,29 @@ module.exports = {
       } else {
         if (uploadedFiles.length > 0) {
           req.params.all().image_url = uploadedFiles[0].extra.Location;
+        } else {
+          delete req.params.all().file;
         }
       }
 
+      // Parse out values
       var values = actionUtil.parseValues(req);
       var id = req.params.id;
+
+      // If user is an editor, we save changes to patches
+      if (user.isEditor()) {
+        Patch.create({editor: user.id, model: id, type: 'beer', changes: values})
+          .then(function() {
+            res.ok();
+          })
+          .catch(function(err) {
+            console.log('Error saving beer patch: ', err);
+            res.serverError(err);
+          });
+        return;
+      }
+
+      // Update directly to the database
       Beer.update(id, values)
         .then(function(beers) {
           var beer = beers[0];

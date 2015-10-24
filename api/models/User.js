@@ -59,6 +59,18 @@ module.exports = {
       collection: 'UserIdentity',
       via: 'user'
     },
+    role: {
+      type: 'string',
+      enum: ['editor', 'publisher']
+    },
+    isEditor: function() {
+      var obj = this.toObject();
+      return obj.role === 'editor';
+    },
+    isPublisher: function() {
+      var obj = this.toObject();
+      return obj.role === 'publisher';
+    },
     toJSON: function() {
       // Filter out password
       var obj = this.toObject();

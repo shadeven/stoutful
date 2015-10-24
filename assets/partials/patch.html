@@ -1,0 +1,13 @@
+<div class="container patches">
+  <empty title="emptyTitle" message="emptyMessage"
+    ng-if="!patches || patches.length == 0"></empty>
+
+  <div class="row">
+    <div class="col-sm-12 list-group">
+      <div class="item list-group-item" ng-repeat="patch in patches" ng-click="onPatchClicked(patch)">
+        <h4 class="list-group-item-heading">Patch #{{patch.id}}</h4>
+        <p class="list-group-item-text">Submitted by {{patch.editor.first_name}} on {{formattedTimestamp(patch.editor.created_at)}}</p>
+      </div>
+    </div>
+  </div>
+</div>

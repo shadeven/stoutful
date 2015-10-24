@@ -35,7 +35,11 @@ module.exports.routes = {
   'post /login/:provider': 'AuthController.login',
   'get /logout': 'AuthController.logout',
 
+  // Activities
   'get /api/activities': 'ActivityController.find',
+  'post /api/users/activity': 'ActivityController.create',
+
+  // User
   'get /api/users/me': 'UserController.me',
   'post /api/users/create': 'UserController.create',
   'get /api/users/:id': 'UserController.findOne',
@@ -51,5 +55,11 @@ module.exports.routes = {
   'get /api/breweries/:id': 'BreweryController.findOne',
   'put /api/breweries/:id': 'BreweryController.update',
 
-  'post /api/users/activity': 'ActivityController.create'
+  // Patches
+  'get /api/patches': 'PatchController.find',
+  'get /api/patches/:id': 'PatchController.findOne',
+  'delete /api/patches/:id': 'PatchController.destroy',
+
+  // Categories
+  'get /api/categories': 'CategoryController.find'
 };

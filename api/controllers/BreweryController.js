@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
- /* global Brewery */
+ /* global Brewery, Patch */
 var Rx = require('rx');
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 
@@ -24,6 +24,10 @@ module.exports = {
       });
   },
   update: function(req, res) {
+    // Do we have a user?
+    var user = req.user;
+    if (!user) return res.unAuthorized();
+
     var file = req.file('file');
     var opt = {
       adapter: require('skipper-s3'),
@@ -42,6 +46,20 @@ module.exports = {
 
       var values = actionUtil.parseValues(req);
       var id = req.params.id;
+
+      // If user is an editor, we save changes to the "staging" db for review
+      if (user.isEditor()) {
+        Patch.create({editor: user.id, model: id, type: 'brewery', changes: values})
+          .then(function() {
+            res.ok();
+          })
+          .catch(function(err) {
+            console.log('Error saving brewery patch: ', err);
+            res.serverError(err);
+          });
+        return;
+      }
+
       Brewery.update(id, values)
         .then(function(breweries) {
           var brewery = breweries[0];

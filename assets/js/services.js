@@ -33,4 +33,23 @@ angular.module('stoutful.services', ['ngCookies']).
         return $http(req);
       }
     };
+  })
+  .service('patchCache', function() {
+    var patches = [];
+    return {
+      push: function(patch) {
+        var existing = _.find(patches, function(item) { return item.id == patch.id;});
+        if (!existing) {
+          patches.push(patch);
+        }
+      },
+      pop: function() {
+        return patches.pop();
+      },
+      findById: function(id) {
+        return _.find(patches, function(item) {
+          return item.id == id;
+        });
+      }
+    };
   });
