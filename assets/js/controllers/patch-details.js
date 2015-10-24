@@ -33,37 +33,6 @@ angular.module('stoutful.controllers')
         });
     };
 
-    $scope.onEditClicked = function() {
-      var modalOptions = {};
-      if ($scope.original.brewery) {
-        // Beer
-        modalOptions = {
-          templateUrl: 'partials/edit-beer.html',
-          controller: 'EditBeerCtrl',
-          windowClass: 'beer-details',
-          resolve: {
-            beer: function() {
-              return $scope.patched;
-            }
-          }
-        };
-      } else {
-        // Brewery
-        modalOptions = {
-          templateUrl: 'partials/edit-brewery.html',
-          controller: 'EditBreweryCtrl',
-          windowClass: 'brewery-details',
-          resolve: {
-            brewery: function() {
-              return $scope.patched;
-            }
-          }
-        };
-      }
-
-      $modal.open(modalOptions);
-    };
-
     // Main
 
     if (!$scope.model) {
