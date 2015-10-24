@@ -1,6 +1,12 @@
 angular.module('stoutful.controllers').
   controller('ProfileController', function($scope, $http, session) {
     $scope.user = session.user;
+
+    // Watch for session user change
+    $scope.$watch(function() { return session.user; }, function() {
+      $scope.user = session.user;
+    });
+
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {
         return 'Liked';
