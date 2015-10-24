@@ -19,11 +19,14 @@ angular.module('stoutful.controllers')
       return date.format(format);
     };
 
+    $scope.loading = true;
     $http.get('/api/patches')
       .then(function(results) {
         $scope.patches = results.data;
+        $scope.loading = false;
       })
       .catch(function(err) {
         console.log('Error fetching patches: ', err);
+        $scope.loading = false;
       });
   });
