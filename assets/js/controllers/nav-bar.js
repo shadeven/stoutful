@@ -74,8 +74,7 @@ angular.module('stoutful.controllers').
           return auth2.signOut();
         }).
         then(function() {
-          $scope.user = undefined;
-          $scope.userName = undefined;
+          session.destroy();
         }).
         catch(function(err) {
           console.log('Error logging out: ', err);
