@@ -7,15 +7,10 @@
 
 /* global Activity, Beer, Brewery */
 var Rx = require('rx');
-var moment = require('moment');
 
 module.exports = {
   find: function(req, res) {
-    if (!req.user) return res.status(401).end();
-
     var query = req.query;
-
-    query.user_id = req.user.id;
 
     if (query.start_date) {
       query.timestamp = {'>': query.start_date};
