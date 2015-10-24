@@ -27,7 +27,8 @@
       <button class="btn btn-success ladda-button" type="submit"
         ladda-button="submitting"
         data-style="expand-right"
-        ng-click="onAcceptChanges()">Accept Changes</button>
+        ng-click="onAcceptChanges()"
+        ng-disabled="!canAcceptChanges">Accept Changes</button>
     </div>
   </div>
 </div>

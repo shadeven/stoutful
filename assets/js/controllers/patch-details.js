@@ -1,6 +1,12 @@
 angular.module('stoutful.controllers')
-  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location, $modal) {
+  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location, $modal, session) {
     var patchId = $routeParams.patchId;
+    $scope.user = session.user;
+    if ($scope.user) {
+      $scope.canAcceptChanges = $scope.user.role === 'publisher';
+    } else {
+      $scope.canAcceptChanges = false;
+    }
 
     $scope.original = {};
     $scope.patched = {};
@@ -34,6 +40,16 @@ angular.module('stoutful.controllers')
     };
 
     // Main
+
+    // Watch for session user change
+    $scope.$watch(function() { return session.user; }, function() {
+      $scope.user = session.user;
+      if ($scope.user) {
+        $scope.canAcceptChanges = $scope.user.role === 'publisher';
+      } else {
+        $scope.canAcceptChanges = false;
+      }
+    });
 
     if (!$scope.model) {
       $http.get('/api/patches/' + patchId)
