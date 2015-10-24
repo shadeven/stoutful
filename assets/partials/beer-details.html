@@ -15,7 +15,8 @@
       </div>
 
       <h3>Description</h3>
-      <p class="description">{{ beer.description }}</p>
+      <span class="empty-inline" ng-if="!beer.description">No description.</span>
+      <p class="description" ng-if="beer.description">{{ beer.description }}</p>
 
     </div>
   </div>
@@ -23,7 +24,7 @@
   <div class="row recent-activity">
     <div class="col-sm-12">
       <h3>Recent Activity</h3>
-      <span class="empty" ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
+      <span class="empty-inline" ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
       <ul class="activities" ng-show="activities && activities.length > 0">
         <li class="item" ng-repeat="activity in activities">
           {{activity.user.first_name}} {{actionVerbForActivityType(activity.type)}} this beer on
