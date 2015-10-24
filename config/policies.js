@@ -33,11 +33,17 @@ module.exports.policies = {
     'logout': true
   },
 
+  ActivityController: {
+    'find': true
+  },
+
   BeerController: {
+    'findOne': true,
     'search': true
   },
 
   BreweryController: {
+    'findOne': true,
     'search': true
   }
 };
