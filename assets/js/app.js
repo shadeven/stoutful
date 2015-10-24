@@ -1,6 +1,9 @@
 var app = angular.module('stoutful', ['ngRoute', 'stoutful.controllers', 'stoutful.directives', 'stoutful.services']);
 
-app.run(function(formlyConfig) {
+app.run(function(formlyConfig, $rootScope, session, $location) {
+
+  // Formly config
+
   formlyConfig.setType([{
     name: 'input',
     templateUrl: 'partials/formly/input.html',
@@ -26,6 +29,17 @@ app.run(function(formlyConfig) {
     templateUrl: 'partials/formly/textarea.html',
     overwriteOk: true
   }]);
+
+  // Route policies
+
+  $rootScope.$on('$routeChangeStart', function(event, next) {
+    var authenticated = session.isLoggedIn();
+
+    if (!authenticated && next.requiresAuth) {
+      $location.path('/'); // For now, just return to the home page
+    }
+  });
+
 });
 
 app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
@@ -37,7 +51,8 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   })
   .when('/profile', {
     templateUrl: 'partials/profile.html',
-    controller: 'ProfileController'
+    controller: 'ProfileController',
+    requiresAuth: true
   })
   .when('/beer/:beerId', {
     templateUrl: 'partials/beer-details.html',
