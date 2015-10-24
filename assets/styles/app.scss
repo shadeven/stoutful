@@ -1,4 +1,13 @@
 @import 'card';
+@import 'empty';
+@import 'login';
+@import 'beer-details';
+@import 'patches';
+@import 'patch-details';
+
+h1, h2, h3 {
+  margin-top: 0;
+}
 
 .search {
   .search-bar {
@@ -22,7 +31,11 @@
   }
 }
 
-.beer-details {
+.navbar .container-fluid > * {
+  float: right;
+}
+
+.beer-details, .brewery-details {
   form {
     textarea {
       height: 150px;

@@ -1,0 +1,45 @@
+.patch-details {
+  .title {
+    margin-bottom: 20px;
+  }
+  .col {
+    h2 {
+      margin-bottom: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.4);
+
+      button {
+        float: right;
+      }
+    }
+  }
+
+  .diff {
+    margin-bottom: 20px;
+
+    .control-label {
+      text-align: left;
+    }
+
+    img {
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .bottom {
+    background-color: #F4F4F4;
+    text-align: right;
+  }
+
+  .patch-edit {
+    float: right;
+    font-size: 14px;
+    font-weight: normal;
+  }
+
+  textarea {
+    min-height: 150px;
+  }
+}

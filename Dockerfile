@@ -1,25 +1,23 @@
-FROM ubuntu:14.04
+FROM node:0.12.7-wheezy
+
+RUN apt-get update
+RUN apt-get -y upgrade
 
 # For running the app
-RUN apt-get update
-RUN apt-get install -y nodejs npm
+RUN apt-get -y install git
 
 # For building native npm packages
-RUN apt-get install -y build-essential checkinstall
+RUN apt-get -y install build-essential
 
-# For sass
-RUN apt-get install -y ruby-full
+# For SASS
+RUN apt-get -y install ruby-full
 RUN gem install sass
 
 # For access to psql command
-RUN apt-get install -y postgresql
+RUN apt-get -y install postgresql
 
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-# Install dependencies
-RUN npm install -g npm
-RUN npm install -g gulp
 RUN npm install -g sails
+RUN npm install -g knex
 
 # Creates a mount dir at /app
 VOLUME /app

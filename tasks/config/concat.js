@@ -12,16 +12,20 @@
  */
 module.exports = function(grunt) {
 
-	grunt.config.set('concat', {
-		js: {
-			src: require('../pipeline').jsFilesToInject,
-			dest: '.tmp/public/concat/production.js'
-		},
-		css: {
-			src: require('../pipeline').cssFilesToInject,
-			dest: '.tmp/public/concat/production.css'
-		}
-	});
+  grunt.config.set('concat', {
+    js: {
+      src: require('../pipeline').jsFilesToInject,
+      dest: '.tmp/public/concat/production.js'
+    },
+    css: {
+      src: require('../pipeline').cssFilesToInject,
+      dest: '.tmp/public/concat/production.css'
+    },
+    controllers: {
+      src: ['assets/js/controllers/index.js', 'assets/js/controllers/!(index).js'],
+      dest: '.tmp/public/js/controllers.js'
+    }
+  });
 
-	grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 };

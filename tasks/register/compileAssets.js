@@ -5,6 +5,7 @@ module.exports = function (grunt) {
     'less:dev',
     'sass:dev',
     'bower_concat:dev',
+    'concat:controllers',
     'copy:dev',
     'coffee:dev'
   ]);

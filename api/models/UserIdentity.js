@@ -15,9 +15,10 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    user_id: {
+    user: {
       type: 'integer',
-      required: true
+      required: true,
+      model: 'user'
     },
     provider_id: {
       type: 'string',

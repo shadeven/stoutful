@@ -1,0 +1,10 @@
+<div class="provider-signup" ng-controller="ProviderLoginController">
+  <button class="ladda-button btn-google btn-google-signup"
+    data-style="zoom-in"
+    ladda-button="loading"
+    ng-disabled="loading"
+    ng-click="signIn()">
+  </button>
+  <h5>OR</h5>
+  <a href="" ng-model="legacy" ng-click="showLegacyForm(true)">Sign up with email and password</a>
+</div>

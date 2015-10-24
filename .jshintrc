@@ -8,6 +8,9 @@
     "module": false,
     "__dirname": false,
     "process": false,
-    "sails": false
+    "sails": false,
+    "gapi": false,
+    "angular": false,
+    "_": false
   }
 }

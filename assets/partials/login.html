@@ -1,4 +1,11 @@
-<meta name="google-signin-client_id" content="1068487601849-a0ep88imse3bn202daabmndcni4abhgl.apps.googleusercontent.com">
-<div class="container-fluid">
-  <div id="g-signin2"></div>
+<div class="modal-header">
+  <h3 class="modal-title">{{ title }}</h3>
+</div>
+
+<div class="modal-body">
+  <!-- Legacy login form -->
+  <ng-include ng-show="legacy" src="legacyTemplate"></ng-include>
+
+  <!-- New login form -->
+  <ng-include ng-show="!legacy" src="contentTemplate"></ng-include>
 </div>
