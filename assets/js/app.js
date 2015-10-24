@@ -14,6 +14,10 @@ app.run(function(formlyConfig) {
     templateUrl: 'partials/formly/category-input.html',
     overwriteOk: true
   }, {
+    name: 'style-input',
+    templateUrl: 'partials/formly/style-input.html',
+    overwriteOk: true
+  }, {
     name: 'image',
     templateUrl: 'partials/formly/image.html',
     overwriteOk: true

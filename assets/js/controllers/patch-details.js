@@ -76,6 +76,10 @@ angular.module('stoutful.controllers')
         type = 'category-input';
       }
 
+      if (key === 'style') {
+        type = 'style-input';
+      }
+
       if (key === 'image_url') {
         type = 'image';
         templateOptions.label = 'Image';
