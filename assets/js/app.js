@@ -64,10 +64,12 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   })
   .when('/patches', {
     templateUrl: 'partials/patch.html',
-    controller: 'PatchController'
+    controller: 'PatchController',
+    requiresAuth: true
   })
   .when('/patches/:patchId', {
     templateUrl: 'partials/patch-details.html',
-    controller: 'PatchDetailsController'
+    controller: 'PatchDetailsController',
+    requiresAuth: true
   });
 });
