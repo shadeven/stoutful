@@ -39,6 +39,14 @@ angular.module('stoutful.controllers').
       });
     };
 
+    // Main
+
+    // Watch for session user change
+    $scope.$watch(function() { return session.user; }, function() {
+      $scope.user = session.user;
+      $scope.showAlert = session.isLoggedIn();
+    });
+
     // Fetch beer
     $http.get('/api/beers/' + beerId)
       .then(function(response) {
