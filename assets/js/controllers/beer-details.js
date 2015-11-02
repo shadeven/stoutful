@@ -62,17 +62,20 @@ angular.module('stoutful.controllers').
         'beer_id': beerId
       }
     };
+
     rx.Observable.fromPromise($http.get('/api/activities', config))
       .flatMap(function(response) {
         return rx.Observable.from(response.data)
           .flatMap(function(activity) {
             var userId = activity.user_id;
             return populateUser(userId, activity);
-          });
+          })
+          .toArray();
       })
-      .toArray()
       .subscribe(function(activities) {
-        $scope.activities = activities;
+        $scope.$apply(function() {
+          $scope.activities = activities;
+        });
       });
 
     function populateUser(userId, activity) {
