@@ -1,23 +1,31 @@
 web:
   image: alexfu/stoutful
+  cpu_shares: 100
+  mem_limit: 1024000000
   ports:
-    - "1337:1337"
+    - "80:1337"
   volumes:
-    - .:/app
+    - /home/ec2-user/app:/app
   links:
     - postgres
     - redis
     - elasticsearch
 postgres:
   image: postgres
+  cpu_shares: 100
+  mem_limit: 1024000000
   ports:
     - "5432:5432"
 redis:
   image: redis
+  cpu_shares: 100
+  mem_limit: 1024000000
   ports:
     - "6379:6379"
 elasticsearch:
   image: elasticsearch
+  cpu_shares: 100
+  mem_limit: 1024000000
   ports:
     - "9200:9200"
     - "9300:9300"
