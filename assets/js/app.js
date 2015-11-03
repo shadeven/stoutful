@@ -46,8 +46,8 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   /* Configure routes */
 
   $routeProvider.when('/', {
-    templateUrl: 'partials/search.html',
-    controller: 'SearchController'
+    templateUrl: 'partials/splash.html',
+    controller: 'SplashController'
   })
   .when('/profile', {
     templateUrl: 'partials/profile.html',
