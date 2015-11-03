@@ -2,6 +2,8 @@ angular.module('stoutful.controllers').
   controller('BeerDetailsController', function($scope, $routeParams, $http, rx, $modal, session) {
     var beerId = $routeParams.beerId;
     $scope.showAlert = session.isLoggedIn();
+    $scope.likeCounter = 0;
+    $scope.checkInCounter = 0;
 
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {
@@ -67,6 +69,8 @@ angular.module('stoutful.controllers').
       .flatMap(function(response) {
         return rx.Observable.from(response.data)
           .flatMap(function(activity) {
+            updateCounters(activity);
+
             var userId = activity.user_id;
             return populateUser(userId, activity);
           })
@@ -85,4 +89,15 @@ angular.module('stoutful.controllers').
         return activity;
       });
     }
+
+    function updateCounters(activity) {
+      if ('like' === activity.type) {
+        $scope.likeCounter++;
+      }
+
+      if ('check_in' === activity.type) {
+        $scope.checkInCounter++;
+      }
+    }
+
   });
