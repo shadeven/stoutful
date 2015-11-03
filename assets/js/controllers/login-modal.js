@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('LoginController', function($scope, $modalInstance, title, contentTemplate, legacyTemplate) {
+  controller('ModalLoginController', function($scope, $modalInstance, title, contentTemplate, legacyTemplate) {
     $scope.modalInstance = $modalInstance;
     $scope.title = title;
     $scope.contentTemplate = contentTemplate;

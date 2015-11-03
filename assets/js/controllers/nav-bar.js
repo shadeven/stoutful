@@ -29,8 +29,8 @@ angular.module('stoutful.controllers').
 
     $scope.openLogin = function() {
       $modal.open({
-        templateUrl: 'partials/login.html',
-        controller: 'LoginController',
+        templateUrl: 'partials/login-modal.html',
+        controller: 'ModalLoginController',
         windowClass: 'login',
         resolve: {
           title: function() {
@@ -48,8 +48,8 @@ angular.module('stoutful.controllers').
 
     $scope.openSignup = function() {
       $modal.open({
-        templateUrl: 'partials/login.html',
-        controller: 'LoginController',
+        templateUrl: 'partials/login-modal.html',
+        controller: 'ModalLoginController',
         windowClass: 'login',
         resolve: {
           title: function() {
