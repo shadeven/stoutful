@@ -36,6 +36,7 @@ app.run(function(formlyConfig, $rootScope, session, $location) {
     var authenticated = session.isLoggedIn();
 
     if (!authenticated && next.requiresAuth) {
+      console.log('Not authenticated, redirecting back to /');
       $location.path('/'); // For now, just return to the home page
     }
   });
