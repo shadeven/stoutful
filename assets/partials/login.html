@@ -1,3 +1,34 @@
-<div ng-controller="LoginController">
-  Login
+<div class="login container" ng-controller="LoginController">
+  <div class="row">
+
+    <form class="col-sm-4 col-sm-offset-4" name="loginForm" novalidate>
+      <h2 class="login-title">Login</h2>
+
+      <!-- Error -->
+      <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
+
+      <div class="form-group" ng-class="{'has-error': loginForm.email.$invalid}">
+        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
+      </div>
+      <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid}">
+        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
+      </div>
+      <button class="ladda-button btn btn-primary btn-login"
+        data-style="expand-right"
+        ladda-button="loading"
+        ng-click="logIn()">
+          <span class="ladda-label">Log In</span>
+      </button>
+
+      <p class="google-login-title">Have a Google account?</p>
+
+      <button class="ladda-button btn-google btn-google-login"
+        data-style="zoom-in"
+        ladda-button="loading"
+        ng-disabled="loading"
+        ng-click="logInWithGoogle()">
+      </button>
+    </form>
+
+  </div>
 </div>

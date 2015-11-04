@@ -1,23 +1,24 @@
 .login {
-  button {
-    &:focus {
-      outline: none;
-    }
+  color: #333;
 
-    &:active {
-      outline: none;
-    }
+  .login-title {
+    text-align: left;
   }
 
-  .provider-login, .provider-signup {
-    text-align: center;
+  form {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
 
-    .ladda-button {
-      &:hover {
-        border: 0;
-        background-color: transparent;
-      }
-    }
+  button {
+    display: block;
+  }
+
+  .google-login-title {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    text-align: left;
   }
 
   .btn-google {
