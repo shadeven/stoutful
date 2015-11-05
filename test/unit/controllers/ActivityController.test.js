@@ -58,8 +58,8 @@ describe.only('ActivityController', function () {
 
         expectedJSON.push(factory.build('/api/activities', {
           'id': 2,
-          'user_id': 2
-          'timestamp': activities[0].timestamp.toJSON(),
+          'user_id': 2,
+          'timestamp': activities[0].timestamp.toJSON()
         }));
 
         request(sails.hooks.http.app)
