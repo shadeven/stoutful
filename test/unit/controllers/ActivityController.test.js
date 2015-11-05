@@ -51,10 +51,16 @@ describe.only('ActivityController', function () {
         });
       });
 
-      it('should return activities belonging to the user', function (done) {
+      it('should return all activities', function (done) {
         var expectedJSON = [factory.build('/api/activities', {
           'timestamp': activities[0].timestamp.toJSON()
         })];
+
+        expectedJSON.push(factory.build('/api/activities', {
+          'id': 2,
+          'user_id': 2,
+          'timestamp': activities[0].timestamp.toJSON()
+        }));
 
         request(sails.hooks.http.app)
           .get('/api/activities')
