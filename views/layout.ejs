@@ -20,7 +20,7 @@
   </head>
   <body>
     <!-- nav bar -->
-    <nav class="navbar navbar-default" ng-controller="NavBarController">
+    <nav ng-if="showNavBar" class="navbar navbar-default" ng-controller="NavBarController">
       <div class="container-fluid">
         <ul class="nav navbar-nav navbar-right">
           <li ng-if="!user">
