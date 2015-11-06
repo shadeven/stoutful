@@ -1,23 +1,10 @@
 angular.module('stoutful.controllers').
   controller('NavBarController', function($scope, $modal, $http, session, $window) {
-    var auth2;
-    gapi.load('auth2', function() {
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
-      auth2 = gapi.auth2.init({
-        client_id: '1068487601849-a0ep88imse3bn202daabmndcni4abhgl.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-        scope: 'https://www.googleapis.com/auth/plus.login email'
-      });
 
-      $http({ method: 'GET', url: '/api/users/me' })
-        .then(function(response) {
-          $scope.user = session.user = response.data;
-          $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-    });
+    if (session.user) {
+      $scope.user = session.user;
+      $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
+    }
 
     // Watch for session user change
     $scope.$watch(function() { return session.user; }, function() {
