@@ -18,7 +18,7 @@ angular.module('stoutful.controllers').
         })
         .then(function(response) {
           $scope.loading = false;
-          session.user = response.data;
+          session.setUser(response.data);
           $scope.modalInstance.close();
         })
         .catch(function(err) {

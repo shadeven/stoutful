@@ -17,7 +17,7 @@ angular.module('stoutful.controllers').
 
       $http({ method: 'GET', url: '/api/users/me' })
         .then(function(response) {
-          session.user = response.data;
+          session.setUser(response.data);
           $location.url('/profile');
         })
         .catch(function(err) {
@@ -25,18 +25,5 @@ angular.module('stoutful.controllers').
             session.destroy();
           }
         });
-
-      // auth2.isSignedIn.listen(function(signedIn) {
-      //   if (signedIn) {
-      //     $http({ method: 'GET', url: '/api/users/me' })
-      //       .then(function(response) {
-      //         session.user = response.data;
-      //         $location.url('/profile');
-      //       })
-      //       .catch(function(err) {
-      //         console.log(err);
-      //       });
-      //   }
-      // });
     });
   });

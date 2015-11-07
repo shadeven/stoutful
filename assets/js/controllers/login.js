@@ -10,7 +10,7 @@ angular.module('stoutful.controllers')
         })
         .then(function(response) {
           $scope.loading = false;
-          session.user = response.data;
+          session.setUser(response.data);
           $location.url('/profile');
         })
         .catch(function(err) {
@@ -42,13 +42,12 @@ angular.module('stoutful.controllers')
 
         $scope.loading = true;
         $http(req)
-          .then(function(response) {
-            session.setExpiresAt(response.data.expires_at);
+          .then(function() {
             return $http({ method: 'GET', url: '/api/users/me' });
           })
           .then(function(response) {
             $scope.loading = false;
-            session.user = response.data;
+            session.setUser(response.data);
             $location.url('/profile');
           })
           .catch(function(err) {
