@@ -60,6 +60,7 @@ angular.module('stoutful.controllers').
     $scope.logout = function() {
       $http({method: 'GET', url: '/logout'}).
         then(function() {
+          var auth2 = gapi.auth2.getAuthInstance();
           return auth2.signOut();
         }).
         then(function() {
