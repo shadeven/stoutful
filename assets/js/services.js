@@ -13,6 +13,7 @@ angular.module('stoutful.services', ['ngCookies']).
         return this.user !== undefined;
       }
     };
+    session.user = $cookies.getObject('user');
     return session;
   }).
   service('basicAuth', function($http, $base64) {
