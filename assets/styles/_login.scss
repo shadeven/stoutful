@@ -1,7 +1,7 @@
-.login {
+.login, .register {
   color: #333;
 
-  .login-title {
+  .title {
     text-align: left;
   }
 
@@ -14,7 +14,7 @@
     display: block;
   }
 
-  .google-login-title {
+  .google-title {
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 5px;
@@ -46,7 +46,7 @@
     }
   }
 
-  .btn-google-signup {
+  .btn-google-register {
     background-image: url('../images/btn_google_signup_dark_normal_web.png');
 
     &:focus {

@@ -1,0 +1,37 @@
+<div class="register container" ng-controller="RegisterController">
+  <div class="row">
+
+    <form class="col-sm-4 col-sm-offset-4" name="regsterForm" novalidate>
+      <h2 class="title">Sign Up</h2>
+
+      <!-- Error -->
+      <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
+
+      <div class="form-group" ng-class="{'has-error': registerForm.firstName.$invalid}">
+        <input name="firstName" type="text" class="form-control" placeholder="First Name" ng-model="firstName" required>
+      </div>
+      <div class="form-group" ng-class="{'has-error': registerForm.lastName.$invalid}">
+        <input name="lastName" type="text" class="form-control" placeholder="Last Name" ng-model="lastName" required>
+      </div>
+      <div class="form-group" ng-class="{'has-error': registerForm.email.$invalid}">
+        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
+      </div>
+      <div class="form-group" ng-class="{'has-error': registerForm.password.$invalid}">
+        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
+      </div>
+      <button class="ladda-button btn btn-primary" data-style="expand-right" ladda-button="loading" ng-click="register()">
+        <span class="ladda-label">Sign Up</span>
+      </button>
+
+      <p class="google-title">Have a Google account?</p>
+
+      <button class="ladda-button btn-google btn-google-register"
+        data-style="zoom-in"
+        ladda-button="loading"
+        ng-disabled="loading"
+        ng-click="logInWithGoogle()">
+      </button>
+    </form>
+
+  </div>
+</div>
