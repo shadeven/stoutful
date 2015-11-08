@@ -16,47 +16,6 @@ angular.module('stoutful.controllers').
       }
     });
 
-    $scope.openLogin = function() {
-      $modal.open({
-        templateUrl: 'partials/login-modal.html',
-        controller: 'ModalLoginController',
-        windowClass: 'login',
-        resolve: {
-          title: function() {
-            return 'Log In';
-          },
-          contentTemplate: function() {
-            return 'partials/provider-login.html';
-          },
-          legacyTemplate: function() {
-            return 'partials/legacy-login.html';
-          }
-        }
-      });
-    };
-
-    $scope.openSignup = function() {
-      $modal.open({
-        templateUrl: 'partials/login-modal.html',
-        controller: 'ModalLoginController',
-        windowClass: 'login',
-        resolve: {
-          title: function() {
-            return 'Sign Up';
-          },
-          contentTemplate: function() {
-            return 'partials/provider-signup.html';
-          },
-          legacyTemplate: function() {
-            return 'partials/legacy-signup.html';
-          },
-          legacyText: function() {
-            return 'Sign up with email and password';
-          }
-        }
-      });
-    };
-
     $scope.logout = function() {
       $http({method: 'GET', url: '/logout'})
         .then(function() {
