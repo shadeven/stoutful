@@ -25,6 +25,7 @@
     <div class="col-sm-12">
       <h3>Recent Activity</h3>
       <span class="empty-inline" ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
+      <span class="item" ng-show="activities && activities.length > 0">Like: {{likeCounter}} Check in: {{checkInCounter}}</span>
       <ul class="activities" ng-show="activities && activities.length > 0">
         <li class="item" ng-repeat="activity in activities">
           {{activity.user.first_name}} {{actionVerbForActivityType(activity.type)}} this beer on
