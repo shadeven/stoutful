@@ -65,30 +65,14 @@ angular.module('stoutful.controllers').
       }
     };
 
-    rx.Observable.fromPromise($http.get('/api/activities', config))
-      .flatMap(function(response) {
-        return rx.Observable.from(response.data)
-          .flatMap(function(activity) {
-            updateCounters(activity);
-
-            var userId = activity.user_id;
-            return populateUser(userId, activity);
-          })
-          .toArray();
+    $http.get('/api/activities', config)
+      .then(function(response) {
+        $scope.activities = response.data;
+        _.each($scope.activities, updateCounters);
       })
-      .subscribe(function(activities) {
-        $scope.$apply(function() {
-          $scope.activities = activities;
-        });
+      .catch(function(err) {
+        console.log(err);
       });
-
-    function populateUser(userId, activity) {
-      var getUser = rx.Observable.fromPromise($http.get('/api/users/' + userId));
-      return rx.Observable.zip(rx.Observable.just(activity), getUser, function(activity, user) {
-        activity.user = user.data;
-        return activity;
-      });
-    }
 
     function updateCounters(activity) {
       if ('like' === activity.type) {
