@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{ title }}</h3>
+</div>
+
+<div class="modal-body">
+  <!-- Legacy login form -->
+  <ng-include ng-show="legacy" src="legacyTemplate"></ng-include>
+
+  <!-- New login form -->
+  <ng-include ng-show="!legacy" src="contentTemplate"></ng-include>
+</div>

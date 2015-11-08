@@ -1,11 +1,34 @@
-<div class="modal-header">
-  <h3 class="modal-title">{{ title }}</h3>
-</div>
+<div class="login container" ng-controller="LoginController">
+  <div class="row">
 
-<div class="modal-body">
-  <!-- Legacy login form -->
-  <ng-include ng-show="legacy" src="legacyTemplate"></ng-include>
+    <form class="col-sm-4 col-sm-offset-4" name="loginForm" novalidate>
+      <h2 class="title">Login</h2>
 
-  <!-- New login form -->
-  <ng-include ng-show="!legacy" src="contentTemplate"></ng-include>
+      <!-- Error -->
+      <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
+
+      <div class="form-group" ng-class="{'has-error': loginForm.email.$invalid}">
+        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
+      </div>
+      <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid}">
+        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
+      </div>
+      <button class="ladda-button btn btn-primary btn-login"
+        data-style="expand-right"
+        ladda-button="loading"
+        ng-click="logIn()">
+          <span class="ladda-label">Log In</span>
+      </button>
+
+      <p class="google-title">Have a Google account?</p>
+
+      <button class="ladda-button btn-google btn-google-login"
+        data-style="zoom-in"
+        ladda-button="loading"
+        ng-disabled="loading"
+        ng-click="logInWithGoogle()">
+      </button>
+    </form>
+
+  </div>
 </div>

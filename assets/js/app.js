@@ -33,9 +33,13 @@ app.run(function(formlyConfig, $rootScope, session, $location) {
   // Route policies
 
   $rootScope.$on('$routeChangeStart', function(event, next) {
+    var nextController = next.$$route.controller;
     var authenticated = session.isLoggedIn();
 
+    $rootScope.showNavBar = nextController !== 'SplashController';
+
     if (!authenticated && next.requiresAuth) {
+      console.log('Not authenticated, redirecting back to /');
       $location.path('/'); // For now, just return to the home page
     }
   });
@@ -46,8 +50,8 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   /* Configure routes */
 
   $routeProvider.when('/', {
-    templateUrl: 'partials/search.html',
-    controller: 'SearchController'
+    templateUrl: 'partials/splash.html',
+    controller: 'SplashController',
   })
   .when('/profile', {
     templateUrl: 'partials/profile.html',

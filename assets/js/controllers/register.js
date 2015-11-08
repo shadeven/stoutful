@@ -1,6 +1,6 @@
-angular.module('stoutful.controllers').
-  controller('LegacySignupController', function($scope, $http, $window, session, basicAuth) {
-    $scope.legacySignUp = function() {
+angular.module('stoutful.controllers')
+  .controller('RegisterController', function($scope, $http, basicAuth, session) {
+    $scope.register = function() {
       var data = {
         first_name: $scope.firstName,
         last_name: $scope.lastName,
@@ -18,10 +18,9 @@ angular.module('stoutful.controllers').
         })
         .then(function(response) {
           $scope.loading = false;
-          session.user = response.data;
-          $scope.modalInstance.close();
+          session.setUser(response.data);
         })
-        .catch(function(err) {
+        .catch(function() {
           $scope.loading = false;
           $scope.error = {
             type: 'danger',

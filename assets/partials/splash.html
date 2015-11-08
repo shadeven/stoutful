@@ -1,0 +1,13 @@
+<div class="splash-container">
+  <div class="splash-content">
+    <div ng-if="!showLogin && !showRegister">
+      <h1>Stoutful</h1>
+      <h3>Discover your beer</h3>
+      <button class="btn btn-default btn-login" ng-click="showLoginPartial()">Login</button>
+      <button class="btn btn-default btn-signup" ng-click="showRegisterPartial()">Sign up</button>
+    </div>
+
+    <ng-include ng-if="showLogin" src="loginPartial"></ng-include>
+    <ng-include ng-if="showRegister" src="registerPartial"></ng-include>
+  </div>
+</div>

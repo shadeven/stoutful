@@ -1,23 +1,25 @@
-.login {
-  button {
-    &:focus {
-      outline: none;
-    }
+.login, .register {
+  color: #333;
 
-    &:active {
-      outline: none;
-    }
+  .title {
+    text-align: left;
   }
 
-  .provider-login, .provider-signup {
-    text-align: center;
+  form {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+  }
 
-    .ladda-button {
-      &:hover {
-        border: 0;
-        background-color: transparent;
-      }
-    }
+  button {
+    display: block;
+  }
+
+  .google-title {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    text-align: left;
   }
 
   .btn-google {
@@ -45,7 +47,7 @@
     }
   }
 
-  .btn-google-signup {
+  .btn-google-register {
     background-image: url('../images/btn_google_signup_dark_normal_web.png');
 
     &:focus {

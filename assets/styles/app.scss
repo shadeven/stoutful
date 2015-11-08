@@ -4,9 +4,15 @@
 @import 'beer-details';
 @import 'patches';
 @import 'patch-details';
+@import 'splash';
 
 h1, h2, h3 {
   margin-top: 0;
+}
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
 }
 
 .search {

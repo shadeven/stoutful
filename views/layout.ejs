@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles/vendor/ladda.min.css">
     <link rel="stylesheet" href="styles/vendor/bootstrap.css">
     <link rel="stylesheet" href="styles/app.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Slab:300' type='text/css'>
 
     <!-- javascripts -->
     <script src="https://apis.google.com/js/platform.js"></script>
@@ -19,13 +20,9 @@
   </head>
   <body>
     <!-- nav bar -->
-    <nav class="navbar navbar-default" ng-controller="NavBarController">
+    <nav ng-if="showNavBar" class="navbar navbar-default" ng-controller="NavBarController">
       <div class="container-fluid">
         <ul class="nav navbar-nav navbar-right">
-          <li ng-if="!user">
-            <button type="button" class="btn btn-default navbar-btn" ng-click="openLogin()">Log In</button>
-            <button type="button" class="btn btn-default navbar-btn" ng-click="openSignup()">Sign Up</button>
-          </li>
           <li class="dropdown" ng-if="user">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button">{{ userName }} <span class="caret"></span></a>
             <ul class="dropdown-menu">
