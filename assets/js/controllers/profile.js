@@ -19,8 +19,8 @@ angular.module('stoutful.controllers').
         return 'Liked';
       }
 
-      if (type === 'drink') {
-        return 'Drank';
+      if (type === 'check_in') {
+        return 'Checked into';
       }
 
       return null;
