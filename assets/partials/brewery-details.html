@@ -7,7 +7,7 @@
         <a href ng-click="editBrewery()">Submit a patch!</a>
       </alert>
       <div class="jumbotron">
-        <img class="background" ng-model="brewery.image_url" ng-background-image="{{ brewery.image_url }}">
+        <img class="background" ng-model="brewery.image_url" ng-background-image="{{ brewery.image_url || placeholder }}">
         <h1>{{brewery.name}}</h1>
         <h4>{{brewery.city}}, {{brewery.state}}</h4>
       </div>

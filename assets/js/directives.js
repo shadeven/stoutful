@@ -9,16 +9,12 @@ angular.module('stoutful.directives', []).
             if (!newValue) return;
             elem.css('background-image', 'url(\'' + newValue + '\')');
           });
-        } else {
-          elem.css('background-image', 'url(/images/beer-placeholder.jpg)');
         }
 
         if (attr.ngBackgroundImage) {
           elem.css('background-image', 'url(\'' + attr.ngBackgroundImage + '\')');
           attr.$set('ngBackgroundImage', null);
-        } else {
-          elem.css('background-image', 'url(/images/beer-placeholder.jpg)');
-        }
+        } 
       }
     };
   })

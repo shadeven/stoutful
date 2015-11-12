@@ -7,7 +7,7 @@
         <a href ng-click="editBeer()">Submit a patch!</a>
       </alert>
       <div class="jumbotron">
-        <img class="background" ng-model="beer.image_url" ng-background-image="{{ beer.image_url }}">
+        <img class="background" ng-model="beer.image_url" ng-background-image="{{ beer.image_url || placeholder }}">
         <h1>{{ beer.name }}</h1>
         <h4>{{ beer.brewery.name }}</h4>
         <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>

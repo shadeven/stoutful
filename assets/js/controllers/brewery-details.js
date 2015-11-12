@@ -2,6 +2,7 @@ angular.module('stoutful.controllers').
   controller('BreweryDetailsController', function($scope, $routeParams, $http, rx, $modal, session) {
     var breweryId = $routeParams.breweryId;
     $scope.showAlert = session.isLoggedIn();
+    $scope.placeholder = '/images/placeholder.jpg';
 
     $scope.editBrewery = function() {
       $modal.open({
