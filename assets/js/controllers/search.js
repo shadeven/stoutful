@@ -13,32 +13,21 @@ angular.module('stoutful.controllers').
 
     $scope.performSearch = function(query) {
       var value = query;
-      var searchBeers = rx.Observable.fromPromise($http.get('/api/beers/search?query=' + value));
-      var searchBreweries = rx.Observable.fromPromise($http.get('/api/breweries/search?query=' + value));
 
-      $scope.models = [];
-      rx.Observable.forkJoin(searchBeers, searchBreweries)
-        .flatMapLatest(function(dataArray) {
-          return rx.Observable.from(dataArray);
-        })
-        .map(function(data) {
-          return data.data;
-        })
-        .subscribe(
-          function(data) {
-            $scope.models = $scope.models.concat(data);
-          },
-          function(err) {
-            console.log('Err = ', err);
-          }
-        );
+      return Promise.all([$http.get('/api/beers/search?query=' + value),
+        $http.get('/api/breweries/search?query=' + value)])
+          .then(function(values) {
+            var response1 = values[0].data;
+            var response2 = values[1].data;
+            return response1.concat(response2);
+          });
     };
 
-    $scope.open = function (model) {
-      if (model.brewery) {
-        $location.url('/beer/' + model.id);
+    $scope.onSelect = function (item) {
+      if (item.brewery) {
+        $location.url('/beer/' + item.id);
       } else {
-        $location.url('/brewery/' + model.id);
+        $location.url('/brewery/' + item.id);
       }
     };
   });

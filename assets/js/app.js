@@ -53,6 +53,11 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
     templateUrl: 'partials/splash.html',
     controller: 'SplashController',
   })
+  .when('/search', {
+    templateUrl: 'partials/search.html',
+    controller: 'SearchController',
+    requiresAuth: true
+  })
   .when('/profile', {
     templateUrl: 'partials/profile.html',
     controller: 'ProfileController',

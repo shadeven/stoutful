@@ -16,10 +16,10 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    user_id: {
+    user: {
       type: 'integer',
-      required: true,
-      notNull: true
+      columnName: 'user_id',
+      model: 'user'
     },
     beer_id: {
       type: 'integer',

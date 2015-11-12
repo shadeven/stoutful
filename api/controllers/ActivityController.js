@@ -26,7 +26,7 @@ module.exports = {
       query.limit = 10;
     }
 
-    var promise = Activity.find(query).sort('timestamp desc');
+    var promise = Activity.find(query).sort('timestamp desc').populate('user');
 
     Rx.Observable.fromPromise(promise)
       .flatMap(function (activities) {
@@ -50,7 +50,7 @@ module.exports = {
     var body = req.body;
 
     // user can only create an Activity for themselves!
-    if (user.id != body.user_id) {
+    if (user.id != body.user) {
       return res.forbidden({error: 'Users can only create an Activity for themselves.'});
     }
 
