@@ -31,6 +31,10 @@ angular.module('stoutful.controllers').
       }
     };
 
+    $scope.showBeerDetails = function(beer) {
+      $location.url('/beer/' + beer.id);
+    };
+
     $http.get('/api/beers/popular')
       .then(function(results) {
         $scope.popular = results.data;
