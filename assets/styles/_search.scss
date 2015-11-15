@@ -1,0 +1,13 @@
+.popular {
+  .col-sm-2 {
+    background-color: #DDD;
+    margin: 2px;
+  }
+}
+@media (min-width: 992px) {
+  .home {
+    .container {
+      width: 900px;
+    }
+  }
+}
