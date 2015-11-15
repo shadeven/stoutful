@@ -120,5 +120,22 @@ module.exports = {
           res.serverError(err);
         });
     });
+  },
+
+  popular: function(req, res) {
+    var activityQuery = Promise.promisify(Activity.query);
+    activityQuery("SELECT beer_id, count(beer_id) FROM activities WHERE type = 'like' GROUP BY beer_id ORDER BY count DESC LIMIT 10")
+      .then(function(results) {
+        var promises = results.rows.map(function(result) {
+          return Beer.find(result.beer_id).populateAll();
+        });
+        return Promise.all(promises);
+      })
+      .then(function(beers) {
+        res.ok(beers);
+      })
+      .catch(function(err) {
+        res.serverError(err);
+      });
   }
 };
