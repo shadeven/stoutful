@@ -126,10 +126,10 @@ module.exports = {
     var activityQuery = Promise.promisify(Activity.query);
     activityQuery("SELECT beer_id, count(beer_id) FROM activities WHERE type = 'like' GROUP BY beer_id ORDER BY count DESC LIMIT 10")
       .then(function(results) {
-        var promises = results.rows.map(function(result) {
-          return Beer.find(result.beer_id).populateAll();
+        var query = results.rows.map(function(result) {
+          return {id: result.beer_id};
         });
-        return Promise.all(promises);
+        return Beer.find(query).populateAll();
       })
       .then(function(beers) {
         res.ok(beers);
