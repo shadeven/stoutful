@@ -4,9 +4,9 @@
  * @description :: Server-side logic for managing beers
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-/* global Beer, Brewery, Style, Category, Patch */
-var Rx = require('rx');
+/* global Beer, Patch, Activity */
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+var Promise = require('bluebird');
 
 module.exports = {
   findOne: function(req, res) {
@@ -16,31 +16,40 @@ module.exports = {
       return res.badRequest({error: 'id is not a number'});
     }
 
-    return Rx.Observable.fromPromise(Beer.findOne({id: id}))
-      .flatMap(populate)
-      .subscribe(function (beer) {
-        res.json(beer);
-      }, function (err) {
+    Beer.findOne({id: id})
+      .populateAll()
+      .then(function(beers) {
+        res.ok(beers);
+      })
+      .catch(function(err) {
         res.serverError(err);
       });
   },
+
   suggestions: function(req, res) {
     res.json({ok: "ok"});
   },
+
   search: function(req, res) {
     var query = req.query.query;
-    searchBeer(query)
-      .flatMap(function (beers) {
-        return Rx.Observable.from(beers);
-      })
-      .flatMap(populate)
-      .toArray()
-      .subscribe(function (beers) {
-        res.json(beers);
-      }, function (err) {
-        res.serverError(err);
+    Beer.search({
+      index: 'stoutful',
+      body: { query: { match: { name: query }}}
+    })
+    .then(function(results) {
+      var ids = results.hits.hits.map(function(hit) {
+        return {id: parseInt(hit._id)};
       });
+      return Beer.find(ids).populateAll();
+    })
+    .then(function(beers) {
+      res.ok(beers);
+    })
+    .catch(function(err) {
+      res.serverError(err);
+    });
   },
+
   update: function(req, res) {
     // Do we have a user?
     var user = req.user;
@@ -113,42 +122,3 @@ module.exports = {
     });
   }
 };
-
-function populate(beer) {
-  var beerObservable = Rx.Observable.just(beer);
-  return Rx.Observable.zip(beerObservable, getBrewery(beer.brewery_id), getStyle(beer.style_id), getCategory(beer.cat_id), function (beer, brewery, style, category) {
-    beer.brewery = brewery;
-    beer.style = style;
-    beer.category = category;
-    return beer;
-  });
-}
-
-function searchBeer(query) {
-  return Rx.Observable.fromPromise(Beer.search({
-    index: 'stoutful',
-    body: { query: { match: { name: query }}}
-  }))
-  .flatMap(function (result) {
-    return Rx.Observable.from(result.hits.hits);
-  })
-  .map(function (hit) {
-    return {id: parseInt(hit._id)};
-  })
-  .toArray()
-  .switchMap(function (ids) {
-    return Rx.Observable.fromPromise(Beer.find(ids));
-  });
-}
-
-function getBrewery(breweryId) {
-  return Rx.Observable.fromPromise(Brewery.findOne({id: breweryId}));
-}
-
-function getStyle(styleId) {
-  return Rx.Observable.fromPromise(Style.findOne({id: styleId}));
-}
-
-function getCategory(categoryId) {
-  return Rx.Observable.fromPromise(Category.findOne({id: categoryId}));
-}
