@@ -17,24 +17,10 @@
     <!-- Most Popular -->
     <div class="row popular">
       <h1>Most Popular</h1>
-      <div>
-        <div class="col-sm-2">
-          Test
-        </div>
-        <div class="col-sm-2">
-          Test
-        </div>
-        <div class="col-sm-2">
-          Test
-        </div>
-        <div class="col-sm-2">
-          Test
-        </div>
-        <div class="col-sm-2">
-          Test
-        </div>
-        <div class="col-sm-2">
-          Test
+      <div class="items" ng-if="popular">
+        <div class="item col-sm-3" ng-repeat="beer in popular">
+          <img class="item-background" ng-model="beer.image_url" ng-background-image="{{ beer.image_url }}">
+          <span class="item-label">{{ beer.name }}</span>
         </div>
       </div>
     </div>
