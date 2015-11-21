@@ -1,5 +1,6 @@
 /* global User, Activity */
 
+var Promise = require('bluebird');
 var request = require('supertest');
 var moment = require('moment');
 var urlencode = require('urlencode');
@@ -19,25 +20,27 @@ describe.only('ActivityController', function () {
 
   describe('#find()', function () {
     var accessToken;
-    var user;
+    var john, stannis;
 
     before(function (done) {
-      User.find().limit(1).exec(function (err, users) {
-        if (err) return done(err);
-        user = users[0];
-        helpers.signIn(user, function (err, token) {
-          accessToken = token;
-          done(err);
-        });
-      });
+      Promise.all([User.findOne(1), User.findOne(2)])
+        .then(function(users) {
+          john = users[0];
+          stannis = users[1];
+          helpers.signIn(john, function (err, token) {
+            accessToken = token;
+            done(err);
+          });
+        })
+        .catch(done);
     });
 
     context('with signed in user', function() {
       var activities;
 
       before(function (done) {
-        var attrs1 = factory.build('activity', {"id": 1, "type": "check_in", "user_id": user.id});
-        var attrs2 = factory.build('activity', {"id": 2, "type": "check_in", "user_id": user.id + 1});
+        var attrs1 = factory.build('activity', {"id": 1, "type": "check_in", "user_id": john.id});
+        var attrs2 = factory.build('activity', {"id": 2, "type": "check_in", "user_id": stannis.id});
 
         Activity.create([attrs1, attrs2]).exec(function (err, models) {
           activities = models;
@@ -53,12 +56,14 @@ describe.only('ActivityController', function () {
 
       it('should return all activities', function (done) {
         var expectedJSON = [factory.build('/api/activities', {
+          'id': 1,
+          'user': john.toJSON(),
           'timestamp': activities[0].timestamp.toJSON()
         })];
 
         expectedJSON.push(factory.build('/api/activities', {
           'id': 2,
-          'user_id': 2,
+          'user': stannis.toJSON(),
           'timestamp': activities[0].timestamp.toJSON()
         }));
 
@@ -73,7 +78,7 @@ describe.only('ActivityController', function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": user.id});
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": john.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
@@ -96,6 +101,7 @@ describe.only('ActivityController', function () {
 
       it('should return the correct JSON', function (done) {
         var expectedJSON = [factory.build('/api/activities', {
+          'user': john.toJSON(),
           'timestamp': activity.timestamp.toJSON()
         })];
 
@@ -111,7 +117,7 @@ describe.only('ActivityController', function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": user.id});
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": john.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
@@ -134,6 +140,7 @@ describe.only('ActivityController', function () {
 
       it('should return the correct JSON', function (done) {
         var expectedJSON = [factory.build('/api/activities', {
+          'user': john.toJSON(),
           'timestamp': activity.timestamp.toJSON()
         })];
 
