@@ -17,6 +17,14 @@ html, body, #app {
   height: 100%;
 }
 
+.background-image {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .search {
   .search-bar {
     margin-top: 30px;

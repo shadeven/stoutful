@@ -19,8 +19,8 @@
       <h1>Most Popular</h1>
       <div class="items" ng-if="popular">
         <div class="item col-sm-3" ng-repeat="beer in popular">
-          <img class="item-background" ng-model="beer.image_url"
-            ng-background-image="{{ beer.image_url }}"
+          <img class="background-image" ng-model="beer.image_url"
+            ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
             ng-click="showBeerDetails(beer)">
           <span class="item-label">{{ beer.name }}</span>
         </div>
