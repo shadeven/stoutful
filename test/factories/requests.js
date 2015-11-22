@@ -6,5 +6,5 @@ module.exports = function (factory) {
     .attr("beer_id", 1)
     .attr("type", "check_in")
     .attr("timestamp", moment().utc().toDate().toJSON())
-    .attr("beer", factory.build('beer'));
+    .attr("beer", factory.build('beer', {'brewery': factory.build('brewery')}));
 };

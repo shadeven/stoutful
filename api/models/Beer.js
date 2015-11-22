@@ -20,7 +20,6 @@ module.exports = {
       type: 'integer',
       columnName: 'brewery_id',
       notNull: true,
-      required: true,
       model: 'brewery'
     },
     name: {
@@ -31,14 +30,12 @@ module.exports = {
       type: 'integer',
       columnName: 'cat_id',
       notNull: true,
-      required: true,
       model: 'category'
     },
     style: {
       type: 'integer',
       columnName: 'style_id',
       notNull: true,
-      required: true,
       model: 'style'
     },
     abv: {

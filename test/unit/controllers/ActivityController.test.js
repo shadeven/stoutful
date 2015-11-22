@@ -13,9 +13,9 @@ describe.only('ActivityController', function () {
   before(function (done) {
     factory.load();
     var barrels = new Barrels();
-    barrels.populate(['user', 'brewery', 'beer'], function (err) {
+    barrels.populate(function (err) {
       done(err);
-    });
+    }, false);
   });
 
   describe('#find()', function () {
@@ -23,7 +23,7 @@ describe.only('ActivityController', function () {
     var john, stannis;
 
     before(function (done) {
-      Promise.all([User.findOne(1), User.findOne(2)])
+      Promise.all([User.findOne({"email": "jsnow283@gmail.com"}), User.findOne({"email": "stannisb@gmail.com"})])
         .then(function(users) {
           john = users[0];
           stannis = users[1];
@@ -39,8 +39,8 @@ describe.only('ActivityController', function () {
       var activities;
 
       before(function (done) {
-        var attrs1 = factory.build('activity', {"id": 1, "type": "check_in", "user_id": john.id});
-        var attrs2 = factory.build('activity', {"id": 2, "type": "check_in", "user_id": stannis.id});
+        var attrs1 = factory.build('activity', {"id": 1, "type": "check_in", "user": john.id});
+        var attrs2 = factory.build('activity', {"id": 2, "type": "check_in", "user": stannis.id});
 
         Activity.create([attrs1, attrs2]).exec(function (err, models) {
           activities = models;
@@ -49,9 +49,7 @@ describe.only('ActivityController', function () {
       });
 
       after(function (done) {
-        Activity.destroy().exec(function (err) {
-          done(err);
-        });
+        Activity.destroy().exec(done);
       });
 
       it('should return all activities', function (done) {
@@ -59,13 +57,11 @@ describe.only('ActivityController', function () {
           'id': 1,
           'user': john.toJSON(),
           'timestamp': activities[0].timestamp.toJSON()
-        })];
-
-        expectedJSON.push(factory.build('/api/activities', {
+        }), factory.build('/api/activities', {
           'id': 2,
           'user': stannis.toJSON(),
           'timestamp': activities[0].timestamp.toJSON()
-        }));
+        })];
 
         request(sails.hooks.http.app)
           .get('/api/activities')
@@ -78,7 +74,7 @@ describe.only('ActivityController', function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": john.id});
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user": john.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
@@ -86,9 +82,7 @@ describe.only('ActivityController', function () {
       });
 
       after(function (done) {
-        Activity.destroy().exec(function (err) {
-          done(err);
-        });
+        Activity.destroy().exec(done);
       });
 
       it('should return 200', function (done) {
@@ -117,7 +111,7 @@ describe.only('ActivityController', function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user_id": john.id});
+        var attrs = factory.build('activity', {"id": 1, "type": "check_in", "user": john.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
@@ -125,9 +119,7 @@ describe.only('ActivityController', function () {
       });
 
       after(function (done) {
-        Activity.destroy().exec(function (err) {
-          done(err);
-        });
+        Activity.destroy().exec(done);
       });
 
       it('should return 200', function (done) {

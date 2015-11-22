@@ -72,7 +72,7 @@ module.exports = {
 function beerObservable(beerId) {
   return Rx.Observable.fromPromise(Beer.findOne({id: beerId}))
     .switchMap(function (beer) {
-      return Rx.Observable.zip(Rx.Observable.just(beer), breweryObservable(beer.brewery_id), function (beer, brewery) {
+      return Rx.Observable.zip(Rx.Observable.just(beer), breweryObservable(beer.brewery), function (beer, brewery) {
         beer.brewery = brewery;
         return beer;
       });
