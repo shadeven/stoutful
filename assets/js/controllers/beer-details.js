@@ -4,6 +4,7 @@ angular.module('stoutful.controllers').
     $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
+    $scope.placeholder = '/images/placeholder.jpg';
 
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {

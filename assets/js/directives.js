@@ -14,7 +14,7 @@ angular.module('stoutful.directives', []).
         if (attr.ngBackgroundImage) {
           elem.css('background-image', 'url(\'' + attr.ngBackgroundImage + '\')');
           attr.$set('ngBackgroundImage', null);
-        }
+        } 
       }
     };
   })
