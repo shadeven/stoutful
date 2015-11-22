@@ -67,7 +67,7 @@ angular.module('stoutful.controllers').
       $http({ method: 'GET', url: '/api/users/me' })
         .then(function(response) {
           session.setUser(response.data);
-          $location.url('/search');
+          $location.url('/home');
         })
         .catch(function(err) {
           if (err.status === 401) {
