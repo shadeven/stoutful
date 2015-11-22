@@ -16,24 +16,27 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true
     },
-    brewery_id: {
+    brewery: {
       type: 'integer',
+      columnName: 'brewery_id',
       notNull: true,
-      required: true
+      model: 'brewery'
     },
     name: {
       type: 'string',
       notNull: true
     },
-    cat_id: {
+    category: {
       type: 'integer',
+      columnName: 'cat_id',
       notNull: true,
-      required: true
+      model: 'category'
     },
-    style_id: {
+    style: {
       type: 'integer',
+      columnName: 'style_id',
       notNull: true,
-      required: true
+      model: 'style'
     },
     abv: {
       type: 'float',

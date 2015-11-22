@@ -1,8 +1,8 @@
-<!-- search -->
-<div class="container-fluid">
-  <div class="search container">
-    <!-- search bar -->
+<div class="home container-fluid">
+  <div class="container">
+    <!-- Search -->
     <div class="row search-bar">
+      <h1>Search</h1>
       <form>
         <input type="text" class="form-control" placeholder="Search beer or brewery"
           ng-model="model"
@@ -12,6 +12,19 @@
           typeahead-editable="false"
           required>
       </form>
+    </div>
+
+    <!-- Most Popular -->
+    <div class="row popular">
+      <h1>Most Popular</h1>
+      <div class="items" ng-if="popular">
+        <div class="item col-sm-3" ng-repeat="beer in popular">
+          <img class="item-background" ng-model="beer.image_url"
+            ng-background-image="{{ beer.image_url }}"
+            ng-click="showBeerDetails(beer)">
+          <span class="item-label">{{ beer.name }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -5,6 +5,9 @@ module.exports = {
     },
     redis: {
       adapter: 'sails-memory'
+    },
+    elasticsearch: {
+      adapter: 'sails-memory'
     }
   }
 };
