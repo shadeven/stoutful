@@ -1,7 +1,7 @@
 angular.module('stoutful.controllers').
   controller('BeerDetailsController', function($scope, $routeParams, $http, rx, $modal, session) {
     var beerId = $routeParams.beerId;
-    $scope.showAlert = session.isLoggedIn();
+    $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
     $scope.placeholder = '/images/placeholder.jpg';
@@ -44,10 +44,10 @@ angular.module('stoutful.controllers').
 
     // Main
 
-    // Watch for session user change
+    // Watch for session user change (i.e. when user logs out)
     $scope.$watch(function() { return session.user; }, function() {
       $scope.user = session.user;
-      $scope.showAlert = session.isLoggedIn();
+      $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     });
 
     // Fetch beer

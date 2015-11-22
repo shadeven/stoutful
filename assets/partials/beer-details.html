@@ -6,12 +6,24 @@
       <alert type="info" ng-show="showAlert" close="showAlert = false">Notice a mistake?
         <a href ng-click="editBeer()">Submit a patch!</a>
       </alert>
+
       <div class="jumbotron">
         <img class="background background-image" ng-model="beer.image_url" ng-background-image="{{ beer.image_url || placeholder }}">
         <h1>{{ beer.name }}</h1>
         <h4>{{ beer.brewery.name }}</h4>
         <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
         <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
+      </div>
+
+      <div class="activity-counter" ng-show="activities && activities.length > 0">
+        <button class="btn btn-default" ng-disabled="!isLoggedIn">
+          <i class="icon stoutful-thumbs_up"></i>
+          <span>x {{likeCounter}}</span>
+        </button>
+        <button class="btn btn-default" ng-disabled="!isLoggedIn">
+          <i class="icon stoutful-beer"></i>
+          <span>x {{checkInCounter}}</span>
+        </button>
       </div>
 
       <h3>Description</h3>
@@ -25,7 +37,6 @@
     <div class="col-sm-12">
       <h3>Recent Activity</h3>
       <span class="empty-inline" ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
-      <span class="item" ng-show="activities && activities.length > 0">Like: {{likeCounter}} Check in: {{checkInCounter}}</span>
       <ul class="activities" ng-show="activities && activities.length > 0">
         <li class="item" ng-repeat="activity in activities">
           {{activity.user.first_name}} {{actionVerbForActivityType(activity.type)}} this beer on
