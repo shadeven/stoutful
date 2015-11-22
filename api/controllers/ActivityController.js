@@ -50,8 +50,10 @@ module.exports = {
     var body = req.body;
 
     // user can only create an Activity for themselves!
-    if (user.id != body.user) {
+    if (body.user && user.id != body.user) {
       return res.forbidden({error: 'Users can only create an Activity for themselves.'});
+    } else if (!body.user) {
+      body.user = user.id;
     }
 
     // Sanitize before inserting
@@ -60,6 +62,9 @@ module.exports = {
     }
 
     Activity.create(body)
+      .then(function(result) {
+        return Activity.findOne(result.id).populate('user');
+      })
       .then(function (result) {
         res.status(201).json(result);
       })

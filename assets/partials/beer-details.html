@@ -16,11 +16,13 @@
       </div>
 
       <div class="activity-counter" ng-show="activities && activities.length > 0">
-        <button class="btn btn-default" ng-disabled="!isLoggedIn">
+        <button class="btn btn-default" ng-disabled="!isLoggedIn"
+          ng-click="onLikeClicked()">
           <i class="icon stoutful-thumbs_up"></i>
           <span>x {{likeCounter}}</span>
         </button>
-        <button class="btn btn-default" ng-disabled="!isLoggedIn">
+        <button class="btn btn-default" ng-disabled="!isLoggedIn"
+          ng-click="onCheckInClicked()">
           <i class="icon stoutful-beer"></i>
           <span>x {{checkInCounter}}</span>
         </button>

@@ -42,6 +42,26 @@ angular.module('stoutful.controllers').
       });
     };
 
+    $scope.onLikeClicked = function() {
+      createActivity('like');
+    };
+
+    $scope.onCheckInClicked = function() {
+      createActivity('check_in');
+    };
+
+    function createActivity(type) {
+      $http.post("/api/users/activity", {"beer_id": $scope.beer.id, "type": type})
+        .then(function(response) {
+          if (type == 'like') {
+            $scope.likeCounter += 1;
+          } else if (type == 'check_in') {
+            $scope.checkInCounter += 1;
+          }
+          $scope.activities.unshift(response.data);
+        });
+    }
+
     // Main
 
     // Watch for session user change (i.e. when user logs out)
