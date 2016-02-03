@@ -51,7 +51,8 @@ angular.module('stoutful.controllers').
     };
 
     function createActivity(type) {
-      $http.post("/api/users/activity", {"beer_id": $scope.beer.id, "type": type})
+      var body = {"beer_id": $scope.beer.id, "type": type};
+      $http.post("/api/users/activity", body)
         .then(function(response) {
           if (type == 'like') {
             $scope.likeCounter += 1;
@@ -89,20 +90,17 @@ angular.module('stoutful.controllers').
     $http.get('/api/activities', config)
       .then(function(response) {
         $scope.activities = response.data;
-        _.each($scope.activities, updateCounters);
       })
       .catch(function(err) {
         console.log(err);
       });
 
-    function updateCounters(activity) {
-      if ('like' === activity.type) {
-        $scope.likeCounter++;
-      }
-
-      if ('check_in' === activity.type) {
-        $scope.checkInCounter++;
-      }
-    }
-
+    $http.get("/api/beers/" + $routeParams.beerId + "/stats")
+      .then(function(response) {
+        $scope.likeCounter = response.data.like_count;
+        $scope.checkInCounter = response.data.check_in_count;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   });
