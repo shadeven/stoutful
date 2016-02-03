@@ -7,4 +7,8 @@ module.exports = function (factory) {
     .attr("type", "check_in")
     .attr("timestamp", moment().utc().toDate().toJSON())
     .attr("beer", factory.build('beer', {'brewery': factory.build('brewery')}));
+
+  factory.define("/api/beers/1/stats")
+    .attr("like_count", 1)
+    .attr("check_in_count", 1);
 };

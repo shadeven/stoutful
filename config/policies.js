@@ -40,7 +40,8 @@ module.exports.policies = {
   BeerController: {
     'findOne': true,
     'search': true,
-    'popular': true
+    'popular': true,
+    'stats': true
   },
 
   BreweryController: {
