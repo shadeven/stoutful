@@ -24,7 +24,9 @@ module.exports = function(grunt) {
       }, {
         expand: true,
         cwd: './bower_components',
-        src: ['ladda/dist/ladda.min.css', 'bootstrap/dist/css/bootstrap.css'],
+        src: ['ladda/dist/ladda.min.css',
+          'bootstrap/dist/css/bootstrap.css',
+          'angular-material/angular-material.min.css'],
         flatten: true,
         dest: '.tmp/public/styles/vendor'
       }, {
