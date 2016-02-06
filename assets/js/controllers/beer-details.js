@@ -3,6 +3,7 @@ angular.module('stoutful.controllers').
     var beerId = $routeParams.beerId;
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
+    $scope.likeCounterByUser = 0;
     $scope.checkInCounter = 0;
     $scope.placeholder = '/images/placeholder.jpg';
 
@@ -90,6 +91,23 @@ angular.module('stoutful.controllers').
     $http.get('/api/activities', config)
       .then(function(response) {
         $scope.activities = response.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+
+    // Fetch like acitivity by beer and user.
+    var criteria = {
+      params: {
+        'beer_id': beerId,
+        'user_id': session.user.id,
+        'type': 'like'
+      }
+    };
+
+    $http.get('/api/activities', criteria)
+      .then(function(response) {
+        $scope.likeCounterByUser = response.data.length;
       })
       .catch(function(err) {
         console.log(err);
