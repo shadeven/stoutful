@@ -26,5 +26,13 @@
   },
   "resolutions": {
     "angular": "~1.4.6"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/js/bootstrap.min.js",
+        "dist/css/bootstrap.min.css"
+      ]
+    }
   }
 }

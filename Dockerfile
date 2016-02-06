@@ -18,6 +18,7 @@ RUN apt-get -y install postgresql
 
 RUN npm install -g sails
 RUN npm install -g knex
+RUN npm install -g gulp
 
 # Creates a mount dir at /app
 VOLUME /app
