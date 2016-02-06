@@ -10,6 +10,9 @@ Finally, run `docker-compose up -d`. This will start up postgres, redis, elastic
 
 If you need direct access to the web server, you can attach to it by running `docker exec -it <container_name> bash`. To figure out your web servers container name, run `docker-compose ps`. Please keep in mind that when you attach to the web server in this way, the app will still be running.
 
+## Front End
+The web front end is built using Angular (1.4.x). To compile all the assets together for the front end, simply run `gulp`. This will run pre-processors over all necessary files that make up the front end and write it out to the `dist/` directory. This will also watch for file changes and re-run the pre-processors.
+
 ## Port Forwarding (OSX and Windows only)
 In order to access the server from your computer, you will need to setup port forwarding on the virtual machine.
 
