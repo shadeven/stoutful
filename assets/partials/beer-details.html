@@ -16,8 +16,8 @@
       </div>
 
       <div class="activity-counter">
-        <button class="btn btn-default" ng-disabled="!isLoggedIn"
-          ng-click="onLikeClicked()">
+        <button class="btn btn-default" ng-disabled="!isLoggedIn || disableLikeBtn"
+          ng-click="onLikeClicked()" ng-model="disableLikeBtn">
           <i class="icon stoutful-thumbs_up"></i>
           <span>x {{likeCounter}}</span>
         </button>
