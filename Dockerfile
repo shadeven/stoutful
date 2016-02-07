@@ -20,6 +20,9 @@ RUN npm install -g sails
 RUN npm install -g knex
 RUN npm install -g gulp
 
+# Speed up npm install
+RUN npm set progress=false
+
 # Creates a mount dir at /app
 VOLUME /app
 
