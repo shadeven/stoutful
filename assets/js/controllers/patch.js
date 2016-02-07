@@ -1,14 +1,15 @@
 angular.module('stoutful.controllers')
-  .controller('PatchController', function($scope, $http, patchCache, $location) {
-    $scope.emptyTitle = 'Sorry!';
-    $scope.emptyMessage = 'No patches available.';
+  .controller('PatchController', function($http, patchCache, $location) {
+    var vm = this;
+    vm.emptyTitle = 'Sorry!';
+    vm.emptyMessage = 'No patches available.';
 
-    $scope.onPatchClicked = function(patch) {
+    vm.onPatchClicked = function(patch) {
       patchCache.push(patch);
       $location.url('/patches/' + patch.id);
     };
 
-    $scope.formattedTimestamp = function(timestamp) {
+    vm.formattedTimestamp = function(timestamp) {
       var date = moment(timestamp);
       var format;
       if (date.year() == moment().year()) {
@@ -19,14 +20,14 @@ angular.module('stoutful.controllers')
       return date.format(format);
     };
 
-    $scope.loading = true;
+    vm.loading = true;
     $http.get('/api/patches')
       .then(function(results) {
-        $scope.patches = results.data;
-        $scope.loading = false;
+        vm.patches = results.data;
+        vm.loading = false;
       })
       .catch(function(err) {
         console.log('Error fetching patches: ', err);
-        $scope.loading = false;
+        vm.loading = false;
       });
   });
