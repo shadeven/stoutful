@@ -4,13 +4,14 @@
     <div class="search" flex>
       <h1>Search</h1>
       <form>
-        <input type="text" class="form-control" placeholder="Search beer or brewery"
-          ng-model="model"
-          typeahead="model.name for model in performSearch($viewValue)"
-          typeahead-on-select="onSelect($item, $model, $label)"
-          typeahead-select-on-exact="true"
-          typeahead-editable="false"
-          required>
+        <md-autocomplete md-search-text="searchText"
+          md-min-length="3"
+          md-selected-item-change="onSelect(model)"
+          md-items="model in performSearch(searchText)"
+          md-item-text="model.name"
+          placeholder="Search beer or brewery">
+          <span md-highlight-text="searchText">{{model.name}}</span>
+        </md-autocomplete>
       </form>
     </div>
 
