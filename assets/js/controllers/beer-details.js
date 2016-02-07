@@ -108,9 +108,7 @@ angular.module('stoutful.controllers').
 
     $http.get('/api/activities', criteria)
       .then(function(response) {
-        if (response.data.length > 0) {
-          $scope.disableLikeBtn = true;
-        }
+        $scope.disableLikeBtn = response.data.length > 0;
       })
       .catch(function(err) {
         console.log(err);
