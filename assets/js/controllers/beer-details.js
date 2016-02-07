@@ -3,9 +3,8 @@ angular.module('stoutful.controllers').
     var beerId = $routeParams.beerId;
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
-    $scope.likeCounterByUser = 0;
     $scope.checkInCounter = 0;
-    $scope.isDisabled = false;
+    $scope.disableLikeBtn = false;
     $scope.placeholder = '/images/placeholder.jpg';
 
     $scope.actionVerbForActivityType = function(type) {
@@ -58,7 +57,7 @@ angular.module('stoutful.controllers').
         .then(function(response) {
           if (type == 'like') {
             $scope.likeCounter += 1;
-            $scope.isDisabled = true;
+            $scope.disableLikeBtn = true;
           } else if (type == 'check_in') {
             $scope.checkInCounter += 1;
           }
@@ -109,9 +108,8 @@ angular.module('stoutful.controllers').
 
     $http.get('/api/activities', criteria)
       .then(function(response) {
-        $scope.likeCounterByUser = response.data.length;
-        if ($scope.likeCounterByUser >= 1) {
-          $scope.isDisabled = true;
+        if (response.data.length > 0) {
+          $scope.disableLikeBtn = true;
         }
       })
       .catch(function(err) {
