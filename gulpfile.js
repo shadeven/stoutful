@@ -86,7 +86,13 @@ gulp.task("clean", function() {
 });
 
 gulp.task("watch", function() {
-  gulp.watch("assets/**/*", ["default"]);
+  var watchlist = [
+    "assets/**/*.js",
+    "assets/**/*.html",
+    "assets/**/*.ejs",
+    "assets/**/*.scss"
+  ];
+  gulp.watch(watchlist, ["default"]);
 });
 
 gulp.task("bower", ["bower:js", "bower:css", "bower:inject"]);
