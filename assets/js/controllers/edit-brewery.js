@@ -1,8 +1,9 @@
 angular.module('stoutful.controllers').
-  controller('EditBreweryCtrl', function ($scope, $modalInstance, $http, Upload, brewery, session, $modal) {
-    $scope.brewery = brewery;
-    $scope.image = $scope.brewery.image_url;
-    $scope.isLoggedIn = session.isLoggedIn();
+  controller('EditBreweryCtrl', function ($scope, $mdDialog, $http, Upload, brewery, session, $modal) {
+    var vm = this;
+    vm.brewery = brewery;
+    vm.image = vm.brewery.image_url;
+    vm.isLoggedIn = session.isLoggedIn();
 
     // Although Angular handles 2-way data binding for us, below is for recording which
     // attributes were changed so when it comes time to PUT, we only PUT the attributes
@@ -11,7 +12,7 @@ angular.module('stoutful.controllers').
       'description'];
     var changedAttributes = {};
     watchAttributes.forEach(function(attribute) {
-      $scope.$watch(function() { return $scope.brewery[attribute]; }, function(newValue, oldValue) {
+      $scope.$watch(function() { return vm.brewery[attribute]; }, function(newValue, oldValue) {
         if (_.isEqual(newValue, oldValue) || !newValue) return; // Invalid states, ignore
 
         console.log(attribute + ' has been changed.');
@@ -19,12 +20,12 @@ angular.module('stoutful.controllers').
       });
     });
 
-    $scope.close = function() {
-      $modalInstance.close();
+    vm.close = function() {
+      $mdDialog.hide();
     };
 
-    $scope.save = function() {
-      if (!$scope.editForm.$valid) return;
+    vm.save = function() {
+      if (!vm.editForm.$valid) return;
 
       var req = {
         url: '/api/breweries/' + brewery.id,
@@ -32,15 +33,15 @@ angular.module('stoutful.controllers').
         fields: changedAttributes
       };
 
-      if ($scope.image) {
-        req.file = $scope.image;
+      if (vm.image) {
+        req.file = vm.image;
       }
 
-      $scope.loading = true;
+      vm.loading = true;
       Upload.upload(req)
         .success(function() {
-          $scope.loading = false;
-          $modalInstance.close();
+          vm.loading = false;
+          $mdDialog.hide();
 
           // Show alert message
           $modal.open({
@@ -59,5 +60,9 @@ angular.module('stoutful.controllers').
         .error(function(err) {
           console.log('Err = ', err);
         });
+    };
+
+    vm.attachImage = function() {
+      $("input[type=file]").click();
     };
   });
