@@ -4,7 +4,6 @@ module.exports.up = function(knex) {
     table.integer('user_id').notNullable();
     table.integer('beer_id').notNullable();
     table.string('type').notNullable();
-    table.unique(['user_id', 'beer_id', 'type']);
     table.dateTime('timestamp').notNullable();
   });
 };
