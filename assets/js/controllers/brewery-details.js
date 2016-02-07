@@ -17,6 +17,10 @@ angular.module('stoutful.controllers').
       });
     };
 
+    $scope.closeAlert = function() {
+      $scope.showAlert = false;
+    };
+
     // Main
 
     // Watch for session user change

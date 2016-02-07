@@ -1,22 +1,29 @@
-<div class="container brewery-details">
+<div layout="row" layout-align="center center">
+  <md-card class="brewery-details" flex="80">
+    <div class="md-card-image background-image" ng-model="brewery.image_url"
+      ng-background-image="{{ brewery.image_url || placeholder }}">
+      <!-- No content -->
+    </div>
 
-  <div class="row details">
-    <div class="col-sm-12">
+    <md-toolbar ng-show="showAlert">
+      <div class="md-toolbar-tools">
+        <span>Notice a mistake?&nbsp;<a href ng-click="editBrewery()">Submit a patch!</a></span>
+        <span flex></span>
+        <md-button ng-click="closeAlert()"><md-icon>close</md-icon></md-button>
+      </div>
+    </md-toolbar>
 
-      <alert type="info" ng-show="showAlert" close="showAlert = false">Notice a mistake?
-        <a href ng-click="editBrewery()">Submit a patch!</a>
-      </alert>
-      <div class="jumbotron">
-        <img class="background" ng-model="brewery.image_url" ng-background-image="{{ brewery.image_url || placeholder }}">
+    <md-card-content>
+      <section>
         <h1>{{brewery.name}}</h1>
         <h4>{{brewery.city}}, {{brewery.state}}</h4>
-      </div>
+      </section>
 
-      <h3>Description</h3>
-      <span class="empty-inline" ng-if="!brewery.description">No description.</span>
-      <p class="description">{{ brewery.description }}</p>
-
-    </div>
-  </div>
-
+      <section>
+        <h3>Description</h3>
+        <span class="empty-inline" ng-if="!brewery.description">No description.</span>
+        <p class="description">{{ brewery.description }}</p>
+      </section>
+    </md-card-content>
+  </md-card>
 </div>
