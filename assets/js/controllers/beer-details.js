@@ -50,6 +50,10 @@ angular.module('stoutful.controllers').
       createActivity('check_in');
     };
 
+    $scope.closeAlert = function() {
+      $scope.showAlert = false;
+    };
+
     function createActivity(type) {
       var body = {"beer_id": $scope.beer.id, "type": type};
       $http.post("/api/users/activity", body)
