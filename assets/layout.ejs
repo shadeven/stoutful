@@ -6,6 +6,7 @@
     <title>Stoutful</title>
     <!-- bower:css -->
     <!-- endbower -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Slab:300' type='text/css'>
     <link rel="stylesheet" href="styles/app.css">
 
@@ -19,19 +20,7 @@
   </head>
   <body>
     <!-- nav bar -->
-    <nav ng-if="showNavBar" class="navbar navbar-default" ng-controller="NavBarController">
-      <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown" ng-if="user">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button">{{ userName }} <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a role="button" ng-click="onClickMyProfile()">My Profile</a></li>
-              <li><a role="button" ng-click="logout()">Logout</a></li>
-            </u>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <%-body%>
+    <%- partial ('toolbar.ejs') %>
+    <%- body %>
   </body>
 </html>

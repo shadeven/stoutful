@@ -1,0 +1,26 @@
+<div layout="column" ng-if="showNavBar" ng-controller="NavBarController">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <span>Stoutful</span>
+      <!-- fill up the space between left and right area -->
+      <span flex></span>
+      <md-menu ng-if="user">
+       <md-button ng-click="$mdOpenMenu($event)">
+         {{ userName }} <md-icon>arrow_drop_down</md-icon>
+       </md-button>
+       <md-menu-content>
+         <md-menu-item>
+           <md-button ng-click="onClickMyProfile()">
+             <md-icon>account_circle</md-icon> My Profile
+           </md-button>
+         </md-menu-item>
+         <md-menu-item>
+           <md-button ng-click="logout()">
+             <md-icon>exit_to_app</md-icon> Logout
+           </md-button>
+         </md-menu-item>
+       </md-menu-content>
+      </md-menu>
+    </div>
+  </md-toolbar>
+</div>
