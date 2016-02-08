@@ -1,17 +1,18 @@
 angular.module('stoutful.controllers')
   .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location, $modal, session) {
+    var vm = this;
     var patchId = $routeParams.patchId;
-    $scope.user = session.user;
-    if ($scope.user) {
-      $scope.canAcceptChanges = $scope.user.role === 'publisher';
+    vm.user = session.user;
+    if (vm.user) {
+      vm.canAcceptChanges = vm.user.role === 'publisher';
     } else {
-      $scope.canAcceptChanges = false;
+      vm.canAcceptChanges = false;
     }
 
-    $scope.original = {};
-    $scope.patched = {};
-    $scope.model = patchCache.findById(patchId);
-    $scope.form = {
+    vm.original = {};
+    vm.patched = {};
+    vm.model = patchCache.findById(patchId);
+    vm.form = {
       fields: {
         original: [],
         patch: [],
@@ -24,17 +25,17 @@ angular.module('stoutful.controllers')
       }
     };
 
-    $scope.onAcceptChanges = function() {
-      $scope.submitting = true;
+    vm.onAcceptChanges = function() {
+      vm.submitting = true;
       $http.delete('/api/patches/' + patchId)
         .then(function() {
-          $scope.submitting = false;
+          vm.submitting = false;
 
           // Redirect back to patches listing
           $location.url('/patches');
         })
         .catch(function(err) {
-          $scope.submitting = false;
+          vm.submitting = false;
           console.log(err);
         });
     };
@@ -43,18 +44,18 @@ angular.module('stoutful.controllers')
 
     // Watch for session user change
     $scope.$watch(function() { return session.user; }, function() {
-      $scope.user = session.user;
-      if ($scope.user) {
-        $scope.canAcceptChanges = $scope.user.role === 'publisher';
+      vm.user = session.user;
+      if (vm.user) {
+        vm.canAcceptChanges = vm.user.role === 'publisher';
       } else {
-        $scope.canAcceptChanges = false;
+        vm.canAcceptChanges = false;
       }
     });
 
-    if (!$scope.model) {
+    if (!vm.model) {
       $http.get('/api/patches/' + patchId)
         .then(function(response) {
-          $scope.model = response.data;
+          vm.model = response.data;
           loadPatchModel();
         })
         .catch(function(err) {
@@ -68,7 +69,7 @@ angular.module('stoutful.controllers')
 
     function addFormlyFields(model, array) {
       var keys = _.filter(_.keys(model), function(key) {
-        return _.indexOf($scope.form.fields.excludes, key) == -1;
+        return _.indexOf(vm.form.fields.excludes, key) == -1;
       });
 
       _.each(keys.sort(), function(key) {
@@ -80,21 +81,9 @@ angular.module('stoutful.controllers')
       var type = 'input';
       var templateOptions = {
         label: S(key).humanize().s,
-        removed: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] != model[key],
-        added: _.indexOf(_.keys($scope.model.changes), key) != -1 && $scope.model.changes[key] === model[key]
+        removed: _.indexOf(_.keys(vm.model.changes), key) != -1 && vm.model.changes[key] != model[key],
+        added: _.indexOf(_.keys(vm.model.changes), key) != -1 && vm.model.changes[key] === model[key]
       };
-
-      if (key === 'brewery') {
-        type = 'brewery-input';
-      }
-
-      if (key === 'category') {
-        type = 'category-input';
-      }
-
-      if (key === 'style') {
-        type = 'style-input';
-      }
 
       if (key === 'image_url') {
         type = 'image';
@@ -113,15 +102,15 @@ angular.module('stoutful.controllers')
     }
 
     function loadPatchModel() {
-      $http.get($scope.model.modelUrl)
+      $http.get(vm.model.modelUrl)
         .then(function(response) {
-          $scope.original = response.data;
-          addFormlyFields($scope.original, $scope.form.fields.original);
+          vm.original = response.data;
+          addFormlyFields(vm.original, vm.form.fields.original);
 
           // Construct "patched" model
-          var outer = _.omit($scope.original, _.keys($scope.model.changes));
-          $scope.patched = _.extend({}, $scope.model.changes, outer);
-          addFormlyFields($scope.patched, $scope.form.fields.patch);
+          var outer = _.omit(vm.original, _.keys(vm.model.changes));
+          vm.patched = _.extend({}, vm.model.changes, outer);
+          addFormlyFields(vm.patched, vm.form.fields.patch);
         })
         .catch(function(err) {
           console.log('Error loading model: ',err);

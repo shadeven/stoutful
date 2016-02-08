@@ -80,6 +80,7 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   .when('/patches/:patchId', {
     templateUrl: 'partials/patch-details.html',
     controller: 'PatchDetailsController',
+    controllerAs: "vm",
     requiresAuth: true
   });
 });
