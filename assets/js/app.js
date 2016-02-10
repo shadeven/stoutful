@@ -52,6 +52,7 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   $routeProvider.when('/', {
     templateUrl: 'partials/splash.html',
     controller: 'SplashController',
+    controllerAs: 'vm'
   })
   .when('/home', {
     templateUrl: 'partials/home.html',

@@ -28,4 +28,8 @@ angular.module('stoutful.controllers')
           };
         });
     };
+
+    $scope.dismiss = function() {
+      $scope.vm.showRegister = false;
+    };
   });

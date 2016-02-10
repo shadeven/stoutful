@@ -1,3 +1,7 @@
+// Variables
+$white: rgba(255, 255, 255, 0.87);
+$black: rgba(0, 0, 0, 0.87);
+
 @import 'card';
 @import 'empty';
 @import 'login';
@@ -8,6 +12,7 @@
 @import 'search';
 @import 'splash';
 @import 'font';
+@import "alerts";
 
 html, body {
   width: 100%;

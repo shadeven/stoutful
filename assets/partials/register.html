@@ -1,37 +1,66 @@
-<div class="register container" ng-controller="RegisterController">
-  <div class="row">
+<md-card class="register">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button" aria-label="Back"
+        ng-click="dismiss()">
+          <md-icon>arrow_back</md-icon>
+      </md-button>
+      <h2>
+        <span>Sign Up</span>
+      </h2>
+    </div>
+  </md-toolbar>
 
-    <form class="col-sm-4 col-sm-offset-4" name="registerForm" novalidate>
-      <h2 class="title">Sign Up</h2>
+  <md-card-content>
+    <form name="registerForm" novalidate>
 
       <!-- Error -->
       <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
 
-      <div class="form-group" ng-class="{'has-error': registerForm.firstName.$invalid}">
-        <input name="firstName" type="text" class="form-control" placeholder="First Name" ng-model="firstName" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': registerForm.lastName.$invalid}">
-        <input name="lastName" type="text" class="form-control" placeholder="Last Name" ng-model="lastName" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': registerForm.email.$invalid}">
-        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': registerForm.password.$invalid}">
-        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
-      </div>
-      <button class="ladda-button btn btn-primary" data-style="expand-right" ladda-button="loading" ng-click="register()">
-        <span class="ladda-label">Sign Up</span>
-      </button>
+      <md-input-container class="md-block"
+        ng-class="{'has-error': registerForm.firstName.$invalid}">
+          <label>First Name</label>
+          <input name="firstName" type="text" placeholder="First Name"
+            ng-model="firstName" required>
+      </md-input-container>
 
-      <p class="google-title">Have a Google account?</p>
+      <md-input-container class="md-block"
+        ng-class="{'has-error': registerForm.lastName.$invalid}">
+          <label>Last Name</label>
+          <input name="lastName" type="text" placeholder="Last Name"
+            ng-model="lastName" required>
+      </md-input-container>
 
-      <button class="ladda-button btn-google btn-google-register"
-        data-style="zoom-in"
-        ladda-button="loading"
-        ng-disabled="loading"
-        ng-click="logInWithGoogle()">
-      </button>
+      <md-input-container class="md-block"
+        ng-class="{'has-error': registerForm.email.$invalid}">
+          <label>Email</label>
+          <input name="email" type="email" placeholder="Email"
+            ng-model="email" required>
+      </md-input-container>
+
+      <md-input-container class="md-block"
+        ng-class="{'has-error': registerForm.password.$invalid}">
+          <label>Password</label>
+          <input name="password" type="password" placeholder="Password"
+            ng-model="password" required>
+      </md-input-container>
     </form>
 
-  </div>
-</div>
+  </md-card-content>
+  <md-card-footer layout="row" layout-align="end center">
+    <button class="ladda-button btn-google btn-google-login"
+      data-style="zoom-in"
+      ladda-button="loading"
+      ng-disabled="loading"
+      ng-click="vm.logInWithGoogle()">
+    </button>
+    <span flex></span>
+    <md-button class="ladda-button btn-login"
+      data-style="expand-right"
+      ladda-button="loading"
+      ng-disabled="!loginForm.$valid"
+      ng-click="register()">
+        <span class="ladda-label">Sign Up</span>
+    </md-button>
+  </md-card-footer>
+</md-card>

@@ -1,17 +1,18 @@
 angular.module('stoutful.controllers').
-  controller('SplashController', function($scope, $http, $location, session) {
-    $scope.loginPartial = 'partials/login.html';
-    $scope.registerPartial = 'partials/register.html';
+  controller('SplashController', function($http, $location, session) {
+    var vm = this;
+    vm.loginPartial = 'partials/login.html';
+    vm.registerPartial = 'partials/register.html';
 
-    $scope.showLoginPartial = function() {
-      $scope.showLogin = true;
+    vm.showLoginPartial = function() {
+      vm.showLogin = true;
     };
 
-    $scope.showRegisterPartial = function() {
-      $scope.showRegister = true;
+    vm.showRegisterPartial = function() {
+      vm.showRegister = true;
     };
 
-    $scope.logInWithGoogle = function() {
+    vm.logInWithGoogle = function() {
       var auth2 = gapi.auth2.getAuthInstance();
       var onSuccess = function(googleUser) {
         var authResponse = googleUser.getAuthResponse();
@@ -23,21 +24,21 @@ angular.module('stoutful.controllers').
         };
 
         if (accessToken) {
-          req.data = {'access_token': accessToken};
+          req.data = { 'access_token': accessToken };
         }
 
-        $scope.loading = true;
+        vm.loading = true;
         $http(req)
           .then(function() {
             return $http({ method: 'GET', url: '/api/users/me' });
           })
           .then(function(response) {
-            $scope.loading = false;
+            vm.loading = false;
             session.setUser(response.data);
             $location.url('/profile');
           })
           .catch(function(err) {
-            $scope.loading = false;
+            vm.loading = false;
             console.log('Error logging in: ', err);
             if (err.status == 401) {
               session.destroy();
@@ -48,9 +49,11 @@ angular.module('stoutful.controllers').
             }
           });
       };
+
       var onError = function(err) {
         console.log(err);
       };
+
       auth2.signIn().then(onSuccess, onError);
     };
 
