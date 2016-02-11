@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('NavBarController', function($scope, $modal, $http, session, $window, $location) {
+  controller('NavBarController', function($scope, $http, session, $window, $location) {
     // Kind of a hacky way to prevent this controller from executing on the splash page
     if ($location.url() === '/') return;
 

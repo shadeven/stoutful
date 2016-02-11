@@ -1,4 +1,4 @@
-var dependencies = ['ui.bootstrap',
+var dependencies = [
   'ngFileUpload',
   'oc.lazyLoad',
   'ngCookies',
@@ -8,7 +8,6 @@ var dependencies = ['ui.bootstrap',
   'rx',
   'angularMoment',
   'formly',
-  'formlyBootstrap',
   'ngMaterial'
 ];
 angular.module('stoutful.controllers', dependencies);

@@ -21,6 +21,7 @@ angular.module('stoutful.controllers').
     };
 
     $scope.onSelect = function (item) {
+      if (!item) return;
       if (item.brewery) {
         $location.url('/beer/' + item.id);
       } else {
