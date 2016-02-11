@@ -15,7 +15,16 @@
     <form name="registerForm" novalidate>
 
       <!-- Error -->
-      <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
+      <md-toolbar class="alert-error" ng-if="error">
+        <div class="md-toolbar-tools">
+          <span>{{error.msg}}</span>
+          <!-- fill up the space between left and right area -->
+          <span flex></span>
+          <md-button ng-click="dismissAlert()">
+            <md-icon>close</md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
 
       <md-input-container class="md-block"
         ng-class="{'has-error': registerForm.firstName.$invalid}">
@@ -58,7 +67,7 @@
     <md-button class="ladda-button btn-login"
       data-style="expand-right"
       ladda-button="loading"
-      ng-disabled="!loginForm.$valid"
+      ng-disabled="!registerForm.$valid"
       ng-click="register()">
         <span class="ladda-label">Sign Up</span>
     </md-button>

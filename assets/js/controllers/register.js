@@ -32,4 +32,8 @@ angular.module('stoutful.controllers')
     $scope.dismiss = function() {
       $scope.vm.showRegister = false;
     };
+
+    $scope.dismissAlert = function() {
+      $scope.error = null;
+    };
   });
