@@ -1,8 +1,6 @@
 angular.module('stoutful.controllers')
   .controller('LoginController', function($scope, $http, $location, session, basicAuth) {
     $scope.logIn = function() {
-      if ($scope.loginForm.$invalid) return;
-
       $scope.loading = true; // Initiate loading animation
       basicAuth.login($scope.email, $scope.password)
         .then(function() {

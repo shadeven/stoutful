@@ -40,6 +40,23 @@ md-dialog {
   }
 }
 
+.not-visible {
+  visibility: hidden;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+md-loading-container {
+  position: relative;
+  md-progress-circular {
+    position: absolute;
+  }
+}
+
 .search {
   .search-bar {
     margin-top: 30px;

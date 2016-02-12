@@ -11,21 +11,20 @@
     </div>
   </md-toolbar>
 
+  <!-- Error -->
+  <md-toolbar class="alert-error" ng-if="error">
+    <div class="md-toolbar-tools">
+      <span>{{error.msg}}</span>
+      <!-- fill up the space between left and right area -->
+      <span flex></span>
+      <md-button ng-click="dismissAlert()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
   <md-card-content>
     <form name="registerForm" novalidate>
-
-      <!-- Error -->
-      <md-toolbar class="alert-error" ng-if="error">
-        <div class="md-toolbar-tools">
-          <span>{{error.msg}}</span>
-          <!-- fill up the space between left and right area -->
-          <span flex></span>
-          <md-button ng-click="dismissAlert()">
-            <md-icon>close</md-icon>
-          </md-button>
-        </div>
-      </md-toolbar>
-
       <md-input-container class="md-block"
         ng-class="{'has-error': registerForm.firstName.$invalid}">
           <label>First Name</label>
