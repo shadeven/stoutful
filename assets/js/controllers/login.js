@@ -1,8 +1,10 @@
 angular.module('stoutful.controllers')
   .controller('LoginController', function($scope, $http, $location, session, basicAuth) {
+    $scope.formHolder = {};
+
     $scope.logIn = function() {
       $scope.loading = true; // Initiate loading animation
-      basicAuth.login($scope.email, $scope.password)
+      basicAuth.login($scope.formHolder.email, $scope.formHolder.password)
         .then(function() {
           return $http.get('/api/users/me');
         })

@@ -24,33 +24,33 @@
   </md-toolbar>
 
   <md-card-content>
-    <form name="registerForm" novalidate>
+    <form name="formHolder.registerForm" novalidate>
       <md-input-container class="md-block"
-        ng-class="{'has-error': registerForm.firstName.$invalid}">
+        ng-class="{'has-error': formHolder.registerForm.firstName.$invalid}">
           <label>First Name</label>
           <input name="firstName" type="text" placeholder="First Name"
-            ng-model="firstName" required>
+            ng-model="formHolder.firstName" required>
       </md-input-container>
 
       <md-input-container class="md-block"
-        ng-class="{'has-error': registerForm.lastName.$invalid}">
+        ng-class="{'has-error': formHolder.registerForm.lastName.$invalid}">
           <label>Last Name</label>
           <input name="lastName" type="text" placeholder="Last Name"
-            ng-model="lastName" required>
+            ng-model="formHolder.lastName" required>
       </md-input-container>
 
       <md-input-container class="md-block"
-        ng-class="{'has-error': registerForm.email.$invalid}">
+        ng-class="{'has-error': formHolder.registerForm.email.$invalid}">
           <label>Email</label>
           <input name="email" type="email" placeholder="Email"
-            ng-model="email" required>
+            ng-model="formHolder.email" required>
       </md-input-container>
 
       <md-input-container class="md-block"
-        ng-class="{'has-error': registerForm.password.$invalid}">
+        ng-class="{'has-error': formHolder.registerForm.password.$invalid}">
           <label>Password</label>
           <input name="password" type="password" placeholder="Password"
-            ng-model="password" required>
+            ng-model="formHolder.password" required>
       </md-input-container>
     </form>
 
@@ -66,7 +66,7 @@
     <md-button class="ladda-button btn-login"
       data-style="expand-right"
       ladda-button="loading"
-      ng-disabled="!registerForm.$valid"
+      ng-disabled="formHolder.registerForm.$invalid"
       ng-click="register()">
         <span class="ladda-label">Sign Up</span>
     </md-button>

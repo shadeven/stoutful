@@ -26,17 +26,17 @@
   <md-loading-container ng-model="loading">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     <md-card-content>
-      <form name="loginForm" novalidate>
+      <form name="formHolder.loginForm" novalidate>
         <md-input-container class="md-block"
-          ng-class="{'has-error': loginForm.email.$invalid}">
+          ng-class="{'has-error': formHolder.loginForm.email.$invalid}">
             <label>Email</label>
-            <input name="email" type="email" ng-model="email" required>
+            <input name="formHolder.email" type="email" ng-model="email" required>
         </md-input-container>
 
         <md-input-container class="md-block"
-          ng-class="{'has-error': loginForm.password.$invalid}">
+          ng-class="{'has-error': formHolder.loginForm.password.$invalid}">
             <label>Password</label>
-            <input name="password" type="password" ng-model="password" required>
+            <input name="formHolder.password" type="password" ng-model="password" required>
         </md-input-container>
       </form>
     </md-card-content>
@@ -52,7 +52,7 @@
       <md-button class="ladda-button btn-login"
         data-style="expand-right"
         ladda-button="loading"
-        ng-disabled="!loginForm.$valid"
+        ng-disabled="formHolder.loginForm.$invalid"
         ng-click="logIn()">
           <span class="ladda-label">Log In</span>
       </md-button>

@@ -1,11 +1,12 @@
 angular.module('stoutful.controllers')
   .controller('RegisterController', function($scope, $http, basicAuth, session) {
+    $scope.formHolder = {};
     $scope.register = function() {
       var data = {
-        first_name: $scope.firstName,
-        last_name: $scope.lastName,
-        email: $scope.email,
-        password: $scope.password
+        first_name: $scope.formHolder.firstName,
+        last_name: $scope.formHolder.lastName,
+        email: $scope.formHolder.email,
+        password: $scope.formHolder.password
       };
 
       $scope.loading = true;
