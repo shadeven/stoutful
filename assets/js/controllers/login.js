@@ -2,45 +2,27 @@ angular
   .module('stoutful.controllers')
   .controller('LoginController', LoginController);
 
-function LoginController($scope, $http, $location, session, basicAuth) {
+function LoginController($scope) {
 
   $scope.formHolder = {};
-  $scope.login = logIn;
+  $scope.onLoginClicked = onLoginClicked;
   $scope.dismissAlert = dismissAlert;
-  $scope.dismissLogin = dismissLogin;
+  $scope.dismiss = dismiss;
 
   ////////////////////////////////////////////////////////////////////////////
 
-  function logIn() {
-    $scope.loading = true; // Initiate loading animation
-    basicAuth.login($scope.formHolder.email, $scope.formHolder.password)
-      .then(function() {
-        return $http.get('/api/users/me');
-      })
-      .then(function(response) {
-        $scope.loading = false;
-        session.setUser(response.data);
-        $location.url('/profile');
-      })
-      .catch(function(err) {
-        $scope.loading = false;
-        var message = 'Unexpected error occurred.';
-        if (err.status === 401) {
-          message = 'Email/password incorrect.';
-        }
-
-        $scope.error = {
-          type: 'danger',
-          msg: message
-        };
-      });
+  function onLoginClicked() {
+    $scope.vm.login({
+      email: $scope.formHolder.email,
+      password: $scope.formHolder.password
+    });
   }
 
   function dismissAlert() {
-    $scope.error = null;
+    $scope.vm.error = null;
   }
 
-  function dismissLogin() {
+  function dismiss() {
     $scope.vm.showLogin = false;
   }
 }

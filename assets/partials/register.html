@@ -12,9 +12,9 @@
   </md-toolbar>
 
   <!-- Error -->
-  <md-toolbar class="alert-error" ng-if="error">
+  <md-toolbar class="alert-error" ng-if="vm.error">
     <div class="md-toolbar-tools">
-      <span>{{error.msg}}</span>
+      <span>{{vm.error.msg}}</span>
       <!-- fill up the space between left and right area -->
       <span flex></span>
       <md-button ng-click="dismissAlert()">
@@ -67,7 +67,7 @@
       data-style="expand-right"
       ladda-button="loading"
       ng-disabled="formHolder.registerForm.$invalid"
-      ng-click="register()">
+      ng-click="onRegisterClicked()">
         <span class="ladda-label">Sign Up</span>
     </md-button>
   </md-card-footer>

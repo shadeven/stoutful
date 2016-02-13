@@ -5,14 +5,18 @@
     .module('stoutful.controllers')
     .controller('SplashController', SplashController);
 
-  function SplashController($http, $location, session) {
+  function SplashController($http, $location, session, basicAuth) {
     var vm = this;
 
+    vm.loading = false;
+    vm.error = null;
     vm.loginPartial = 'partials/login.html';
     vm.registerPartial = 'partials/register.html';
     vm.showLoginView = showLoginView;
     vm.showRegisterView = showRegisterView;
     vm.logInWithGoogle = logInWithGoogle;
+    vm.login = login;
+    vm.register = register;
 
     gapi.load('auth2', function() {
       // Retrieve the singleton for the GoogleAuth library and set up the client.
@@ -87,6 +91,53 @@
       };
 
       auth2.signIn().then(onSuccess, onError);
+    }
+
+    function login(user) {
+      vm.loading = true; // Initiate loading animation
+      basicAuth.login(user.email, user.password)
+        .then(function() {
+          return $http.get('/api/users/me');
+        })
+        .then(function(response) {
+          vm.loading = false;
+          session.setUser(response.data);
+          $location.url('/profile');
+        })
+        .catch(function(err) {
+          vm.loading = false;
+          var message = 'Unexpected error occurred.';
+          if (err.status === 401) {
+            message = 'Email/password incorrect.';
+          }
+
+          vm.error = {
+            type: 'danger',
+            msg: message
+          };
+        });
+    }
+
+    function register(form) {
+      vm.loading = true;
+      $http.post('/api/users/create', form)
+        .then(function() {
+          return basicAuth.login(form.email, form.password);
+        })
+        .then(function() {
+          return $http.get('/api/users/me');
+        })
+        .then(function(response) {
+          vm.loading = false;
+          session.setUser(response.data);
+        })
+        .catch(function() {
+          vm.loading = false;
+          vm.error = {
+            type: 'danger',
+            msg: 'Unexpected error occurred.'
+          };
+        });
     }
   }
 })();

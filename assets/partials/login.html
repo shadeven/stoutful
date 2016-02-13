@@ -2,7 +2,7 @@
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button" aria-label="Back"
-        ng-click="dismissLogin()">
+        ng-click="dismiss()">
           <md-icon>arrow_back</md-icon>
       </md-button>
       <h2>
@@ -12,9 +12,9 @@
   </md-toolbar>
 
   <!-- Error -->
-  <md-toolbar class="alert-error" ng-if="error">
+  <md-toolbar class="alert-error" ng-if="vm.error">
     <div class="md-toolbar-tools">
-      <span>{{error.msg}}</span>
+      <span>{{vm.error.msg}}</span>
       <!-- fill up the space between left and right area -->
       <span flex></span>
       <md-button ng-click="dismissAlert()">
@@ -53,7 +53,7 @@
         data-style="expand-right"
         ladda-button="loading"
         ng-disabled="formHolder.loginForm.$invalid"
-        ng-click="logIn()">
+        ng-click="onLoginClicked()">
           <span class="ladda-label">Log In</span>
       </md-button>
     </md-card-footer>
