@@ -1,37 +1,46 @@
-angular.module('stoutful.controllers')
-  .controller('LoginController', function($scope, $http, $location, session, basicAuth) {
-    $scope.formHolder = {};
+angular
+  .module('stoutful.controllers')
+  .controller('LoginController', LoginController);
 
-    $scope.logIn = function() {
-      $scope.loading = true; // Initiate loading animation
-      basicAuth.login($scope.formHolder.email, $scope.formHolder.password)
-        .then(function() {
-          return $http.get('/api/users/me');
-        })
-        .then(function(response) {
-          $scope.loading = false;
-          session.setUser(response.data);
-          $location.url('/profile');
-        })
-        .catch(function(err) {
-          $scope.loading = false;
-          var message = 'Unexpected error occurred.';
-          if (err.status === 401) {
-            message = 'Email/password incorrect.';
-          }
+function LoginController($scope, $http, $location, session, basicAuth) {
 
-          $scope.error = {
-            type: 'danger',
-            msg: message
-          };
-        });
-    };
+  $scope.formHolder = {};
+  $scope.login = logIn;
+  $scope.dismissAlert = dismissAlert;
+  $scope.dismissLogin = dismissLogin;
 
-    $scope.dismissAlert = function() {
-      $scope.error = null;
-    };
+  ////////////////////////////////////////////////////////////////////////////
 
-    $scope.dismissLogin = function() {
-      $scope.vm.showLogin = false;
-    };
-  });
+  function logIn() {
+    $scope.loading = true; // Initiate loading animation
+    basicAuth.login($scope.formHolder.email, $scope.formHolder.password)
+      .then(function() {
+        return $http.get('/api/users/me');
+      })
+      .then(function(response) {
+        $scope.loading = false;
+        session.setUser(response.data);
+        $location.url('/profile');
+      })
+      .catch(function(err) {
+        $scope.loading = false;
+        var message = 'Unexpected error occurred.';
+        if (err.status === 401) {
+          message = 'Email/password incorrect.';
+        }
+
+        $scope.error = {
+          type: 'danger',
+          msg: message
+        };
+      });
+  }
+
+  function dismissAlert() {
+    $scope.error = null;
+  }
+
+  function dismissLogin() {
+    $scope.vm.showLogin = false;
+  }
+}
