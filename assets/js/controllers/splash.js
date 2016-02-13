@@ -1,18 +1,50 @@
-angular.module('stoutful.controllers').
-  controller('SplashController', function($http, $location, session) {
+(function() {
+  'use strict';
+
+  angular
+    .module('stoutful.controllers')
+    .controller('SplashController', SplashController);
+
+  function SplashController($http, $location, session) {
     var vm = this;
+
     vm.loginPartial = 'partials/login.html';
     vm.registerPartial = 'partials/register.html';
+    vm.showLoginView = showLoginView;
+    vm.showRegisterView = showRegisterView;
+    vm.logInWithGoogle = logInWithGoogle;
 
-    vm.showLoginPartial = function() {
+    gapi.load('auth2', function() {
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      gapi.auth2.init({
+        client_id: '1068487601849-a0ep88imse3bn202daabmndcni4abhgl.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        scope: 'https://www.googleapis.com/auth/plus.login email'
+      });
+
+      $http({ method: 'GET', url: '/api/users/me' })
+        .then(function(response) {
+          session.setUser(response.data);
+          $location.url('/home');
+        })
+        .catch(function(err) {
+          if (err.status === 401) {
+            session.destroy();
+          }
+        });
+    });
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    function showLoginView() {
       vm.showLogin = true;
-    };
+    }
 
-    vm.showRegisterPartial = function() {
+    function showRegisterView() {
       vm.showRegister = true;
-    };
+    }
 
-    vm.logInWithGoogle = function() {
+    function logInWithGoogle() {
       var auth2 = gapi.auth2.getAuthInstance();
       var onSuccess = function(googleUser) {
         var authResponse = googleUser.getAuthResponse();
@@ -55,27 +87,6 @@ angular.module('stoutful.controllers').
       };
 
       auth2.signIn().then(onSuccess, onError);
-    };
-
-    // Main
-
-    gapi.load('auth2', function() {
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
-      gapi.auth2.init({
-        client_id: '1068487601849-a0ep88imse3bn202daabmndcni4abhgl.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-        scope: 'https://www.googleapis.com/auth/plus.login email'
-      });
-
-      $http({ method: 'GET', url: '/api/users/me' })
-        .then(function(response) {
-          session.setUser(response.data);
-          $location.url('/home');
-        })
-        .catch(function(err) {
-          if (err.status === 401) {
-            session.destroy();
-          }
-        });
-    });
-  });
+    }
+  }
+})();
