@@ -1,28 +1,32 @@
-angular
-  .module('stoutful.controllers')
-  .controller('LoginController', LoginController);
+(function() {
+  'use strict';
 
-function LoginController($scope) {
+  angular
+    .module('stoutful.controllers')
+    .controller('LoginController', LoginController);
 
-  $scope.formHolder = {};
-  $scope.onLoginClicked = onLoginClicked;
-  $scope.dismissAlert = dismissAlert;
-  $scope.dismiss = dismiss;
+  function LoginController($scope) {
 
-  ////////////////////////////////////////////////////////////////////////////
+    $scope.formHolder = {};
+    $scope.onLoginClicked = onLoginClicked;
+    $scope.dismissAlert = dismissAlert;
+    $scope.dismiss = dismiss;
 
-  function onLoginClicked() {
-    $scope.vm.login({
-      email: $scope.formHolder.email,
-      password: $scope.formHolder.password
-    });
+    ////////////////////////////////////////////////////////////////////////////
+
+    function onLoginClicked() {
+      $scope.vm.login({
+        email: $scope.formHolder.email,
+        password: $scope.formHolder.password
+      });
+    }
+
+    function dismissAlert() {
+      $scope.vm.error = null;
+    }
+
+    function dismiss() {
+      $scope.vm.showLogin = false;
+    }
   }
-
-  function dismissAlert() {
-    $scope.vm.error = null;
-  }
-
-  function dismiss() {
-    $scope.vm.showLogin = false;
-  }
-}
+}) ();
