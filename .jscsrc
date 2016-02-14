@@ -6,5 +6,7 @@
   "requireSpacesInAnonymousFunctionExpression": false,
   "requireCamelCaseOrUpperCaseIdentifiers": false,
   "disallowQuotedKeysInObjects": false,
-  "safeContextKeyword": ["vm"]
+  "safeContextKeyword": ["vm"],
+  "validateQuoteMarks": "\"",
+  "requirePaddingNewLinesAfterBlocks": false
 }
