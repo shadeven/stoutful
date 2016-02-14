@@ -6,9 +6,9 @@
     md-component-id="left"
     md-whiteframe="4"
     layout-padding>
-      <img ng-src="{{user.image_url}}" class="img-circle img-responsive center-block">
-      <div class="text-center">
-        <h4>{{user.first_name}} {{user.last_name}}</h4>
+      <div layout="column" layout-align="center center">
+        <img ng-src="{{user.image_url}}?sz=150" class="img-circle">
+        <h2>{{user.first_name}} {{user.last_name}}</h2>
       </div>
   </md-sidenav>
 
