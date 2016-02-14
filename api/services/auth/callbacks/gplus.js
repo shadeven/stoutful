@@ -56,7 +56,7 @@ function handleNewUser(accessToken, profile, done) {
   var user = {
     first_name: profile.name.givenName,
     last_name: profile.name.familyName,
-    image_url: profile.image.url,
+    image_url: profile.image.url.replace(/\?sz=\d+/, ''),
     email: profile.email,
     password: 'ademopassword',
   };
