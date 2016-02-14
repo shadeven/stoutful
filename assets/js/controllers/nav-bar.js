@@ -54,7 +54,7 @@
         }
       };
 
-      $scope.watch(target, listener);
+      $scope.$watch(target, listener);
     }
 
     function watchForUrlChange() {
