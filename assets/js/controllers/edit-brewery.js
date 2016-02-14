@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('EditBreweryCtrl', function ($scope, $mdDialog, $http, Upload, brewery, session, $modal) {
+  controller('EditBreweryCtrl', function ($scope, $mdDialog, $http, Upload, brewery, session) {
     var vm = this;
     vm.brewery = brewery;
     vm.image = vm.brewery.image_url;
