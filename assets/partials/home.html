@@ -1,28 +1,33 @@
-<div class="home container-fluid">
-  <div class="container">
+<div layout="row" layout-align="center start" flex>
+  <div layout="column" flex="80">
     <!-- Search -->
-    <div class="row search-bar">
+    <div class="search" flex>
       <h1>Search</h1>
       <form>
-        <input type="text" class="form-control" placeholder="Search beer or brewery"
-          ng-model="model"
-          typeahead="model.name for model in performSearch($viewValue)"
-          typeahead-on-select="onSelect($item, $model, $label)"
-          typeahead-select-on-exact="true"
-          typeahead-editable="false"
-          required>
+        <md-autocomplete md-search-text="searchText"
+          md-min-length="3"
+          md-selected-item-change="onSelect(model)"
+          md-items="model in performSearch(searchText)"
+          md-item-text="model.name"
+          placeholder="Search beer or brewery">
+          <span md-highlight-text="searchText">{{model.name}}</span>
+        </md-autocomplete>
       </form>
     </div>
 
     <!-- Most Popular -->
-    <div class="row popular">
+    <div class="popular" layout="column">
       <h1>Most Popular</h1>
-      <div class="items" ng-if="popular">
-        <div class="item col-sm-3" ng-repeat="beer in popular">
-          <img class="background-image" ng-model="beer.image_url"
-            ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
-            ng-click="showBeerDetails(beer)">
-          <span class="item-label">{{ beer.name }}</span>
+      <div layout="row" layout-wrap flex>
+        <div class="button" flex="50" flex-gt-sm="30" ng-repeat="beer in popular">
+          <md-card>
+            <div class="md-card-image background-image"
+              ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
+              ng-click="showBeerDetails(beer)"><!-- No content --></div>
+            <md-card-content>
+              <h4>{{ beer.name }}</h4>
+            </md-card-content>
+          </md-card>
         </div>
       </div>
     </div>

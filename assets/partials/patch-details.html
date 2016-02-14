@@ -1,34 +1,34 @@
-<div class="patch-details container">
-  <!-- Title -->
-  <div class="title" ng-if="original && model">
-    <h1>Patch for {{original.name}}</h1>
-    <h4>Submitted by {{model.editor.first_name}}</h4>
-  </div>
-
-  <!-- Diff -->
-  <div class="row diff">
-    <div class="col col-sm-6">
-      <h2>Current</h2>
-      <form class="form-horizontal">
-        <formly-form model="original" fields="form.fields.original" options="form.options"></formly-form>
-      </form>
+<div class="patch-details" layout="row" layout-align="center start">
+  <div layout="column" flex="80">
+    <!-- Title -->
+    <div class="title" ng-if="vm.original && vm.model">
+      <h1>Patch for {{vm.original.name}}</h1>
+      <h4>Submitted by {{vm.model.editor.first_name}}</h4>
     </div>
-    <div class="col col-sm-6">
-      <h2>Suggested Changes</h2>
-      <form class="form-horizontal">
-        <formly-form model="patched" fields="form.fields.patch" options="form.options"></formly-form>
-      </form>
-    </div>
-  </div>
 
-  <!-- Buttons -->
-  <div class="row panel panel-default bottom">
-    <div class="panel-body">
-      <button class="btn btn-success ladda-button" type="submit"
-        ladda-button="submitting"
+    <!-- Diff -->
+    <div class="diff" layout="row">
+      <div layout="column" flex="50">
+        <h2>Current</h2>
+        <form class="form-horizontal">
+          <formly-form model="vm.original" fields="vm.form.fields.original" options="vm.form.options"></formly-form>
+        </form>
+      </div>
+      <div layout="column" flex="50">
+        <h2>Suggested Changes</h2>
+        <form class="form-horizontal">
+          <formly-form model="vm.patched" fields="vm.form.fields.patch" options="vm.form.options"></formly-form>
+        </form>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div layout="row" layout-align="end center">
+      <md-button class="btn btn-success ladda-button" type="submit"
+        ladda-button="vm.submitting"
         data-style="expand-right"
-        ng-click="onAcceptChanges()"
-        ng-disabled="!canAcceptChanges">Accept Changes</button>
+        ng-click="vm.onAcceptChanges()"
+        ng-disabled="!vm.canAcceptChanges">Accept Changes</md-button>
     </div>
   </div>
 </div>

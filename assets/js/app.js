@@ -52,6 +52,7 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   $routeProvider.when('/', {
     templateUrl: 'partials/splash.html',
     controller: 'SplashController',
+    controllerAs: 'vm'
   })
   .when('/home', {
     templateUrl: 'partials/home.html',
@@ -74,11 +75,13 @@ app.config(function ($controllerProvider, $httpProvider, $routeProvider) {
   .when('/patches', {
     templateUrl: 'partials/patch.html',
     controller: 'PatchController',
+    controllerAs: "vm",
     requiresAuth: true
   })
   .when('/patches/:patchId', {
     templateUrl: 'partials/patch-details.html',
     controller: 'PatchDetailsController',
+    controllerAs: "vm",
     requiresAuth: true
   });
 });

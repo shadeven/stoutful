@@ -1,34 +1,62 @@
-<div class="login container" ng-controller="LoginController">
-  <div class="row">
+<md-card class="login">
+  <md-loading-container ng-model="vm.loading">
+    <md-progress-circular md-mode="indeterminate"
+      md-diameter="100px"></md-progress-circular>
 
-    <form class="col-sm-4 col-sm-offset-4" name="loginForm" novalidate>
-      <h2 class="title">Login</h2>
-
-      <!-- Error -->
-      <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
-
-      <div class="form-group" ng-class="{'has-error': loginForm.email.$invalid}">
-        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Back"
+          ng-click="dismiss()">
+            <md-icon>arrow_back</md-icon>
+        </md-button>
+        <h2>
+          <span>Login</span>
+        </h2>
       </div>
-      <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid}">
-        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
+    </md-toolbar>
+
+    <!-- Error -->
+    <md-toolbar class="alert-error" ng-if="vm.error">
+      <div class="md-toolbar-tools">
+        <span>{{vm.error.msg}}</span>
+        <!-- fill up the space between left and right area -->
+        <span flex></span>
+        <md-button ng-click="dismissAlert()">
+          <md-icon>close</md-icon>
+        </md-button>
       </div>
-      <button class="ladda-button btn btn-primary btn-login"
-        data-style="expand-right"
-        ladda-button="loading"
-        ng-click="logIn()">
-          <span class="ladda-label">Log In</span>
+    </md-toolbar>
+
+    <!-- Card content -->
+    <md-card-content>
+      <form name="formHolder.loginForm" novalidate>
+        <md-input-container class="md-block"
+          ng-class="{'has-error': formHolder.loginForm.email.$invalid}">
+            <label>Email</label>
+            <input name="formHolder.email" type="email" ng-model="email" required>
+        </md-input-container>
+
+        <md-input-container class="md-block"
+          ng-class="{'has-error': formHolder.loginForm.password.$invalid}">
+            <label>Password</label>
+            <input name="formHolder.password" type="password" ng-model="password" required>
+        </md-input-container>
+      </form>
+    </md-card-content>
+
+    <!-- Card footer -->
+    <md-card-footer layout="row" layout-align="end center">
+      <button class="btn-google btn-google-login"
+        ng-disabled="vm.loading"
+        ng-click="vm.logInWithGoogle()">
       </button>
+      <span flex></span>
+      <md-button
+        ng-disabled="formHolder.loginForm.$invalid"
+        ng-click="onLoginClicked()">
+          Log In
+      </md-button>
+    </md-card-footer>
 
-      <p class="google-title">Have a Google account?</p>
-
-      <button class="ladda-button btn-google btn-google-login"
-        data-style="zoom-in"
-        ladda-button="loading"
-        ng-disabled="loading"
-        ng-click="logInWithGoogle()">
-      </button>
-    </form>
-
-  </div>
-</div>
+  </md-loading-container>
+</md-card>

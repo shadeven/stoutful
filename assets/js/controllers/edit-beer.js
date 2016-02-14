@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('EditBeerCtrl', function ($scope, $modalInstance, $http, Upload, beer, session, $modal) {
+  controller('EditBeerCtrl', function ($scope, $mdDialog, $http, Upload, beer, session, $modal) {
     $scope.beer = beer;
     $scope.image = $scope.beer.image_url;
     $scope.selectedBrewery = beer.brewery;
@@ -25,7 +25,7 @@ angular.module('stoutful.controllers').
     });
 
     $scope.close = function() {
-      $modalInstance.close();
+      $mdDialog.hide();
     };
 
     $scope.save = function() {
@@ -45,7 +45,7 @@ angular.module('stoutful.controllers').
       Upload.upload(req)
         .success(function() {
           $scope.loading = false;
-          $modalInstance.close();
+          $mdDialog.hide();
 
           // Show alert message
           $modal.open({
@@ -77,5 +77,9 @@ angular.module('stoutful.controllers').
     // and not the actual model.
     $scope.onSelect = function($item) {
       $scope.beer.brewery = $item;
+    };
+
+    $scope.attachImage = function() {
+      $("input[type=file]").click();
     };
   });

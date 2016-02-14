@@ -1,5 +1,10 @@
 {
   "validateIndentation": 2,
   "disallowTrailingWhitespace": true,
-  "disallowMixedSpacesAndTabs": true
+  "disallowMixedSpacesAndTabs": true,
+  "requireTrailingComma": false,
+  "requireSpacesInAnonymousFunctionExpression": false,
+  "requireCamelCaseOrUpperCaseIdentifiers": false,
+  "disallowQuotedKeysInObjects": false,
+  "safeContextKeyword": ["vm"]
 }

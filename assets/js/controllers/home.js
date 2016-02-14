@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('HomeController', function($scope, $http, rx, $location) {
+  controller('HomeController', function($scope, $http, rx, $location, $q) {
     $scope.searchQuery = { query: '' };
 
     $scope.$watch('searchQuery.query', function(newValue) {
@@ -12,18 +12,16 @@ angular.module('stoutful.controllers').
     };
 
     $scope.performSearch = function(query) {
-      var value = query;
-
-      return Promise.all([$http.get('/api/beers/search?query=' + value),
-        $http.get('/api/breweries/search?query=' + value)])
-          .then(function(values) {
-            var response1 = values[0].data;
-            var response2 = values[1].data;
-            return response1.concat(response2);
+      var searchBeers = $http.get('/api/beers/search?query=' + query);
+      var searchBrewery = $http.get('/api/breweries/search?query=' + query);
+      return $q.all([searchBeers, searchBrewery])
+          .then(function(results) {
+            return results[0].data.concat(results[1].data);
           });
     };
 
     $scope.onSelect = function (item) {
+      if (!item) return;
       if (item.brewery) {
         $location.url('/beer/' + item.id);
       } else {
