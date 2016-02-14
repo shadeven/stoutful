@@ -5,16 +5,13 @@
       <!-- No content -->
     </div>
 
-    <md-toolbar ng-show="showAlert">
-      <div class="md-toolbar-tools">
-        <span>
-          Notice a mistake?&nbsp;
-          <a href ng-click="editBeer($event)">Submit a patch!</a>
-        </span>
-        <span flex></span>
-        <md-button ng-click="closeAlert()"><md-icon>close</md-icon></md-button>
-      </div>
-    </md-toolbar>
+    <!-- Alert -->
+    <md-toolbar-alert alert="info"
+      ng-if="showAlert"
+      md-toolbar-alert-dismiss="dismissToolbarAlert()">
+        Notice a mistake?&nbsp;
+        <a href ng-click="editBeer($event)">Submit a patch!</a>
+    </md-toolbar-alert>
 
     <md-card-content>
       <section>

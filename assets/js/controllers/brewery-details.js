@@ -4,6 +4,10 @@ angular.module('stoutful.controllers').
     $scope.showAlert = session.isLoggedIn();
     $scope.placeholder = '/images/placeholder.jpg';
 
+    $scope.dismissToolbarAlert = function() {
+      $scope.showAlert = false;
+    }
+
     $scope.editBrewery = function(event) {
       $mdDialog.show({
         templateUrl: "partials/edit-brewery.html",

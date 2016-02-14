@@ -1,4 +1,7 @@
 .alert {
+  a {
+    text-decoration: underline;
+  }
   .md-toolbar-tools {
     font-size: 16px;
   }
@@ -7,10 +10,19 @@
 md-toolbar {
   &.alert-error {
     @extend .alert;
-    background: #F44336;
+    background-color: #F44336;
     color: $white;
     md-icon {
       color: $white;
+    }
+  }
+
+  &.alert-info {
+    @extend .alert;
+    background-color: #F9A825;
+    color: $black;
+    md-icon {
+      color: $black;
     }
   }
 }

@@ -7,6 +7,10 @@ angular.module('stoutful.controllers').
     $scope.disableLikeBtn = false;
     $scope.placeholder = '/images/placeholder.jpg';
 
+    $scope.dismissToolbarAlert = function() {
+      $scope.showAlert = false;
+    }
+
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {
         return 'liked';

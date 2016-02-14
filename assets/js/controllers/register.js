@@ -9,7 +9,7 @@
     $scope.formHolder = {};
     $scope.onRegisterClicked = onRegisterClicked;
     $scope.dismiss = dismiss;
-    $scope.dismissAlert = dismissAlert;
+    $scope.dismissToolbarAlert = dismissToolbarAlert;
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -28,7 +28,7 @@
       $scope.vm.showRegister = false;
     }
 
-    function dismissAlert() {
+    function dismissToolbarAlert() {
       $scope.vm.error = null;
     }
   }

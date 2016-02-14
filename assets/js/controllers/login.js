@@ -9,7 +9,7 @@
 
     $scope.formHolder = {};
     $scope.onLoginClicked = onLoginClicked;
-    $scope.dismissAlert = dismissAlert;
+    $scope.dismissToolbarAlert = dismissToolbarAlert;
     $scope.dismiss = dismiss;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@
       });
     }
 
-    function dismissAlert() {
+    function dismissToolbarAlert() {
       $scope.vm.error = null;
     }
 
@@ -29,4 +29,4 @@
       $scope.vm.showLogin = false;
     }
   }
-}) ();
+})();

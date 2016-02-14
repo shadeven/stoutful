@@ -16,16 +16,10 @@
     </md-toolbar>
 
     <!-- Error -->
-    <md-toolbar class="alert-error" ng-if="vm.error">
-      <div class="md-toolbar-tools">
-        <span>{{vm.error.msg}}</span>
-        <!-- fill up the space between left and right area -->
-        <span flex></span>
-        <md-button ng-click="dismissAlert()">
-          <md-icon>close</md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
+    <md-toolbar-alert ng-if="vm.error" alert="error"
+      md-toolbar-alert-dismiss="dismissToolbarAlert()">
+        {{ vm.error.msg }}
+    </md-toolbar-alert>
 
     <!-- Card content -->
     <md-card-content>
