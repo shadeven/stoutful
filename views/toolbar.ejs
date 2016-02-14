@@ -1,6 +1,10 @@
 <md-toolbar ng-if="showNavBar" ng-controller="NavBarController">
   <div class="md-toolbar-tools">
-    <span>Stoutful</span>
+    <md-button class="md-icon-button" ng-if="!atHome" ng-click="navigateBack()"
+      aria-label="Back">
+        <md-icon>arrow_back</md-icon>
+    </md-button>
+    <h2><span>Stoutful</span></h2>
     <!-- fill up the space between left and right area -->
     <span flex></span>
     <md-menu ng-if="user">
