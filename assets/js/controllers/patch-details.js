@@ -79,10 +79,16 @@ angular.module('stoutful.controllers')
 
     function buildFormlyField(model, key) {
       var type = 'input';
+      var classes = [];
+      if (_.indexOf(_.keys(vm.model.changes), key) != -1 && vm.model.changes[key] != model[key]) {
+        classes.push("bg-danger");
+      }
+      if (_.indexOf(_.keys(vm.model.changes), key) != -1 && vm.model.changes[key] === model[key]) {
+        classes.push("bg-success");
+      }
       var templateOptions = {
         label: S(key).humanize().s,
-        removed: _.indexOf(_.keys(vm.model.changes), key) != -1 && vm.model.changes[key] != model[key],
-        added: _.indexOf(_.keys(vm.model.changes), key) != -1 && vm.model.changes[key] === model[key]
+        classes: classes.join(" ")
       };
 
       if (key === 'image_url') {
@@ -97,7 +103,13 @@ angular.module('stoutful.controllers')
       return {
         type: type,
         key: key,
-        templateOptions: templateOptions
+        templateOptions: templateOptions,
+        formatters: [function(viewVal, modelVal) {
+          if (typeof modelVal === "object" && modelVal.name) {
+            return modelVal.name;
+          }
+          return viewVal;
+        }]
       };
     }
 
