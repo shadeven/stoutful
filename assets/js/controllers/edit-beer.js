@@ -48,18 +48,17 @@ angular.module('stoutful.controllers').
           $mdDialog.hide();
 
           // Show alert message
-          $modal.open({
-            templateUrl: 'partials/alert.html',
-            controller: 'AlertCtrl',
-            resolve: {
-              title: function() {
-                return 'Thanks!';
-              },
-              message: function() {
-                return 'Your changes are currently under review';
-              }
-            }
+          var alert = $mdDialog.alert({
+            title: 'Thanks!',
+            textContent: 'Your changes are currently under review',
+            ok: 'OK'
           });
+
+          $mdDialog
+            .show(alert)
+            .finally(function() {
+              alert = undefined;
+            });
         })
         .error(function(err) {
           console.log('Err = ', err);
