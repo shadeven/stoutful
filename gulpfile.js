@@ -1,10 +1,10 @@
-var gulp = require('gulp');
-var Rx = require('rx');
-var Sails = require('sails');
-var mocha = require('gulp-mocha');
-var wiredep = require('wiredep');
-var sass = require('gulp-sass');
-var concat = require('gulp-concat');
+var gulp = require("gulp");
+var Rx = require("rx");
+var Sails = require("sails");
+var mocha = require("gulp-mocha");
+var wiredep = require("wiredep");
+var sass = require("gulp-sass");
+var concat = require("gulp-concat");
 var del = require("del");
 
 var paths = {
@@ -33,13 +33,14 @@ gulp.task("copy", ["clean"], function() {
     paths.src.images,
     paths.src.partials,
     paths.src.js,
+    "!assets/js/directives/**",
     "!assets/js/controllers/**" /* Exclude assets/js/controllers/ */
   ];
-  return gulp.src(input, {base: "assets"})
+  return gulp.src(input, { base: "assets" })
     .pipe(gulp.dest(paths.dest.public));
 });
 
-gulp.task("concat", ["clean"], function() {
+gulp.task("concatControllers", ["clean"], function() {
   var input = [
     "assets/js/controllers/index.js",
     "assets/js/controllers/!(index).js"
@@ -49,19 +50,29 @@ gulp.task("concat", ["clean"], function() {
     .pipe(gulp.dest(paths.dest.js));
 });
 
-gulp.task('sass', ["clean"], function () {
+gulp.task("concatDirectives", ["clean"], function() {
+  var input = [
+    "assets/js/directives/index.js",
+    "assets/js/directives/*.directive.js",
+  ];
+  return gulp.src(input)
+    .pipe(concat("directives.js"))
+    .pipe(gulp.dest(paths.dest.js));
+});
+
+gulp.task("sass", ["clean"], function () {
   return gulp.src(paths.src.sass)
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass().on("error", sass.logError))
     .pipe(gulp.dest(paths.dest.css));
 });
 
 gulp.task("bower:js", ["clean"], function() {
-  return gulp.src(wiredep().js, {base: "bower_components"})
+  return gulp.src(wiredep().js, { base: "bower_components" })
     .pipe(gulp.dest(paths.dest.vendor.js));
 });
 
 gulp.task("bower:css", ["clean"], function() {
-  return gulp.src(wiredep().css, {base: "bower_components"})
+  return gulp.src(wiredep().css, { base: "bower_components" })
     .pipe(gulp.dest(paths.dest.vendor.css));
 });
 
@@ -72,8 +83,8 @@ gulp.task("bower:inject", ["clean"], function() {
       fileTypes: {
         html: {
           replace: {
-            js: '<script src="vendor/js/{{filePath}}"></script>',
-            css: '<link rel="stylesheet" href="vendor/css/{{filePath}}" />'
+            js: "<script src='vendor/js/{{filePath}}'></script>",
+            css: "<link rel='stylesheet' href='vendor/css/{{filePath}}' />"
           }
         }
       }
@@ -86,14 +97,21 @@ gulp.task("clean", function() {
 });
 
 gulp.task("watch", function() {
-  gulp.watch("assets/**/*", ["build"]);
+  var watchlist = [
+    "assets/**/*.js",
+    "assets/**/*.html",
+    "assets/**/*.ejs",
+    "assets/**/*.scss"
+  ];
+  gulp.watch(watchlist, ["build"]);
 });
 
+gulp.task("concat", ["concatControllers", "concatDirectives"]);
 gulp.task("bower", ["bower:js", "bower:css", "bower:inject"]);
 gulp.task("build", ["copy", "concat", "sass", "bower"]);
 gulp.task("default", ["build", "watch"]);
 
-gulp.task('elasticsearch:index', function(cb) {
+gulp.task("elasticsearch:index", function(cb) {
   Sails.load(function (err, sails) {
     var Beer = sails.models.beer;
     var Brewery = sails.models.brewery;
@@ -104,13 +122,13 @@ gulp.task('elasticsearch:index', function(cb) {
         var body = [];
 
         beers.forEach(function(beer) {
-          var action = {index: {_index: 'stoutful', _type: 'beer', _id: beer.id}};
-          var document = {name: beer.name, description: beer.description};
+          var action = { index: { _index: "stoutful", _type: "beer", _id: beer.id } };
+          var document = { name: beer.name, description: beer.description };
           body.push(action);
           body.push(document);
         });
 
-        var promise = Beer.bulkIndex({body: body});
+        var promise = Beer.bulkIndex({ body: body });
         return Rx.Observable.fromPromise(promise);
       });
 
@@ -120,13 +138,13 @@ gulp.task('elasticsearch:index', function(cb) {
         var body = [];
 
         breweries.forEach(function(brewery) {
-          var action = {index: {_index: 'stoutful', _type: 'brewery', _id: brewery.id}};
-          var document = {name: brewery.name, description: brewery.description};
+          var action = { index: { _index: "stoutful", _type: "brewery", _id: brewery.id } };
+          var document = { name: brewery.name, description: brewery.description };
           body.push(action);
           body.push(document);
         });
 
-        var promise = Brewery.bulkIndex({body: body});
+        var promise = Brewery.bulkIndex({ body: body });
         return Rx.Observable.fromPromise(promise);
       });
 
@@ -139,14 +157,14 @@ gulp.task('elasticsearch:index', function(cb) {
   });
 });
 
-gulp.task('test', function () {
-  return gulp.src(['./test/bootstrap.test.js', './test/**/*.test.js'])
-    .pipe(mocha({reporter: 'spec'}))
-    .once('error', function (err) {
+gulp.task("test", function () {
+  return gulp.src(["./test/bootstrap.test.js", "./test/**/*.test.js"])
+    .pipe(mocha({ reporter: "spec" }))
+    .once("error", function (err) {
       console.error(err);
       process.exit(1);
     })
-    .once('end', function () {
+    .once("end", function () {
       process.exit();
     });
 });

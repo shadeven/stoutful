@@ -29,6 +29,7 @@ passport.deserializeUser(function (id, next) {
   User.findOne({id: id})
     .then(function (user) {
       next(null, user || null);
+      return null;
     })
     .catch(next);
 });

@@ -11,6 +11,7 @@
     "sails": false,
     "gapi": false,
     "angular": false,
-    "_": false
+    "_": false,
+    "$": false
   }
 }

@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('EditBeerCtrl', function ($scope, $modalInstance, $http, Upload, beer, session, $modal) {
+  controller('EditBeerCtrl', function ($scope, $mdDialog, $http, Upload, beer, session) {
     $scope.beer = beer;
     $scope.image = $scope.beer.image_url;
     $scope.selectedBrewery = beer.brewery;
@@ -25,7 +25,7 @@ angular.module('stoutful.controllers').
     });
 
     $scope.close = function() {
-      $modalInstance.close();
+      $mdDialog.hide();
     };
 
     $scope.save = function() {
@@ -45,21 +45,20 @@ angular.module('stoutful.controllers').
       Upload.upload(req)
         .success(function() {
           $scope.loading = false;
-          $modalInstance.close();
+          $mdDialog.hide();
 
           // Show alert message
-          $modal.open({
-            templateUrl: 'partials/alert.html',
-            controller: 'AlertCtrl',
-            resolve: {
-              title: function() {
-                return 'Thanks!';
-              },
-              message: function() {
-                return 'Your changes are currently under review';
-              }
-            }
+          var alert = $mdDialog.alert({
+            title: 'Thanks!',
+            textContent: 'Your changes are currently under review',
+            ok: 'OK'
           });
+
+          $mdDialog
+            .show(alert)
+            .finally(function() {
+              alert = undefined;
+            });
         })
         .error(function(err) {
           console.log('Err = ', err);
@@ -75,7 +74,12 @@ angular.module('stoutful.controllers').
 
     // We use a custom onSelect function because the "model" ends up being the name
     // and not the actual model.
-    $scope.onSelect = function($item) {
-      $scope.beer.brewery = $item;
+    $scope.onSelect = function(brewery) {
+      if (!brewery) return;
+      $scope.beer.brewery = brewery;
+    };
+
+    $scope.attachImage = function() {
+      $("input[type=file]").click();
     };
   });

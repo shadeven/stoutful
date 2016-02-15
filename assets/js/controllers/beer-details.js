@@ -1,11 +1,15 @@
 angular.module('stoutful.controllers').
-  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, $modal, session) {
+  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, $mdDialog) {
     var beerId = $routeParams.beerId;
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
     $scope.disableLikeBtn = false;
     $scope.placeholder = '/images/placeholder.jpg';
+
+    $scope.dismissToolbarAlert = function() {
+      $scope.showAlert = false;
+    }
 
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {
@@ -30,15 +34,13 @@ angular.module('stoutful.controllers').
       return date.format(format);
     };
 
-    $scope.editBeer = function() {
-      $modal.open({
-        templateUrl: 'partials/edit-beer.html',
+    $scope.editBeer = function(event) {
+      $mdDialog.show({
+        templateUrl: "partials/edit-beer.html",
         controller: 'EditBeerCtrl',
-        windowClass: 'beer-details',
-        resolve: {
-          beer: function() {
-            return $scope.beer;
-          }
+        openFrom: event.srcElement,
+        locals: {
+          beer: $scope.beer
         }
       });
     };
@@ -49,6 +51,10 @@ angular.module('stoutful.controllers').
 
     $scope.onCheckInClicked = function() {
       createActivity('check_in');
+    };
+
+    $scope.closeAlert = function() {
+      $scope.showAlert = false;
     };
 
     function createActivity(type) {

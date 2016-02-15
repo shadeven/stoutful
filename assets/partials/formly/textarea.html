@@ -1,7 +1,9 @@
-<div class="form-group" ng-class="{'bg-success': to.added, 'bg-danger': to.removed}">
-  <label class="col-sm-3 control-label">{{to.label}}</label>
-  <div class="col-sm-9">
-    <textarea class="form-control" ng-if="!formState.readOnly" ng-model="model[options.key]"></textarea>
-    <p class="form-control-static" ng-if="formState.readOnly">{{model[options.key]}}</p>
-  </div>
-</div>
+<md-input-container class="md-block"
+  ng-class="{'bg-success': to.added, 'bg-danger': to.removed}">
+    <label>{{to.label}}</label>
+    <textarea ng-readonly="formState.readOnly"
+      ng-disabled="formState.readOnly"
+      ng-model="model[options.key]">
+      {{model[options.key]}}
+    </textarea>
+</md-input-container>

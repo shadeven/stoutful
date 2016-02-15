@@ -1,51 +1,61 @@
-<div class="container beer-details">
-
-  <div class="row details">
-    <div class="col-sm-12">
-
-      <alert type="info" ng-show="showAlert" close="showAlert = false">Notice a mistake?
-        <a href ng-click="editBeer()">Submit a patch!</a>
-      </alert>
-
-      <div class="jumbotron">
-        <img class="background background-image" ng-model="beer.image_url" ng-background-image="{{ beer.image_url || placeholder }}">
-        <h1>{{ beer.name }}</h1>
-        <h4>{{ beer.brewery.name }}</h4>
-        <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
-        <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
-      </div>
-
-      <div class="activity-counter">
-        <button class="btn btn-default" ng-disabled="!isLoggedIn || disableLikeBtn"
-          ng-click="onLikeClicked()" ng-model="disableLikeBtn">
-          <i class="icon stoutful-thumbs_up"></i>
-          <span>x {{likeCounter}}</span>
-        </button>
-        <button class="btn btn-default" ng-disabled="!isLoggedIn"
-          ng-click="onCheckInClicked()">
-          <i class="icon stoutful-beer"></i>
-          <span>x {{checkInCounter}}</span>
-        </button>
-      </div>
-
-      <h3>Description</h3>
-      <span class="empty-inline" ng-if="!beer.description">No description.</span>
-      <p class="description" ng-if="beer.description">{{ beer.description }}</p>
-
+<div layout="row" layout-align="center start" flex>
+  <md-card class="beer-details" flex="60">
+    <div class="md-card-image background-image" ng-model="beer.image_url"
+      ng-background-image="{{ beer.image_url || placeholder }}">
+      <!-- No content -->
     </div>
-  </div>
 
-  <div class="row recent-activity">
-    <div class="col-sm-12">
-      <h3>Recent Activity</h3>
-      <span class="empty-inline" ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
-      <ul class="activities" ng-show="activities && activities.length > 0">
-        <li class="item" ng-repeat="activity in activities">
-          {{activity.user.first_name}} {{actionVerbForActivityType(activity.type)}} this beer on
-          {{formattedTimestamp(activity.timestamp)}}.
-        </li>
-      </ul>
+    <!-- Alert -->
+    <md-toolbar-alert alert="info"
+      ng-if="showAlert"
+      md-toolbar-alert-dismiss="dismissToolbarAlert()">
+        Notice a mistake?&nbsp;
+        <a href ng-click="editBeer($event)">Submit a patch!</a>
+    </md-toolbar-alert>
+
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{ beer.name }}</span>
+        <span class="md-subhead">{{ beer.brewery.name }}</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <div layout-padding>
+      <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
+      <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
     </div>
-  </div>
 
+    <md-card-actions class="activity-counter" layout="row" layout-align="end center">
+      <md-button ng-disabled="!isLoggedIn"
+        ng-click="onLikeClicked()">
+        <i class="icon stoutful-thumbs_up"></i>
+        x {{likeCounter}}
+      </md-button>
+      <md-button ng-disabled="!isLoggedIn"
+        ng-click="onCheckInClicked()">
+        <i class="icon stoutful-beer"></i>
+        x {{checkInCounter}}
+      </md-button>
+    </md-card-actions>
+
+    <md-card-content>
+      <section class="details">
+        <h3>Description</h3>
+        <span class="empty-inline" ng-if="!beer.description">No description.</span>
+        <p class="description" ng-if="beer.description">{{ beer.description }}</p>
+      </section>
+
+      <section class="recent-activity">
+        <h3>Recent Activity</h3>
+        <span class="empty-inline" ng-show="!activities || activities.length == 0">No activity for this beer :(</span>
+        <ul class="activities" ng-show="activities && activities.length > 0">
+          <li class="item" ng-repeat="activity in activities">
+            {{activity.user.first_name}} {{actionVerbForActivityType(activity.type)}} this beer on
+            {{formattedTimestamp(activity.timestamp)}}.
+          </li>
+        </ul>
+      </section>
+    </md-card-content>
+
+  </md-card>
 </div>

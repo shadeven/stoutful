@@ -1,13 +1,16 @@
-<div class="container patches">
-  <empty title="emptyTitle" message="emptyMessage"
-    ng-if="(!patches || patches.length == 0) && !loading"></empty>
+<div layout="row" layout-align="center start" flex>
+  <div layout="column" flex="80">
+    <empty title="vm.emptyTitle" message="vm.emptyMessage"
+      ng-if="(!vm.patches || vm.patches.length == 0) && !vm.loading"></empty>
 
-  <div class="row">
-    <div class="col-sm-12 list-group">
-      <div class="item list-group-item" ng-repeat="patch in patches" ng-click="onPatchClicked(patch)">
-        <h4 class="list-group-item-heading">Patch #{{patch.id}}</h4>
-        <p class="list-group-item-text">Submitted by {{patch.editor.first_name}} on {{formattedTimestamp(patch.editor.created_at)}}</p>
-      </div>
-    </div>
+    <md-list>
+      <md-list-item class="md-2-line" ng-repeat="patch in vm.patches" ng-click="vm.onPatchClicked(patch)">
+        <div class="md-list-item-text">
+          <h3>Patch #{{patch.id}}</h3>
+          <p>Submitted by {{patch.editor.first_name}} on {{vm.formattedTimestamp(patch.editor.created_at)}}</p>
+        </div>
+      </md-list-item>
+    </md-list>
+
   </div>
 </div>

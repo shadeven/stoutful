@@ -1,20 +1,27 @@
 angular.module('stoutful.controllers').
-  controller('BreweryDetailsController', function($scope, $routeParams, $http, rx, $modal, session) {
+  controller('BreweryDetailsController', function($scope, $routeParams, $http, rx, $mdDialog, session) {
     var breweryId = $routeParams.breweryId;
     $scope.showAlert = session.isLoggedIn();
     $scope.placeholder = '/images/placeholder.jpg';
 
-    $scope.editBrewery = function() {
-      $modal.open({
-        templateUrl: 'partials/edit-brewery.html',
+    $scope.dismissToolbarAlert = function() {
+      $scope.showAlert = false;
+    }
+
+    $scope.editBrewery = function(event) {
+      $mdDialog.show({
+        templateUrl: "partials/edit-brewery.html",
         controller: 'EditBreweryCtrl',
-        windowClass: 'brewery-details',
-        resolve: {
-          brewery: function() {
-            return $scope.brewery;
-          }
+        controllerAs: "vm",
+        openFrom: event.srcElement,
+        locals: {
+          brewery: $scope.brewery
         }
       });
+    };
+
+    $scope.closeAlert = function() {
+      $scope.showAlert = false;
     };
 
     // Main

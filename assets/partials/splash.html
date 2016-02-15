@@ -1,13 +1,16 @@
-<div class="splash-container">
-  <div class="splash-content">
-    <div ng-if="!showLogin && !showRegister">
-      <h1>Stoutful</h1>
-      <h3>Discover your beer</h3>
-      <button class="btn btn-default btn-login" ng-click="showLoginPartial()">Login</button>
-      <button class="btn btn-default btn-signup" ng-click="showRegisterPartial()">Sign up</button>
+<div class="splash-container" layout="row" layout-align="center center" flex>
+  <div ng-if="!vm.showLogin && !vm.showRegister" layout="column" layout-align="center center">
+    <h1>Stoutful</h1>
+    <h3>Discover your beer</h3>
+    <div layout="row">
+      <md-button ng-click="vm.showLoginView()">Login</md-button>
+      <md-button ng-click="vm.showRegisterView()">Sign up</md-button>
     </div>
-
-    <ng-include ng-if="showLogin" src="loginPartial"></ng-include>
-    <ng-include ng-if="showRegister" src="registerPartial"></ng-include>
   </div>
+
+  <ng-include ng-if="vm.showLogin" ng-controller="LoginController"
+    src="vm.loginPartial" layout="column" flex="50"></ng-include>
+
+  <ng-include ng-if="vm.showRegister" ng-controller="RegisterController"
+    src="vm.registerPartial" layout="column" flex="50"></ng-include>
 </div>

@@ -1,111 +1,106 @@
-<div class="modal-header" ng-if="isLoggedIn">
-  <h3 class="modal-title">Edit Brewery</h3>
-</div>
-
-<div class="modal-body">
-  <form name="editForm" class="form-horizontal" novalidate>
-
-    <!-- Name -->
-    <div class="form-group" ng-class="{'has-error': editForm.name.$invalid}">
-      <label class="col-sm-2 control-label">Name</label>
-      <div class="col-sm-10">
-        <input type="text" name="name" class="form-control" value="{{ brewery.name }}"
-          ng-model="brewery.name"
-          ng-readonly="!isLoggedIn"
-          required>
-      </div>
-    </div>
-
-    <!-- Address 1 -->
-    <div class="form-group" ng-class="{'has-error': editForm.address1.$invalid}">
-      <label class="col-sm-2 control-label">Address 1</label>
-      <div class="col-sm-10">
-          <input name="address1" type="text" class="form-control" ng-model="brewery.address1"
+<md-dialog flex="90">
+  <md-dialog-content class="md-dialog-content">
+    <h2 class="md-title" ng-if="vm.isLoggedIn">Edit Brewery</h2>
+    <form name="vm.editForm" novalidate>
+      <!-- Name -->
+      <md-input-container class="md-block"
+        ng-class="{'has-error': vm.editForm.name.$invalid}">
+          <label>Name</label>
+          <input type="text" name="name" value="{{ vm.brewery.name }}"
+            ng-model="vm.brewery.name"
             ng-readonly="!isLoggedIn"
             required>
-      </div>
-    </div>
+      </md-input-container>
 
-    <!-- Address 2 -->
-    <div class="form-group" ng-class="{'has-error': editForm.address2.$invalid}">
-      <label class="col-sm-2 control-label">Address 2</label>
-      <div class="col-sm-10">
-          <input name="address2" type="text" class="form-control" ng-model="brewery.address2"
-            ng-readonly="!isLoggedIn">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <!-- City -->
-      <div ng-class="{'has-error': editForm.city.$invalid}">
-        <label class="col-sm-2 control-label">City</label>
-        <div class="col-sm-4">
-          <input name="city" type="text" class="form-control" value="{{ brewery.city }}"
-            ng-model="brewery.city"
-            ng-readonly="!isLoggedIn"
+      <!-- Address 1 -->
+      <md-input-container class="md-block"
+        ng-class="{'has-error': vm.editForm.address1.$invalid}">
+          <label>Address 1</label>
+          <input name="address1" type="text" ng-model="vm.brewery.address1"
+            ng-readonly="!vm.isLoggedIn"
             required>
-        </div>
+      </md-input-container>
+
+      <!-- Address 2 -->
+      <md-input-container class="md-block"
+        ng-class="{'has-error': vm.editForm.address2.$invalid}">
+          <label>Address 2</label>
+          <input name="address2" type="text" ng-model="vm.brewery.address2"
+            ng-readonly="!vm.isLoggedIn">
+      </md-input-container>
+
+      <div layout="row">
+        <!-- City -->
+        <md-input-container flex="50"
+          ng-class="{'has-error': vm.editForm.city.$invalid}">
+            <label>City</label>
+            <input name="city" type="text" value="{{ vm.brewery.city }}"
+              ng-model="vm.brewery.city"
+              ng-readonly="!vm.isLoggedIn"
+              required>
+        </md-input-container>
+
+        <!-- State -->
+        <md-input-container flex="50"
+          ng-class="{'has-error': vm.editForm.state.$invalid}">
+            <label>State</label>
+            <input name="ibu" type="text" value="{{ vm.brewery.state }}"
+              ng-model="vm.brewery.state"
+              ng-readonly="!vm.isLoggedIn"
+              required>
+        </md-input-container>
       </div>
 
-      <!-- State -->
-      <div ng-class="{'has-error': editForm.state.$invalid}">
-        <label class="col-sm-2 control-label">State</label>
-        <div class="col-sm-4">
-          <input name="ibu" type="text" class="form-control" value="{{ brewery.state }}"
-            ng-model="brewery.state"
-            ng-readonly="!isLoggedIn"
+      <!-- Phone -->
+      <md-input-container class="md-block"
+        ng-class="{'has-error': vm.editForm.phone.$invalid}">
+        <label>Phone</label>
+        <input name="phone" type="tel" value="{{ vm.brewery.phone }}"
+          ng-model="vm.brewery.phone"
+          ng-readonly="!vm.isLoggedIn"
+          required>
+      </md-input-container>
+
+      <!-- Website -->
+      <md-input-container class="md-block"
+        ng-class="{'has-error': vm.editForm.website.$invalid}">
+          <label>Website</label>
+          <input name="website" type="text" value="{{ vm.brewery.website }}"
+            ng-readonly="!vm.isLoggedIn"
+            ng-model="vm.brewery.website">
+      </md-input-container>
+
+      <!-- Description -->
+      <md-input-container class="md-block"
+        ng-class="{'has-error': vm.editForm.description.$invalid}">
+          <label>Description</label>
+          <textarea name="description" ng-model="vm.brewery.description"
+            ng-readonly="!vm.isLoggedIn"
             required>
-        </div>
+              {{ vm.brewery.description }}
+          </textarea>
+      </md-input-container>
+
+      <!-- Image -->
+      <div id="image" class="md-block">
+        <input class="ng-hide"
+          type="file"
+          ngf-select ng-model="vm.image"
+          ng-disabled="!vm.isLoggedIn">
+        <img ngf-src="vm.image" ng-show="vm.image">
+        <md-button class="md-raised md-primary" ng-click="vm.attachImage()">
+          {{ vm.image ? "Replace Image" : "Attach Image" }}
+        </md-button>
       </div>
-    </div>
+    </form>
+  </md-dialog-content>
 
-    <!-- Phone -->
-    <div class="form-group" ng-class="{'has-error': editForm.phone.$invalid}">
-      <label class="col-sm-2 control-label">Phone</label>
-      <div class="col-sm-10">
-        <input name="phone" type="tel" class="form-control" value="{{ brewery.phone }}"
-          ng-model="brewery.phone"
-          ng-readonly="!isLoggedIn"
-          required>
-      </div>
-    </div>
-
-    <!-- Website -->
-    <div class="form-group" ng-class="{'has-error': editForm.website.$invalid}">
-      <label class="col-sm-2 control-label">Website</label>
-      <div class="col-sm-10">
-        <input name="website" type="text" class="form-control" value="{{ brewery.website }}"
-          ng-readonly="!isLoggedIn"
-          ng-model="brewery.website">
-      </div>
-    </div>
-
-    <!-- Description -->
-    <div class="form-group" ng-class="{'has-error': editForm.description.$invalid}">
-      <label class="col-sm-2 control-label">Description</label>
-      <div class="col-sm-10">
-        <textarea name="description" class="form-control" ng-model="brewery.description"
-          ng-readonly="!isLoggedIn"
-          required>
-            {{ brewery.description }}
-        </textarea>
-      </div>
-    </div>
-
-    <!-- Image -->
-    <div id="image" class="form-group">
-      <label class="col-sm-2 control-label">Image</label>
-      <div class="col-sm-10">
-        <input ngf-select ng-model="image" type="file" class="form-control"
-          ng-disabled="!isLoggedIn">
-        <img ngf-src="image">
-      </div>
-    </div>
-
-  </form>
-</div>
-
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" ng-click="close()">Close</button>
-  <button ladda-button="loading" data-style="expand-right" type="button" class="btn btn-primary ladda-button" ng-click="save()" ng-class="{'disabled': editForm.$invalid}" ng-if="isLoggedIn">Save changes</button>
-</div>
+  <md-dialog-actions>
+    <md-button type="button" class="btn btn-default" ng-click="vm.close()">Close</md-button>
+    <md-button ladda-button="vm.loading" data-style="expand-right" type="button"
+      class="btn btn-primary ladda-button" ng-click="vm.save()"
+      ng-class="{'disabled': vm.editForm.$invalid}" ng-if="vm.isLoggedIn">
+        Save changes
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

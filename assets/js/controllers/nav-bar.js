@@ -1,23 +1,34 @@
-angular.module('stoutful.controllers').
-  controller('NavBarController', function($scope, $modal, $http, session, $window, $location) {
-    // Kind of a hacky way to prevent this controller from executing on the splash page
-    if ($location.url() === '/') return;
+(function() {
+  'use strict';
 
-    if (session.user) {
-      $scope.user = session.user;
-      $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
-    }
+  angular
+    .module('stoutful.controllers')
+    .controller('NavBarController', NavBarController);
 
-    // Watch for session user change
-    $scope.$watch(function() { return session.user; }, function() {
-      $scope.user = session.user;
-      if ($scope.user) {
+  function NavBarController($scope, $http, session, $window, $location) {
+
+    $scope.logout = logout;
+    $scope.onClickMyProfile = onClickMyProfile;
+    $scope.navigateBack = navigateBack;
+
+    if (shouldShowNavBar()) {
+      if (session.user) {
+        $scope.user = session.user;
         $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
       }
-    });
 
-    $scope.logout = function() {
-      $http({method: 'GET', url: '/logout'})
+      watchForUserChange();
+      watchForUrlChange();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    function shouldShowNavBar() {
+      return $location.url() !== '/';
+    }
+
+    function logout() {
+      $http({ method: 'GET', url: '/logout' })
         .then(function() {
           session.destroy();
           $location.url('/');
@@ -25,9 +36,41 @@ angular.module('stoutful.controllers').
         .catch(function(err) {
           console.log('Error logging out: ', err);
         });
-    };
+    }
 
-    $scope.onClickMyProfile = function() {
+    function onClickMyProfile() {
       $window.location.href = '/#/profile';
-    };
-  });
+    }
+
+    function watchForUserChange() {
+      var target = function() {
+        return $scope.user;
+      };
+
+      var listener = function() {
+        $scope.user = session.user;
+        if ($scope.user) {
+          $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
+        }
+      };
+
+      $scope.$watch(target, listener);
+    }
+
+    function watchForUrlChange() {
+      var target = function() {
+        return $location.url();
+      };
+
+      var listener = function() {
+        $scope.atHome = $location.url() == '/home';
+      };
+
+      $scope.$watch(target, listener);
+    }
+
+    function navigateBack() {
+      $window.history.back();
+    }
+  }
+})();

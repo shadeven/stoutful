@@ -1,37 +1,71 @@
-<div class="register container" ng-controller="RegisterController">
-  <div class="row">
+<md-card class="register">
+  <md-loading-container ng-model="vm.loading">
+    <md-progress-circular md-mode="indeterminate"
+      md-diameter="100px"></md-progress-circular>
 
-    <form class="col-sm-4 col-sm-offset-4" name="registerForm" novalidate>
-      <h2 class="title">Sign Up</h2>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Back"
+          ng-click="dismiss()">
+            <md-icon>arrow_back</md-icon>
+        </md-button>
+        <h2>
+          <span>Sign Up</span>
+        </h2>
+      </div>
+    </md-toolbar>
 
-      <!-- Error -->
-      <alert ng-if="error" type="{{error.type}}">{{error.msg}}</alert>
+    <!-- Error -->
+    <md-toolbar-alert ng-if="vm.error" alert="error"
+      md-toolbar-alert-dismiss="dismissToolbarAlert()">
+        {{ vm.error.msg }}
+    </md-toolbar-alert>
 
-      <div class="form-group" ng-class="{'has-error': registerForm.firstName.$invalid}">
-        <input name="firstName" type="text" class="form-control" placeholder="First Name" ng-model="firstName" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': registerForm.lastName.$invalid}">
-        <input name="lastName" type="text" class="form-control" placeholder="Last Name" ng-model="lastName" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': registerForm.email.$invalid}">
-        <input name="email" type="email" class="form-control" placeholder="Email" ng-model="email" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': registerForm.password.$invalid}">
-        <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password" required>
-      </div>
-      <button class="ladda-button btn btn-primary" data-style="expand-right" ladda-button="loading" ng-click="register()">
-        <span class="ladda-label">Sign Up</span>
+    <!-- Card content -->
+    <md-card-content>
+      <form name="formHolder.registerForm" novalidate>
+        <md-input-container class="md-block"
+          ng-class="{'has-error': formHolder.registerForm.firstName.$invalid}">
+            <label>First Name</label>
+            <input name="firstName" type="text" placeholder="First Name"
+              ng-model="formHolder.firstName" required>
+        </md-input-container>
+
+        <md-input-container class="md-block"
+          ng-class="{'has-error': formHolder.registerForm.lastName.$invalid}">
+            <label>Last Name</label>
+            <input name="lastName" type="text" placeholder="Last Name"
+              ng-model="formHolder.lastName" required>
+        </md-input-container>
+
+        <md-input-container class="md-block"
+          ng-class="{'has-error': formHolder.registerForm.email.$invalid}">
+            <label>Email</label>
+            <input name="email" type="email" placeholder="Email"
+              ng-model="formHolder.email" required>
+        </md-input-container>
+
+        <md-input-container class="md-block"
+          ng-class="{'has-error': formHolder.registerForm.password.$invalid}">
+            <label>Password</label>
+            <input name="password" type="password" placeholder="Password"
+              ng-model="formHolder.password" required>
+        </md-input-container>
+      </form>
+    </md-card-content>
+
+    <!-- Card footer -->
+    <md-card-footer layout="row" layout-align="end center">
+      <button class="btn-google btn-google-login"
+        ng-disabled="vm.loading"
+        ng-click="vm.logInWithGoogle()">
       </button>
-
-      <p class="google-title">Have a Google account?</p>
-
-      <button class="ladda-button btn-google btn-google-register"
-        data-style="zoom-in"
-        ladda-button="loading"
-        ng-disabled="loading"
-        ng-click="logInWithGoogle()">
-      </button>
-    </form>
-
-  </div>
-</div>
+      <span flex></span>
+      <md-button
+        ng-disabled="formHolder.registerForm.$invalid"
+        ng-click="onRegisterClicked()">
+          Sign Up
+      </md-button>
+    </md-card-footer>
+  </md-loading-container>
+</md-card>
