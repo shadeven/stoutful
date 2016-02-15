@@ -24,7 +24,8 @@ module.exports = {
     beer_id: {
       type: 'integer',
       required: true,
-      notNull: true
+      notNull: true,
+      model: 'beer'
     },
     timestamp: {
       type: 'datetime',

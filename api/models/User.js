@@ -63,6 +63,10 @@ module.exports = {
       type: 'string',
       enum: ['editor', 'publisher']
     },
+    activities: {
+      collection: 'Activity',
+      via: 'user'
+    },
     isEditor: function() {
       var obj = this.toObject();
       return obj.role === 'editor';
