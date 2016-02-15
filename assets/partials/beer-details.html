@@ -1,5 +1,5 @@
 <div layout="row" layout-align="center start" flex>
-  <md-card class="beer-details" flex="80">
+  <md-card class="beer-details" flex="60">
     <div class="md-card-image background-image" ng-model="beer.image_url"
       ng-background-image="{{ beer.image_url || placeholder }}">
       <!-- No content -->
@@ -13,14 +13,32 @@
         <a href ng-click="editBeer($event)">Submit a patch!</a>
     </md-toolbar-alert>
 
-    <md-card-content>
-      <section>
-        <h1>{{ beer.name }}</h1>
-        <h4>{{ beer.brewery.name }}</h4>
-        <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
-        <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
-      </section>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{ beer.name }}</span>
+        <span class="md-subhead">{{ beer.brewery.name }}</span>
+      </md-card-title-text>
+    </md-card-title>
 
+    <div layout-padding>
+      <span class="abv"><b>ABV</b> {{ beer.abv }}%</span>
+      <span class="ibu"><b>IBU</b> {{ beer.ibu }}</span>
+    </div>
+
+    <md-card-actions class="activity-counter" layout="row" layout-align="end center">
+      <md-button ng-disabled="!isLoggedIn"
+        ng-click="onLikeClicked()">
+        <i class="icon stoutful-thumbs_up"></i>
+        x {{likeCounter}}
+      </md-button>
+      <md-button ng-disabled="!isLoggedIn"
+        ng-click="onCheckInClicked()">
+        <i class="icon stoutful-beer"></i>
+        x {{checkInCounter}}
+      </md-button>
+    </md-card-actions>
+
+    <md-card-content>
       <section class="details">
         <h3>Description</h3>
         <span class="empty-inline" ng-if="!beer.description">No description.</span>
@@ -39,17 +57,5 @@
       </section>
     </md-card-content>
 
-    <md-card-actions class="activity-counter" layout="row" layout-align="end center">
-      <md-button ng-disabled="!isLoggedIn"
-        ng-click="onLikeClicked()">
-        <i class="icon stoutful-thumbs_up"></i>
-        x {{likeCounter}}
-      </md-button>
-      <md-button ng-disabled="!isLoggedIn"
-        ng-click="onCheckInClicked()">
-        <i class="icon stoutful-beer"></i>
-        x {{checkInCounter}}
-      </md-button>
-    </md-card-actions>
   </md-card>
 </div>

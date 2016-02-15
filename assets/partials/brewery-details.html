@@ -1,5 +1,5 @@
 <div layout="row" layout-align="center start" flex>
-  <md-card class="brewery-details" flex="80">
+  <md-card class="brewery-details" flex="60">
     <div class="md-card-image background-image" ng-model="brewery.image_url"
       ng-background-image="{{ brewery.image_url || placeholder }}">
       <!-- No content -->
@@ -12,17 +12,17 @@
       <a href ng-click="editBrewery($event)">Submit a patch!</a>
     </md-toolbar-alert>
 
-    <md-card-content>
-      <section>
-        <h1>{{brewery.name}}</h1>
-        <h4>{{brewery.city}}, {{brewery.state}}</h4>
-      </section>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{ brewery.name }}</span>
+        <span class="md-subhead">{{brewery.city}}, {{brewery.state}}</span>
+      </md-card-title-text>
+    </md-card-title>
 
-      <section>
-        <h3>Description</h3>
-        <span class="empty-inline" ng-if="!brewery.description">No description.</span>
-        <p class="description">{{ brewery.description }}</p>
-      </section>
+    <md-card-content>
+      <h3>Description</h3>
+      <span class="empty-inline" ng-if="!brewery.description">No description.</span>
+      <p class="description">{{ brewery.description }}</p>
     </md-card-content>
   </md-card>
 </div>
