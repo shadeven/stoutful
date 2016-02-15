@@ -36,17 +36,18 @@
       </div>
 
       <!-- Brewery -->
-      <md-input-container class="md-block"
-        ng-class="{'has-error': editForm.brewery.$invalid}">
-          <label>Brewery</label>
-          <input name="brewery" type="text" ng-model="beer.brewery"
-            typeahead="brewery.name for brewery in searchBrewery($viewValue)"
-            typeahead-on-select="onSelect($item, $model, $label)"
-            typeahead-select-on-exact="true"
-            typeahead-editable="false"
-            ng-readonly="!isLoggedIn"
-            required>
-      </md-input-container>
+      <md-autocomplete
+        md-input-name="brewery"
+        md-search-text="searchText"
+        md-min-length="0"
+        md-selected-item="selectedBrewery"
+        md-selected-item-change="onSelect(brewery)"
+        md-items="brewery in searchBrewery(searchText)"
+        md-item-text="brewery.name"
+        md-floating-label="Brewery"
+        required>
+          <span md-highlight-text="searchText">{{ brewery.name }}</span>
+      </md-autocomplete>
 
       <!-- Description -->
       <md-input-container class="md-block"
@@ -75,6 +76,10 @@
 
   <md-dialog-actions>
     <md-button type="button" class="btn btn-default" ng-click="close()">Close</md-button>
-    <md-button ladda-button="loading" data-style="expand-right" type="button" class="btn btn-primary ladda-button" ng-click="save()" ng-class="{'disabled': editForm.$invalid}" ng-if="isLoggedIn">Save changes</md-button>
+    <md-button ng-click="save()"
+      ng-class="{'disabled': editForm.$invalid}"
+      ng-if="isLoggedIn">
+        Save changes
+    </md-button>
   </md-dialog-actions>
 </md-dialog>

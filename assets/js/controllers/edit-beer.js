@@ -75,8 +75,9 @@ angular.module('stoutful.controllers').
 
     // We use a custom onSelect function because the "model" ends up being the name
     // and not the actual model.
-    $scope.onSelect = function($item) {
-      $scope.beer.brewery = $item;
+    $scope.onSelect = function(brewery) {
+      if (!brewery) return;
+      $scope.beer.brewery = brewery;
     };
 
     $scope.attachImage = function() {
