@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers')
-  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location, $modal, session) {
+  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location, session) {
     var vm = this;
     var patchId = $routeParams.patchId;
     vm.user = session.user;
