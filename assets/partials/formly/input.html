@@ -1,5 +1,4 @@
-<md-input-container class="md-block"
-  ng-class="{'bg-success': to.added, 'bg-danger': to.removed}">
+<md-input-container class="md-block {{ to.classes }}">
     <label>{{to.label}}</label>
     <input ng-readonly="formState.readOnly"
       ng-disabled="formState.readOnly"
