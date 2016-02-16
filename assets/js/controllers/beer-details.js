@@ -120,6 +120,14 @@ angular.module('stoutful.controllers').
         console.log(err);
       });
 
+    $http.get('/api/beers/suggestions/' + session.user.id)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+
     $http.get("/api/beers/" + $routeParams.beerId + "/stats")
       .then(function(response) {
         $scope.likeCounter = response.data.like_count;

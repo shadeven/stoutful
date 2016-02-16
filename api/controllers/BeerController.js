@@ -27,7 +27,23 @@ module.exports = {
   },
 
   suggestions: function(req, res) {
-    res.json({ok: "ok"});
+    var userId = req.params.id;
+    var beerQuery = Promise.promisify(Beer.query);
+    beerQuery("SELECT * FROM beers WHERE style_id IN " +
+    "(SELECT styles.id FROM activities " +
+    "INNER JOIN beers on beers.id = activities.beer_id " +
+    "INNER JOIN styles on beers.style_id = styles.id " +
+    "WHERE activities.type = 'like' AND activities.user_id = " + userId + ") " +
+    "AND beers.id NOT IN (SELECT beers.id FROM activities " +
+    "INNER JOIN beers ON beers.id = activities.beer_id " +
+    "WHERE activities.type = 'like' AND activities.user_id = " + userId + ") " +
+    "ORDER BY name LIMIT 10")
+    .then(function(results) {
+      res.ok(results);
+    })
+    .catch(function(err) {
+      res.serverError(err);
+    });
   },
 
   search: function(req, res) {
