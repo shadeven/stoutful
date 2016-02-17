@@ -20,3 +20,13 @@ md-sidenav {
     font-weight: 600;
   }
 }
+
+.activities {
+  md-list-item {
+    .md-avatar {
+      line-height: 40px;
+      text-align: center;
+      font-size: 24px;
+    }
+  }
+}

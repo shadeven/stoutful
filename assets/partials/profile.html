@@ -28,14 +28,17 @@
   </md-sidenav>
 
   <!-- Content -->
-  <md-content layout-padding>
-    <h3>Activity</h3>
+  <md-content layout-padding flex>
+    <h3>Recent Activity</h3>
     <span class="empty" ng-show="!activities || activities.length == 0">No activity for this user :(</span>
-    <ul class="activities" ng-show="activities && activities.length > 0">
-      <li class="item" ng-repeat="activity in activities">
-        {{actionVerbForActivityType(activity.type)}} <a ng-href="#/beer/{{activity.beer.id}}">{{activity.beer.name}}</a>
-          by <a ng-href="#/brewery/{{activity.beer.brewery.id}}">{{activity.beer.brewery.name}}</a>.
-      </li>
-    </ul>
+    <md-list class="activities" ng-show="activities && activities.length > 0">
+      <md-list-item ng-repeat="activity in activities">
+        <i class="stoutful-thumbs_up md-avatar" ng-if="activity.type === 'like'"></i>
+        <i class="stoutful-beer md-avatar" ng-if="activity.type === 'check_in'"></i>
+        <div class="md-list-item-text">
+          {{actionVerbForActivityType(activity.type)}}&nbsp;<a ng-href="#/beer/{{activity.beer.id}}">{{activity.beer.name}}</a>
+        </div>
+      </md-list-item>
+    </md-list>
   </md-content>
 </div>
