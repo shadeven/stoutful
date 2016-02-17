@@ -6,9 +6,24 @@
     md-component-id="left"
     md-whiteframe="4"
     layout-padding>
-      <div layout="column" layout-align="center center">
-        <img ng-src="{{user.image_url}}?sz=150" class="img-circle">
-        <h2>{{user.first_name}} {{user.last_name}}</h2>
+      <div layout="column">
+        <div layout="column" layout-align="center center">
+          <img ng-src="{{user.image_url}}?sz=150" class="img-circle">
+          <h2>{{user.first_name}} {{user.last_name}}</h2>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" layout="row" layout-align="center center">
+          <div layout="column" layout-align="center center" flex="30">
+            <span class="counter">{{ stats.likes }}</span>
+            <span class="label">Likes</span>
+          </div>
+          <div layout="column" layout-align="center center" flex="30">
+            <span class="counter">{{ stats.check_ins }}</span>
+            <span class="label">Check-Ins</span>
+          </div>
+        </div>
+
       </div>
   </md-sidenav>
 
