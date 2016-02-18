@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 /* global Beer, Patch, Activity */
+var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var Promise = require('bluebird');
 
@@ -57,18 +58,18 @@ module.exports = {
 
     // Upload incoming image, if there is one
     var file = req.file('file');
-    var opt = {
-      adapter: require('skipper-s3'),
-      key: sails.config.aws.key,
-      secret: sails.config.aws.secret,
-      bucket: 'stoutful-dev'
-    };
-    file.upload(opt, function(err, uploadedFiles) {
+    file.upload(sails.config.skipper, function(err, uploadedFiles) {
       if (err) {
         console.log('Error uploading files: ', err);
       } else {
         if (uploadedFiles.length > 0) {
-          req.params.all().image_url = uploadedFiles[0].extra.Location;
+          var file = uploadedFiles[0];
+          if (file.fd) {
+            req.params.all().image_url = path.relative("/app/dist", file.fd);
+          }
+          if (file.extra && file.extra.Location) {
+            req.params.all().image_url = file.extra.Location;
+          }
         } else {
           delete req.params.all().file;
         }

@@ -24,6 +24,7 @@
     "sails-hook-gulp": "0.0.1",
     "sails-postgresql": "^0.11.1",
     "sails-redis": "^0.10.4",
+    "skipper-disk": "^0.5.4",
     "skipper-s3": "^0.5.5"
   },
   "scripts": {
