@@ -25,6 +25,7 @@
     "moment": "^2.10.3",
     "passport": "^0.2.2",
     "passport-http": "^0.3.0",
+    "pg": "^4.4.6",
     "rc": "~0.5.0",
     "rx": "^2.5.3",
     "sails": "^0.12.0",
@@ -47,8 +48,6 @@
   "license": "",
   "devDependencies": {
     "chai": "^3.2.0",
-    "del": "^2.2.0",
-    "pg": "^4.4.2",
     "sails-factory": "^0.3.3",
     "sails-memory": "^0.10.5",
     "supertest": "^1.0.1",
