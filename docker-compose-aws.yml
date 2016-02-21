@@ -1,5 +1,5 @@
 web:
-  image: alexfu/stoutful
+  image: 534500277939.dkr.ecr.us-east-1.amazonaws.com/stoutful:latest
   cpu_shares: 100
   mem_limit: 1024000000
   ports:
