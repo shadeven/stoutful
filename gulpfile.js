@@ -1,5 +1,5 @@
+var Promise = require("bluebird");
 var gulp = require("gulp");
-var Rx = require("rx");
 var Sails = require("sails");
 var mocha = require("gulp-mocha");
 var wiredep = require("wiredep");
@@ -113,13 +113,15 @@ gulp.task("prod", ["build"]);
 gulp.task("default", ["build", "watch"]);
 
 gulp.task("elasticsearch:index", function(cb) {
-  Sails.load(function (err, sails) {
+  Sails.load({ port: 3001 }, function (err, sails) {
     var Beer = sails.models.beer;
     var Brewery = sails.models.brewery;
 
     // Beers index
-    var indexBeers = Rx.Observable.fromPromise(Beer.find())
-      .flatMap(function(beers) {
+    var indexBeers = Beer.find()
+      .then(function(beers) {
+        if (!beers || beers.length === 0) return null;
+
         var body = [];
 
         beers.forEach(function(beer) {
@@ -129,13 +131,14 @@ gulp.task("elasticsearch:index", function(cb) {
           body.push(document);
         });
 
-        var promise = Beer.bulkIndex({ body: body });
-        return Rx.Observable.fromPromise(promise);
+        return Beer.bulkIndex({ body: body });
       });
 
     // Brewery index
-    var indexBrewery = Rx.Observable.fromPromise(Brewery.find())
-      .flatMap(function(breweries) {
+    var indexBreweries = Brewery.find()
+      .then(function(breweries) {
+        if (!breweries || breweries.length === 0) return null;
+
         var body = [];
 
         breweries.forEach(function(brewery) {
@@ -145,14 +148,14 @@ gulp.task("elasticsearch:index", function(cb) {
           body.push(document);
         });
 
-        var promise = Brewery.bulkIndex({ body: body });
-        return Rx.Observable.fromPromise(promise);
+        return Brewery.bulkIndex({ body: body });
       });
 
-    Rx.Observable.forkJoin(indexBeers, indexBrewery)
-      .subscribe(function () {
-        cb();
-      }, function(err) {
+    Promise.all([indexBeers, indexBreweries])
+      .then(function() {
+        sails.lower(cb);
+      })
+      .catch(function(err) {
         cb(err);
       });
   });
