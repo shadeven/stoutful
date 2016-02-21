@@ -109,6 +109,7 @@ gulp.task("watch", function() {
 gulp.task("concat", ["concatControllers", "concatDirectives"]);
 gulp.task("bower", ["bower:js", "bower:css", "bower:inject"]);
 gulp.task("build", ["copy", "concat", "sass", "bower"]);
+gulp.task("prod", ["build"]);
 gulp.task("default", ["build", "watch"]);
 
 gulp.task("elasticsearch:index", function(cb) {
