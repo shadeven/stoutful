@@ -1,0 +1,3 @@
+#!/bin/bash
+docker build -t stoutful-base --file ../Dockerfile.base ..
+docker build -t stoutful-dev --file Dockerfile.dev .
