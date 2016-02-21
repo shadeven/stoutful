@@ -4,8 +4,6 @@ web:
   mem_limit: 1024000000
   ports:
     - "80:1337"
-  volumes:
-    - /home/ec2-user/app:/app
   links:
     - postgres
     - redis
