@@ -8,6 +8,8 @@ web:
     - postgres
     - redis
     - elasticsearch
+  environment:
+    - NODE_ENV=production
 postgres:
   image: postgres
   cpu_shares: 100
