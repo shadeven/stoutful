@@ -113,7 +113,11 @@ gulp.task("prod", ["build"]);
 gulp.task("default", ["build", "watch"]);
 
 gulp.task("elasticsearch:index", function(cb) {
-  Sails.load({ port: 3001 }, function (err, sails) {
+  Sails.load(function (err, sails) {
+    if (err) {
+      return cb(err);
+    }
+    console.log(sails);
     var Beer = sails.models.beer;
     var Brewery = sails.models.brewery;
 
