@@ -5,17 +5,10 @@ web:
   ports:
     - "80:1337"
   links:
-    - postgres
     - redis
     - elasticsearch
   environment:
     - NODE_ENV=production
-postgres:
-  image: postgres
-  cpu_shares: 100
-  mem_limit: 1024000000
-  ports:
-    - "5432:5432"
 redis:
   image: redis
   cpu_shares: 100

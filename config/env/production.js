@@ -39,5 +39,12 @@ module.exports = {
     key: "AKIAJNW3FLAVY2C73AHA",
     secret: "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",
     bucket: "stoutful"
+  },
+
+  connections: {
+    pg: {
+      adapter: "sails-postgresql",
+      url: process.env.DB_URL
+    }
   }
 };
