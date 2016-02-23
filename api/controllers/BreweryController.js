@@ -29,13 +29,7 @@ module.exports = {
     if (!user) return res.unAuthorized();
 
     var file = req.file('file');
-    var opt = {
-      adapter: require('skipper-s3'),
-      key: sails.config.aws.key,
-      secret: sails.config.aws.secret,
-      bucket: 'stoutful-dev'
-    };
-    file.upload(opt, function(err, uploadedFiles) {
+    file.upload(sails.config.skipper, function(err, uploadedFiles) {
       if (err) {
         console.log('Error uploading files: ', err);
       } else {
