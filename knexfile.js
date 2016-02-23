@@ -11,10 +11,6 @@ module.exports = {
   },
   production: {
     client: "postgresql",
-    connection: {
-      database: "stoutful",
-      user: "postgres",
-      host: process.env.POSTGRES_PORT_5432_TCP_ADDR
-    }
+    connection: process.env.DB_URL
   }
 };
