@@ -45,6 +45,15 @@ module.exports = {
     pg: {
       adapter: "sails-postgresql",
       url: process.env.DB_URL
+    },
+    redis: {
+      adapter: "sails-redis",
+      url: process.env.REDIS_URL
     }
+  },
+
+  session: {
+    adapter: "connect-redis",
+    url: process.env.REDIS_URL
   }
 };
