@@ -53,6 +53,7 @@ module.exports = {
   },
 
   session: {
+    adapter: "connect-redis",
     url: process.env.REDIS_URL
   }
 };

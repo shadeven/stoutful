@@ -5,7 +5,6 @@ web:
   ports:
     - "80:1337"
   links:
-    - redis
     - elasticsearch
   environment:
     - NODE_ENV=production
