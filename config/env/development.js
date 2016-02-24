@@ -11,15 +11,26 @@
  */
 
 module.exports = {
+  connections: {
+    pg: {
+      adapter: 'sails-postgresql',
+      host: process.env.POSTGRES_PORT_5432_TCP_ADDR || '0.0.0.0',
+      user: 'postgres',
+      database: 'stoutful'
+    },
 
-  /***************************************************************************
-   * Set the default database connection for models in the development       *
-   * environment (see config/connections.js and config/models.js )           *
-   ***************************************************************************/
+    redis: {
+      adapter: 'sails-redis',
+      host: process.env.REDIS_PORT_6379_TCP_ADDR || '0.0.0.0',
+    },
 
-  // models: {
-  //   connection: 'someMongodbServer'
-  // }
+    elasticsearch: {
+      adapter: 'elasticsearch',
+      host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR || '0.0.0.0',
+      log: 'error'
+    }
+  },
+
   skipper: {
     dirname: "/app/dist/public/uploads"
   },

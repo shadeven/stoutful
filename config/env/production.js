@@ -11,29 +11,6 @@
  */
 
 module.exports = {
-
-  /***************************************************************************
-   * Set the default database connection for models in the production        *
-   * environment (see config/connections.js and config/models.js )           *
-   ***************************************************************************/
-
-  // models: {
-  //   connection: "someMysqlServer"
-  // },
-
-  /***************************************************************************
-   * Set the port in the production environment to 80                        *
-   ***************************************************************************/
-
-  // port: 80,
-
-  /***************************************************************************
-   * Set the log level in production environment to "silent"                 *
-   ***************************************************************************/
-
-  // log: {
-  //   level: "silent"
-  // }
   skipper: {
     adapter: require("skipper-s3"),
     key: "AKIAJNW3FLAVY2C73AHA",
@@ -46,9 +23,16 @@ module.exports = {
       adapter: "sails-postgresql",
       url: process.env.DB_URL
     },
+
     redis: {
       adapter: "sails-redis",
       url: process.env.REDIS_URL
+    },
+
+    elasticsearch: {
+      adapter: "elasticsearch",
+      host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR || "0.0.0.0",
+      log: "error"
     }
   },
 
