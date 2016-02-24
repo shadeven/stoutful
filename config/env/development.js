@@ -22,5 +22,12 @@ module.exports = {
   // }
   skipper: {
     dirname: "/app/dist/public/uploads"
+  },
+
+  session: {
+    adapter: "connect-redis",
+    host: process.env.REDIS_PORT_6379_TCP_ADDR || "0.0.0.0",
+    port: 6379,
+    db: 0
   }
 };
