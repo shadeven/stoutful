@@ -26,7 +26,7 @@ module.exports = {
 
     redis: {
       adapter: "sails-redis",
-      url: process.env.REDIS_URL
+      host: process.env.REDIS_HOST
     },
 
     elasticsearch: {
