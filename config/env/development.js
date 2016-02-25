@@ -39,6 +39,7 @@ module.exports = {
     adapter: "connect-redis",
     host: process.env.REDIS_PORT_6379_TCP_ADDR || "0.0.0.0",
     port: 6379,
-    db: 0
+    db: 0,
+    prefix: 'sess:'
   }
 };

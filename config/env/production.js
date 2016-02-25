@@ -38,6 +38,7 @@ module.exports = {
 
   session: {
     adapter: "connect-redis",
-    url: process.env.REDIS_URL
+    url: process.env.REDIS_URL,
+    prefix: 'sess:'
   }
 };
