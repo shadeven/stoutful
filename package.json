@@ -10,7 +10,7 @@
     "bluebird": "^2.9.30",
     "bower": "^1.7.7",
     "coffee-script": "^1.9.3",
-    "connect-redis": "1.4.5",
+    "connect-redis": "^3.0.2",
     "del": "^2.2.0",
     "ejs": "~0.8.4",
     "elasticsearch": "^10.1.3",
