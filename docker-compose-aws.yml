@@ -1,27 +1,15 @@
 web:
-  image: alexfu/stoutful
+  image: 534500277939.dkr.ecr.us-east-1.amazonaws.com/stoutful:latest
   cpu_shares: 100
   mem_limit: 1024000000
   ports:
     - "80:1337"
-  volumes:
-    - /home/ec2-user/app:/app
   links:
-    - postgres
-    - redis
     - elasticsearch
-postgres:
-  image: postgres
-  cpu_shares: 100
-  mem_limit: 1024000000
-  ports:
-    - "5432:5432"
-redis:
-  image: redis
-  cpu_shares: 100
-  mem_limit: 1024000000
-  ports:
-    - "6379:6379"
+  environment:
+    - NODE_ENV=production
+    - DB_URL=postgres://tempaShoRE:aBrI1Xb217c1JaAeR4Id@stoutful.cqyc4inrjocm.us-east-1.rds.amazonaws.com:5432/stoutful
+    - REDIS_HOST=stoutful-001.jcc0ic.0001.use1.cache.amazonaws.com
 elasticsearch:
   image: elasticsearch
   cpu_shares: 100

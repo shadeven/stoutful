@@ -4,3 +4,29 @@ md-sidenav {
     height: 150px;
   }
 }
+
+.stats {
+  .icon {
+    font-size: 30px;
+  }
+
+  .counter {
+    font-size: 25px;
+  }
+
+  .label {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.activities {
+  md-list-item {
+    .md-avatar {
+      line-height: 40px;
+      text-align: center;
+      font-size: 24px;
+    }
+  }
+}
