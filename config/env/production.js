@@ -31,8 +31,7 @@ module.exports = {
 
     elasticsearch: {
       adapter: "elasticsearch",
-      host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR || "0.0.0.0",
-      log: "error"
+      host: process.env.ELASTICSEARCH_HOST
     }
   },
 
