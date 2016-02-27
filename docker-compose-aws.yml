@@ -4,16 +4,8 @@ web:
   mem_limit: 1024000000
   ports:
     - "80:1337"
-  links:
-    - elasticsearch
   environment:
     - NODE_ENV=production
     - DB_URL=postgres://tempaShoRE:aBrI1Xb217c1JaAeR4Id@stoutful.cqyc4inrjocm.us-east-1.rds.amazonaws.com:5432/stoutful
     - REDIS_HOST=stoutful-001.jcc0ic.0001.use1.cache.amazonaws.com
-elasticsearch:
-  image: elasticsearch
-  cpu_shares: 100
-  mem_limit: 1024000000
-  ports:
-    - "9200:9200"
-    - "9300:9300"
+    - ELASTICSEARCH_HOST=https://search-stoutful-kmt7lineyar46ldq36iat5u45a.us-east-1.es.amazonaws.com

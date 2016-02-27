@@ -31,14 +31,13 @@ module.exports = {
 
     elasticsearch: {
       adapter: "elasticsearch",
-      host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR || "0.0.0.0",
-      log: "error"
+      host: process.env.ELASTICSEARCH_HOST
     }
   },
 
   session: {
     adapter: "connect-redis",
-    url: process.env.REDIS_URL,
+    host: process.env.REDIS_HOST,
     prefix: 'sess:'
   }
 };
