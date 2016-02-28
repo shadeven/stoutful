@@ -113,7 +113,7 @@ gulp.task("prod", ["build"]);
 gulp.task("default", ["build", "watch"]);
 
 gulp.task("elasticsearch:index", function(cb) {
-  Sails.load({ hooks: { grunt: false } }, function (err, sails) {
+  Sails.load({ hooks: { grunt: false, gulp: false } }, function (err, sails) {
     if (err) {
       return cb(err);
     }
