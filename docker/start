@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Pull latest code
 git pull
@@ -8,19 +8,7 @@ npm cache clean
 
 # Install app dependencies
 npm install
-node_modules/.bin/bower install --allow-root
-
-# Check if database exists
-DB=stoutful
-DB_HOST=$POSTGRES_PORT_5432_TCP_ADDR
-DB_USER=postgres
-
-psql -lqt -h $DB_HOST -U $DB_USER | cut -d \| -f 1 | grep -w $DB
-if [[ $? -ne 0 ]]; then
-  # Database doesn't exist
-  echo "Database does not exist, creating..."
-  psql -h $DB_HOST -U $DB_USER -c 'CREATE DATABASE stoutful'
-fi
+bower install --allow-root
 
 # Ensure database is at the latest version
 knex migrate:latest
