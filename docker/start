@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Pull latest code
-git pull
-
 # Clean npm cache
 npm cache clean
 
