@@ -6,20 +6,16 @@
  */
 
  /* global Brewery, Patch */
-var Rx = require('rx');
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 
 module.exports = {
   search: function(req, res) {
     var query = req.query.query;
     searchBrewery(query)
-      .flatMap(function (breweries) {
-        return Rx.Observable.from(breweries);
-      })
-      .toArray()
-      .subscribe(function (breweries) {
+      .then(function(breweries) {
         res.json(breweries);
-      }, function (err) {
+      })
+      .catch(function(err) {
         res.serverError(err);
       });
   },
@@ -86,18 +82,17 @@ module.exports = {
 };
 
 function searchBrewery(query) {
-  return Rx.Observable.fromPromise(Brewery.search({
+  var esQuery = {
     index: 'stoutful',
     body: { query: { match: { name: query }}}
-  }))
-  .flatMap(function (result) {
-    return Rx.Observable.from(result.hits.hits);
-  })
-  .map(function (hit) {
-    return {id: parseInt(hit._id)};
-  })
-  .toArray()
-  .switchMap(function (ids) {
-    return Rx.Observable.fromPromise(Brewery.find(ids));
-  });
+  };
+  return Brewery.search(esQuery)
+    .then(function(results) {
+      return results.hits.hits.map(function(hit) {
+        return {id: parseInt(hit._id)};
+      });
+    })
+    .then(function(ids) {
+      return Brewery.find(ids);
+    });
 }

@@ -117,7 +117,7 @@ gulp.task("elasticsearch:index", function(cb) {
     if (err) {
       return cb(err);
     }
-    console.log(sails);
+
     var Beer = sails.models.beer;
     var Brewery = sails.models.brewery;
 
