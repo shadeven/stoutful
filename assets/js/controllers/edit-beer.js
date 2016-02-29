@@ -1,35 +1,49 @@
 angular.module('stoutful.controllers').
   controller('EditBeerCtrl', function ($scope, $mdDialog, $http, Upload, beer, session) {
-    $scope.beer = beer;
-    $scope.image = $scope.beer.image_url;
-    $scope.selectedBrewery = beer.brewery;
-    $scope.loading = false;
-    $scope.isLoggedIn = session.isLoggedIn();
+    var vm = this;
 
-    // Although Angular handles 2-way data binding for us, below is for recording which
-    // attributes were changed so when it comes time to PUT, we only PUT the attributes
-    // that were changed instead of all attributes.
-    var watchAttributes = ['name', 'abv', 'ibu', 'description', 'brewery'];
-    var changedAttributes = {};
-    watchAttributes.forEach(function(attribute) {
-      $scope.$watch(function() { return $scope.beer[attribute]; }, function(newValue, oldValue) {
-        if (_.isEqual(newValue, oldValue) || !newValue) return; // Invalid states, ignore
+    vm.beer = beer;
+    vm.image = vm.beer.image_url;
+    vm.selectedBrewery = beer.brewery;
+    vm.loading = false;
+    vm.isLoggedIn = session.isLoggedIn();
 
-        console.log(attribute + ' has been changed.');
-        if (attribute === 'brewery') {
-          changedAttributes.brewery_id = newValue.id;
-        } else {
-          changedAttributes[attribute] = newValue;
-        }
+    vm.close = close;
+    vm.save = save;
+    vm.searchBrewery = searchBrewery;
+    vm.onSelect = onSelect;
+    vm.attachImage = attachImage;
+
+    watchForChanges();
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    function watchForChanges() {
+      // Although Angular handles 2-way data binding for us, below is for recording which
+      // attributes were changed so when it comes time to PUT, we only PUT the attributes
+      // that were changed instead of all attributes.
+      var watchAttributes = ['name', 'abv', 'ibu', 'description', 'brewery'];
+      var changedAttributes = {};
+      watchAttributes.forEach(function(attribute) {
+        $scope.$watch(function() { return vm.beer[attribute]; }, function(newValue, oldValue) {
+          if (_.isEqual(newValue, oldValue) || !newValue) return; // Invalid states, ignore
+
+          console.log(attribute + ' has been changed.');
+          if (attribute === 'brewery') {
+            changedAttributes.brewery_id = newValue.id;
+          } else {
+            changedAttributes[attribute] = newValue;
+          }
+        });
       });
-    });
+    }
 
-    $scope.close = function() {
+    function close() {
       $mdDialog.hide();
     };
 
-    $scope.save = function() {
-      if (!$scope.editForm.$valid) return;
+    function save() {
+      if (!vm.editForm.$valid) return;
 
       var req = {
         url: '/api/beers/' + beer.id,
@@ -37,14 +51,14 @@ angular.module('stoutful.controllers').
         fields: changedAttributes
       };
 
-      if ($scope.image) {
-        req.file = $scope.image;
+      if (vm.image) {
+        req.file = vm.image;
       }
 
-      $scope.loading = true;
+      vm.loading = true;
       Upload.upload(req)
         .success(function() {
-          $scope.loading = false;
+          vm.loading = false;
           $mdDialog.hide();
 
           // Show alert message
@@ -65,7 +79,7 @@ angular.module('stoutful.controllers').
         });
     };
 
-    $scope.searchBrewery = function(value) {
+    function searchBrewery(value) {
       return $http.get('/api/breweries/search?query=' + value)
         .then(function(response) {
           return response.data;
@@ -74,12 +88,12 @@ angular.module('stoutful.controllers').
 
     // We use a custom onSelect function because the "model" ends up being the name
     // and not the actual model.
-    $scope.onSelect = function(brewery) {
+    function onSelect(brewery) {
       if (!brewery) return;
-      $scope.beer.brewery = brewery;
+      vm.beer.brewery = brewery;
     };
 
-    $scope.attachImage = function() {
+    function attachImage() {
       $("input[type=file]").click();
     };
   });
