@@ -40,7 +40,7 @@ module.exports = {
     "WHERE activities.type = 'like' AND activities.user_id = " + userId + ") " +
     "ORDER BY name LIMIT 10")
     .then(function(results) {
-      res.ok(results);
+      res.ok(results.rows);
     })
     .catch(function(err) {
       res.serverError(err);
