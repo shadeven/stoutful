@@ -23,10 +23,6 @@ module.exports = {
       type: 'integer',
       notNull: true
     },
-    beers: {
-      collection: 'Beer',
-      via: 'style'
-    },
     created_at: {
       type: 'datetime',
       notNull: true,
