@@ -39,25 +39,31 @@ angular.module('stoutful.controllers').
 
       vm.loading = true;
       Upload.upload(req)
-        .success(function() {
+        .then(function() {
+          // Handle success
           vm.loading = false;
           $mdDialog.hide();
+        }, function(resp) {
+          if (resp.status == 304) {
+            // Handle error
+            vm.loading = false;
+            $mdDialog.hide();
 
-          // Show alert message
-          var alert = $mdDialog.alert({
-            title: 'Thanks!',
-            textContent: 'Your changes are currently under review',
-            ok: 'OK'
-          });
-
-          $mdDialog
-            .show(alert)
-            .finally(function() {
-              alert = undefined;
+            // Show alert message
+            var alert = $mdDialog.alert({
+              title: 'Thanks!',
+              textContent: 'Your changes are currently under review',
+              ok: 'OK'
             });
-        })
-        .error(function(err) {
-          console.log('Err = ', err);
+
+            $mdDialog
+              .show(alert)
+              .finally(function() {
+                alert = undefined;
+              });
+          } else {
+            console.log('Err = ', resp);
+          }
         });
     };
 
