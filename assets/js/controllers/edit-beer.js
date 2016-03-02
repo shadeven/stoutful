@@ -5,6 +5,7 @@ angular.module('stoutful.controllers').
     vm.beer = beer;
     vm.image = vm.beer.image_url;
     vm.selectedBrewery = beer.brewery;
+    vm.changedAttributes = {};
     vm.loading = false;
     vm.isLoggedIn = session.isLoggedIn();
 
@@ -23,16 +24,15 @@ angular.module('stoutful.controllers').
       // attributes were changed so when it comes time to PUT, we only PUT the attributes
       // that were changed instead of all attributes.
       var watchAttributes = ['name', 'abv', 'ibu', 'description', 'brewery'];
-      var changedAttributes = {};
       watchAttributes.forEach(function(attribute) {
         $scope.$watch(function() { return vm.beer[attribute]; }, function(newValue, oldValue) {
           if (_.isEqual(newValue, oldValue) || !newValue) return; // Invalid states, ignore
 
           console.log(attribute + ' has been changed.');
           if (attribute === 'brewery') {
-            changedAttributes.brewery_id = newValue.id;
+            vm.changedAttributes.brewery_id = newValue.id;
           } else {
-            changedAttributes[attribute] = newValue;
+            vm.changedAttributes[attribute] = newValue;
           }
         });
       });
@@ -48,7 +48,7 @@ angular.module('stoutful.controllers').
       var req = {
         url: '/api/beers/' + beer.id,
         method: 'PUT',
-        fields: changedAttributes
+        fields: vm.changedAttributes
       };
 
       if (vm.image) {
