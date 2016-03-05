@@ -16,7 +16,7 @@ describe('BeerController', function () {
     var john, accessToken;
 
     before(function(done) {
-      Activity.create([{"beer_id": 1, "type": "like"}, {"beer_id": 1, "type": "check_in"}])
+      Activity.create([{"beer": 1, "type": "like"}, {"beer": 1, "type": "check_in"}])
         .then(function() { done(); })
         .catch(done);
     });

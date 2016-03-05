@@ -21,10 +21,12 @@ module.exports = {
       columnName: 'user_id',
       model: 'user'
     },
-    beer_id: {
+    beer: {
       type: 'integer',
+      columnName: 'beer_id',
       required: true,
-      notNull: true
+      notNull: true,
+      model: 'beer'
     },
     timestamp: {
       type: 'datetime',

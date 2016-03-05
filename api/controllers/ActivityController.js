@@ -5,8 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-/* global Activity, Beer, Brewery */
-var Rx = require("rx");
+/* global Activity, Brewery */
+var Promise = require("bluebird");
 
 module.exports = {
   find: function(req, res) {
@@ -26,24 +26,22 @@ module.exports = {
       query.limit = 10;
     }
 
-    var promise = Activity.find(query)
+    Activity.find(query)
       .sort("timestamp desc")
-      .populate("user");
-
-    Rx.Observable.fromPromise(promise)
-      .flatMap(function (activities) {
-        return Rx.Observable.from(activities);
-      })
-      .concatMap(function (activity) {
-        return Rx.Observable.zip(Rx.Observable.just(activity), beerObservable(activity.beer_id), function (activity, beer) {
-          activity.beer = beer;
-          return activity;
+      .populate(["user", "beer"])
+      .then(function(activities) {
+        return Promise.map(activities, function(activity) {
+          return Brewery.findOne({ id: activity.beer.brewery })
+            .then(function(brewery) {
+              activity.beer.brewery = brewery;
+              return activity;
+            });
         });
       })
-      .toArray()
-      .subscribe(function (activities) {
+      .then(function(activities) {
         res.json(activities);
-      }, function (error) {
+      })
+      .catch(function(error) {
         res.serverError(error);
       });
   },
@@ -75,17 +73,3 @@ module.exports = {
       });
   }
 };
-
-function beerObservable(beerId) {
-  return Rx.Observable.fromPromise(Beer.findOne({id: beerId}))
-    .switchMap(function (beer) {
-      return Rx.Observable.zip(Rx.Observable.just(beer), breweryObservable(beer.brewery), function (beer, brewery) {
-        beer.brewery = brewery;
-        return beer;
-      });
-    });
-}
-
-function breweryObservable(breweryId) {
-  return Rx.Observable.fromPromise(Brewery.findOne({id: breweryId}));
-}

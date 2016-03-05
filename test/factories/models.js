@@ -24,7 +24,7 @@ module.exports = function (factory) {
 
   factory.define("activity")
     .attr("user", 1)
-    .attr("beer_id", 1)
+    .attr("beer", 1)
     .attr("type", "like")
     .attr("timestamp", moment().utc().toDate().toJSON());
 
