@@ -2,6 +2,6 @@ before_script:
   - npm install
 test:
   script: npm test
-artifacts:
-  paths:
-    - coverage/
+  artifacts:
+    paths:
+      - coverage/
