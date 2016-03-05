@@ -6,19 +6,19 @@
  */
 
 /* global Activity, Beer, Brewery */
-var Rx = require('rx');
+var Rx = require("rx");
 
 module.exports = {
   find: function(req, res) {
     var query = req.query;
 
     if (query.start_date) {
-      query.timestamp = {'>': query.start_date};
+      query.timestamp = {">": query.start_date};
       delete query.start_date;
     }
 
     if (query.end_date) {
-      query.timestamp = {'<': query.end_date};
+      query.timestamp = {"<": query.end_date};
       delete query.end_date;
     }
 
@@ -26,7 +26,9 @@ module.exports = {
       query.limit = 10;
     }
 
-    var promise = Activity.find(query).sort('timestamp desc').populate('user');
+    var promise = Activity.find(query)
+      .sort("timestamp desc")
+      .populate("user");
 
     Rx.Observable.fromPromise(promise)
       .flatMap(function (activities) {
@@ -51,19 +53,19 @@ module.exports = {
 
     // user can only create an Activity for themselves!
     if (body.user && user.id != body.user) {
-      return res.forbidden({error: 'Users can only create an Activity for themselves.'});
+      return res.forbidden({error: "Users can only create an Activity for themselves."});
     } else if (!body.user) {
       body.user = user.id;
     }
 
     // Sanitize before inserting
-    if ('id' in body) {
+    if ("id" in body) {
       delete body.id;
     }
 
     Activity.create(body)
       .then(function(result) {
-        return Activity.findOne(result.id).populate('user');
+        return Activity.findOne(result.id).populate("user");
       })
       .then(function (result) {
         res.status(201).json(result);
