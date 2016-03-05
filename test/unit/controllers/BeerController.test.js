@@ -1,9 +1,11 @@
-var factory = require('sails-factory');
-var Barrels = require('barrels');
-var request = require('../../helpers/supertest');
-var helpers = require('../../helpers/user');
+/* global User, Activity */
 
-describe('BeerController', function () {
+var factory = require("sails-factory");
+var Barrels = require("barrels");
+var request = require("../../helpers/supertest");
+var helpers = require("../../helpers/user");
+
+describe("BeerController", function () {
   before(function (done) {
     factory.load();
     var barrels = new Barrels();
@@ -12,7 +14,7 @@ describe('BeerController', function () {
     }, false);
   });
 
-  describe('#stats()', function() {
+  describe("#stats()", function() {
     var john;
 
     before(function(done) {
@@ -21,7 +23,7 @@ describe('BeerController', function () {
         .catch(done);
     });
 
-    context('with signed in user', function() {
+    context("with signed in user", function() {
       before(function (done) {
         User.findOne({"email": "jsnow283@gmail.com"})
           .then(function(users) {
@@ -34,16 +36,16 @@ describe('BeerController', function () {
           .catch(done);
       });
 
-      it('should return 200', function(done) {
+      it("should return 200", function(done) {
         request(sails)
-          .get('/api/beers/1/stats')
+          .get("/api/beers/1/stats")
           .expect(200, done);
       });
 
-      it ('should return the correct JSON', function(done) {
-        var expectedJSON = factory.build('/api/beers/1/stats');
+      it ("should return the correct JSON", function(done) {
+        var expectedJSON = factory.build("/api/beers/1/stats");
         request(sails)
-          .get('/api/beers/1/stats')
+          .get("/api/beers/1/stats")
           .expect(expectedJSON, done);
       });
     });
