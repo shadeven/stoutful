@@ -1,7 +1,7 @@
 /* global User, Activity */
 
 var Promise = require("bluebird");
-var request = require("supertest");
+var request = require("../../helpers/supertest");
 var moment = require("moment");
 var urlencode = require("urlencode");
 var factory = require("sails-factory");
@@ -19,7 +19,6 @@ describe("ActivityController", function () {
   });
 
   describe("#find()", function () {
-    var accessToken;
     var john, stannis;
 
     before(function (done) {
@@ -28,7 +27,7 @@ describe("ActivityController", function () {
           john = users[0];
           stannis = users[1];
           helpers.signIn(john, function (err, token) {
-            accessToken = token;
+            request.set("Authorization", "Bearer " + token.access_token);
             done(err);
           });
         })
@@ -63,9 +62,8 @@ describe("ActivityController", function () {
           "timestamp": activities[0].timestamp.toJSON()
         })];
 
-        request(sails.hooks.http.app)
+        request(sails)
           .get("/api/activities")
-          .set("Authorization", "Bearer " + accessToken.access_token)
           .expect(expectedJSON, done);
       });
     });
@@ -87,9 +85,8 @@ describe("ActivityController", function () {
 
       it("should return 200", function (done) {
         var endDate = urlencode(moment().utc().add(1, "hours").format());
-        request(sails.hooks.http.app)
+        request(sails)
           .get("/api/activities?end_date=" + endDate)
-          .set("Authorization", "Bearer " + accessToken.access_token)
           .expect(200, done);
       });
 
@@ -100,9 +97,8 @@ describe("ActivityController", function () {
         })];
 
         var endDate = urlencode(moment().utc().add(1, "hours").format());
-        request(sails.hooks.http.app)
+        request(sails)
           .get("/api/activities?end_date=" + endDate)
-          .set("Authorization", "Bearer " + accessToken.access_token)
           .expect(expectedJSON, done);
       });
     });
@@ -124,9 +120,8 @@ describe("ActivityController", function () {
 
       it("should return 200", function (done) {
         var startDate = urlencode(moment().utc().subtract(1, "hours").format());
-        request(sails.hooks.http.app)
+        request(sails)
           .get("/api/activities?start_date=" + startDate)
-          .set("Authorization", "Bearer " + accessToken.access_token)
           .expect(200, done);
       });
 
@@ -137,9 +132,8 @@ describe("ActivityController", function () {
         })];
 
         var startDate = urlencode(moment().utc().subtract(1, "hours").format());
-        request(sails.hooks.http.app)
+        request(sails)
           .get("/api/activities?start_date=" + startDate)
-          .set("Authorization", "Bearer " + accessToken.access_token)
           .expect(expectedJSON, done);
       });
     });

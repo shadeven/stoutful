@@ -1,6 +1,6 @@
 var factory = require('sails-factory');
 var Barrels = require('barrels');
-var request = require('supertest');
+var request = require('../../helpers/supertest');
 var helpers = require('../../helpers/user');
 
 describe('BeerController', function () {
@@ -13,7 +13,7 @@ describe('BeerController', function () {
   });
 
   describe('#stats()', function() {
-    var john, accessToken;
+    var john;
 
     before(function(done) {
       Activity.create([{"beer": 1, "type": "like"}, {"beer": 1, "type": "check_in"}])
@@ -27,7 +27,7 @@ describe('BeerController', function () {
           .then(function(users) {
             john = users;
             helpers.signIn(john, function (err, token) {
-              accessToken = token;
+              request.set("Authorization", "Bearer " + token.access_token);
               done(err);
             });
           })
@@ -35,17 +35,15 @@ describe('BeerController', function () {
       });
 
       it('should return 200', function(done) {
-        request(sails.hooks.http.app)
+        request(sails)
           .get('/api/beers/1/stats')
-          .set('Authorization', 'Bearer ' + accessToken.access_token)
           .expect(200, done);
       });
 
       it ('should return the correct JSON', function(done) {
         var expectedJSON = factory.build('/api/beers/1/stats');
-        request(sails.hooks.http.app)
+        request(sails)
           .get('/api/beers/1/stats')
-          .set('Authorization', 'Bearer ' + accessToken.access_token)
           .expect(expectedJSON, done);
       });
     });
