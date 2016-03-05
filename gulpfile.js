@@ -1,7 +1,6 @@
 var Promise = require("bluebird");
 var gulp = require("gulp");
 var Sails = require("sails");
-var mocha = require("gulp-mocha");
 var wiredep = require("wiredep");
 var sass = require("gulp-sass");
 var concat = require("gulp-concat");
@@ -163,16 +162,4 @@ gulp.task("elasticsearch:index", function(cb) {
         cb(err);
       });
   });
-});
-
-gulp.task("test", function () {
-  return gulp.src(["./test/bootstrap.test.js", "./test/**/*.test.js"])
-    .pipe(mocha({ reporter: "spec" }))
-    .once("error", function (err) {
-      console.error(err);
-      process.exit(1);
-    })
-    .once("end", function () {
-      process.exit();
-    });
 });

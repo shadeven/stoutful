@@ -100,7 +100,7 @@ lib-cov
 *.pid
 npm-debug.log
 .sass-cache
-
+coverage
 
 
 
