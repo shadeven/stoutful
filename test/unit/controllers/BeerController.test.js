@@ -3,7 +3,7 @@ var Barrels = require('barrels');
 var request = require('supertest');
 var helpers = require('../../helpers/user');
 
-describe.only('BeerController', function () {
+describe('BeerController', function () {
   before(function (done) {
     factory.load();
     var barrels = new Barrels();

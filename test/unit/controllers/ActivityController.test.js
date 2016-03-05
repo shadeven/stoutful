@@ -8,7 +8,7 @@ var factory = require('sails-factory');
 var Barrels = require('barrels');
 var helpers = require('../../helpers/user');
 
-describe.only('ActivityController', function () {
+describe('ActivityController', function () {
 
   before(function (done) {
     factory.load();
