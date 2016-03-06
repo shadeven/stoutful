@@ -1,36 +1,36 @@
 <md-dialog flex="90">
   <md-dialog-content class="md-dialog-content">
-    <h2 class="md-title" ng-if="isLoggedIn">Edit Beer</h2>
+    <h2 class="md-title" ng-if="vm.isLoggedIn">Edit Beer</h2>
 
-    <form name="editForm" novalidate>
+    <form name="vm.editForm" novalidate>
       <!-- Name -->
       <md-input-container class="md-block"
-        ng-class="{'has-error': editForm.name.$invalid}">
+        ng-class="{'has-error': vm.editForm.name.$invalid}">
           <label>Name</label>
-          <input type="text" name="name" value="{{ beer.name }}"
-            ng-model="beer.name"
-            ng-readonly="!isLoggedIn"
+          <input type="text" name="name" value="{{ vm.beer.name }}"
+            ng-model="vm.beer.name"
+            ng-readonly="!vm.isLoggedIn"
             required>
       </md-input-container>
 
       <div layout="row">
         <!-- ABV -->
-        <md-input-container ng-class="{'has-error': editForm.abv.$invalid}"
+        <md-input-container ng-class="{'has-error': vm.editForm.abv.$invalid}"
           flex="50">
             <label>ABV</label>
-            <input name="abv" type="number" step="0.01" value="{{ beer.abv }}"
-              ng-readonly="!isLoggedIn"
-              ng-model="beer.abv"
+            <input name="abv" type="number" step="0.01" value="{{ vm.beer.abv }}"
+              ng-readonly="!vm.isLoggedIn"
+              ng-model="vm.beer.abv"
               required>
         </md-input-container>
 
         <!-- IBU -->
-        <md-input-container ng-class="{'has-error': editForm.ibu.$invalid}"
+        <md-input-container ng-class="{'has-error': vm.editForm.ibu.$invalid}"
           flex="50">
             <label>IBU</label>
-            <input name="ibu" type="number" step="0.01" value="{{ beer.ibu }}"
-              ng-model="beer.ibu"
-              ng-readonly="!isLoggedIn"
+            <input name="ibu" type="number" step="0.01" value="{{ vm.beer.ibu }}"
+              ng-model="vm.beer.ibu"
+              ng-readonly="!vm.isLoggedIn"
               required>
         </md-input-container>
       </div>
@@ -40,9 +40,9 @@
         md-input-name="brewery"
         md-search-text="searchText"
         md-min-length="0"
-        md-selected-item="selectedBrewery"
-        md-selected-item-change="onSelect(brewery)"
-        md-items="brewery in searchBrewery(searchText)"
+        md-selected-item="vm.selectedBrewery"
+        md-selected-item-change="vm.onSelect(brewery)"
+        md-items="brewery in vm.searchBrewery(searchText)"
         md-item-text="brewery.name"
         md-floating-label="Brewery"
         required>
@@ -51,12 +51,12 @@
 
       <!-- Description -->
       <md-input-container class="md-block"
-        ng-class="{'has-error': editForm.description.$invalid}">
+        ng-class="{'has-error': vm.editForm.description.$invalid}">
           <label>Description</label>
-          <textarea name="description" ng-model="beer.description"
-            ng-readonly="!isLoggedIn"
+          <textarea name="description" ng-model="vm.beer.description"
+            ng-readonly="!vm.isLoggedIn"
             required>
-              {{ beer.description }}
+              {{ vm.beer.description }}
           </textarea>
       </md-input-container>
 
@@ -64,10 +64,10 @@
       <div id="image" class="md-block">
         <input class="ng-hide"
           type="file"
-          ngf-select ng-model="image"
-          ng-disabled="!isLoggedIn">
+          ngf-select ng-model="vm.image"
+          ng-disabled="!vm.isLoggedIn">
         <img ngf-src="image" ng-show="image">
-        <md-button class="md-raised md-primary" ng-click="attachImage()">
+        <md-button class="md-raised md-primary" ng-click="vm.attachImage()">
           {{ image ? "Replace Image" : "Attach Image" }}
         </md-button>
       </div>
@@ -75,10 +75,10 @@
   </md-dialog-content>
 
   <md-dialog-actions>
-    <md-button type="button" class="btn btn-default" ng-click="close()">Close</md-button>
-    <md-button ng-click="save()"
-      ng-class="{'disabled': editForm.$invalid}"
-      ng-if="isLoggedIn">
+    <md-button type="button" class="btn btn-default" ng-click="vm.close()">Close</md-button>
+    <md-button ng-click="vm.save()"
+      ng-class="{'disabled': vm.editForm.$invalid}"
+      ng-if="vm.isLoggedIn">
         Save changes
     </md-button>
   </md-dialog-actions>

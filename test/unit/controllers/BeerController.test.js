@@ -3,7 +3,7 @@ var Barrels = require('barrels');
 var request = require('supertest');
 var helpers = require('../../helpers/user');
 
-describe.only('BeerController', function () {
+describe('BeerController', function () {
   before(function (done) {
     factory.load();
     var barrels = new Barrels();
@@ -16,7 +16,7 @@ describe.only('BeerController', function () {
     var john, accessToken;
 
     before(function(done) {
-      Activity.create([{"beer_id": 1, "type": "like"}, {"beer_id": 1, "type": "check_in"}])
+      Activity.create([{"beer": 1, "type": "like"}, {"beer": 1, "type": "check_in"}])
         .then(function() { done(); })
         .catch(done);
     });

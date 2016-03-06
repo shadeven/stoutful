@@ -41,7 +41,7 @@ module.exports = {
       if (user.isEditor()) {
         Patch.create({editor: user.id, model: id, type: 'brewery', changes: values})
           .then(function() {
-            res.ok();
+            res.notModified();
           })
           .catch(function(err) {
             console.log('Error saving brewery patch: ', err);

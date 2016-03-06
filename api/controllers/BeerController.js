@@ -99,7 +99,7 @@ module.exports = {
       if (user.isEditor()) {
         Patch.create({editor: user.id, model: id, type: 'beer', changes: values})
           .then(function() {
-            res.ok();
+            res.notModified();
           })
           .catch(function(err) {
             console.log('Error saving beer patch: ', err);
@@ -158,8 +158,8 @@ module.exports = {
 
   stats: function(req, res) {
     var id = req.params.id;
-    var likes = Activity.count().where({beer_id: id, type: "like"});
-    var checkIns = Activity.count().where({beer_id: id, type: "check_in"});
+    var likes = Activity.count().where({beer: id, type: "like"});
+    var checkIns = Activity.count().where({beer: id, type: "check_in"});
     Promise.all([likes, checkIns])
       .spread(function(likeCount, checkInCount) {
         res.ok({"like_count": likeCount, "check_in_count": checkInCount});
