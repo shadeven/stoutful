@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('HomeController', function($scope, $http, rx, $location, $q) {
+  controller('HomeController', function($scope, $http, rx, $location, $q, session) {
     $scope.searchQuery = { query: '' };
 
     $scope.$watch('searchQuery.query', function(newValue) {
@@ -36,6 +36,14 @@ angular.module('stoutful.controllers').
     $http.get('/api/beers/popular')
       .then(function(results) {
         $scope.popular = results.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+
+    $http.get('/api/beers/suggestions/' + session.user.id)
+      .then(function(response) {
+        $scope.suggestions = response.data;
       })
       .catch(function(err) {
         console.log(err);

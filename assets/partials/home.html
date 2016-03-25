@@ -31,5 +31,22 @@
         </div>
       </div>
     </div>
+
+    <!-- Top 10 Suggestions -->
+    <div class="suggestion" layout="column">
+      <h1>Top 10 Suggestions</h1>
+      <div layout="row" layout-wrap flex>
+        <div class="button" flex="50" flex-gt-sm="30" ng-repeat="beer in suggestions">
+          <md-card>
+            <div class="md-card-image background-image"
+              ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
+              ng-click="showBeerDetails(beer)"></div>
+            <md-card-content>
+              <p>{{ beer.name }}</p>
+            </md-card-content>
+          </md-card>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
