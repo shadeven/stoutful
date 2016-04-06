@@ -87,5 +87,15 @@ module.exports = {
   beforeUpdate: function(values, cb) {
     values.updated_at = new Date();
     cb();
+  },
+  afterCreate: function(values, cb) {
+    this.findOne({id: values.id}).populate("brewery")
+      .then(function(beer) {
+        values.brewery = beer.brewery;
+        cb();
+      })
+      .catch(function(err) {
+        throw err;
+      });
   }
 };

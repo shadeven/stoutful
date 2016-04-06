@@ -1,50 +1,52 @@
-/* global User, Activity */
+/* global Brewery, Beer, Activity, User */
 
-var Promise = require("bluebird");
+var factory = require("sails-factory");
 var request = require("../../helpers/supertest");
 var moment = require("moment");
 var urlencode = require("urlencode");
-var factory = require("sails-factory");
-var Barrels = require("barrels");
-var helpers = require("../../helpers/user");
+var helpers = require("../../helpers/helpers");
+
+var testScope = this;
 
 describe("ActivityController", function () {
+  before(function(done) {
+    User.create(factory.build("user"))
+      .then(function(user) { testScope.user = user; return user; })
+      .then(helpers.createAccessToken)
+      .spread(function(accessToken) {
+        request.set("Authorization", "Bearer" + accessToken.access_token);
+        done();
+      })
+      .catch(done);
+  });
 
-  before(function (done) {
-    factory.load();
-    var barrels = new Barrels();
-    barrels.populate(function (err) {
-      done(err);
-    }, false);
+  after(function(done) {
+    helpers.destroyModels()
+      .then(function() {
+        done();
+      })
+      .catch(done);
   });
 
   describe("#find()", function () {
-    var john, stannis;
-
-    before(function (done) {
-      Promise.all([User.findOne({"email": "jsnow283@gmail.com"}), User.findOne({"email": "stannisb@gmail.com"})])
-        .then(function(users) {
-          john = users[0];
-          stannis = users[1];
-          helpers.signIn(john, function (err, token) {
-            request.set("Authorization", "Bearer " + token.access_token);
-            done(err);
-          });
-        })
-        .catch(done);
-    });
-
     context("with signed in user", function() {
-      var activities;
-
       before(function (done) {
-        var attrs1 = factory.build("activity", {"id": 1, "type": "check_in", "user": john.id});
-        var attrs2 = factory.build("activity", {"id": 2, "type": "check_in", "user": stannis.id});
-
-        Activity.create([attrs1, attrs2]).exec(function (err, models) {
-          activities = models;
-          done(err);
-        });
+        Brewery.create(factory.build("brewery"))
+          .then(function(brewery) {
+            testScope.brewery = brewery;
+            return Beer.create(factory.build("beer"));
+          })
+          .then(function(beer) {
+            testScope.beer = beer;
+            var attrs1 = factory.build("activity", {"type": "check_in", "user": testScope.user.id, "beer": beer.id});
+            var attrs2 = factory.build("activity", {"type": "check_in", "user": testScope.user.id, "beer": beer.id});
+            return Activity.create([attrs1, attrs2]);
+          })
+          .then(function(activities) {
+            testScope.activities = activities;
+            done();
+          })
+          .catch(done);
       });
 
       after(function (done) {
@@ -54,12 +56,14 @@ describe("ActivityController", function () {
       it("should return all activities", function (done) {
         var expectedJSON = [factory.build("/api/activities", {
           "id": 1,
-          "user": john.toJSON(),
-          "timestamp": activities[0].timestamp.toJSON()
+          "user": testScope.user.toJSON(),
+          "timestamp": testScope.activities[0].timestamp.toISOString(),
+          "beer": testScope.beer.toJSON()
         }), factory.build("/api/activities", {
           "id": 2,
-          "user": stannis.toJSON(),
-          "timestamp": activities[0].timestamp.toJSON()
+          "user": testScope.user.toJSON(),
+          "timestamp": testScope.activities[0].timestamp.toISOString(),
+          "beer": testScope.beer.toJSON()
         })];
 
         request(sails)
@@ -72,7 +76,7 @@ describe("ActivityController", function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build("activity", {"id": 1, "type": "check_in", "user": john.id});
+        var attrs = factory.build("activity", {"id": 1, "type": "check_in", "user": testScope.user.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
@@ -92,8 +96,9 @@ describe("ActivityController", function () {
 
       it("should return the correct JSON", function (done) {
         var expectedJSON = [factory.build("/api/activities", {
-          "user": john.toJSON(),
-          "timestamp": activity.timestamp.toJSON()
+          "user": testScope.user.toJSON(),
+          "timestamp": activity.timestamp.toISOString(),
+          "beer": testScope.beer.toJSON()
         })];
 
         var endDate = urlencode(moment().utc().add(1, "hours").format());
@@ -107,7 +112,7 @@ describe("ActivityController", function () {
       var activity;
 
       before(function (done) {
-        var attrs = factory.build("activity", {"id": 1, "type": "check_in", "user": john.id});
+        var attrs = factory.build("activity", {"id": 1, "type": "check_in", "user": testScope.user.id});
         Activity.create(attrs).exec(function (err, model) {
           activity = model;
           done(err);
@@ -127,8 +132,9 @@ describe("ActivityController", function () {
 
       it("should return the correct JSON", function (done) {
         var expectedJSON = [factory.build("/api/activities", {
-          "user": john.toJSON(),
-          "timestamp": activity.timestamp.toJSON()
+          "user": testScope.user.toJSON(),
+          "timestamp": activity.timestamp.toISOString(),
+          "beer": testScope.beer.toJSON()
         })];
 
         var startDate = urlencode(moment().utc().subtract(1, "hours").format());
