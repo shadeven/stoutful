@@ -119,6 +119,8 @@ gulp.task("elasticsearch:index", function(cb) {
 
     var Beer = sails.models.beer;
     var Brewery = sails.models.brewery;
+    var ESBeer = sails.models.esbeer;
+    var ESBrewery = sails.models.esbrewery;
 
     // Beers index
     var indexBeers = Beer.find()
@@ -134,7 +136,7 @@ gulp.task("elasticsearch:index", function(cb) {
           body.push(document);
         });
 
-        return sails.models.esbeer.bulkIndex({ body: body });
+        return ESBeer.bulkIndex({ body: body });
       });
 
     // Brewery index
@@ -151,7 +153,7 @@ gulp.task("elasticsearch:index", function(cb) {
           body.push(document);
         });
 
-        return sails.models.esbrewery.bulkIndex({ body: body });
+        return ESBrewery.bulkIndex({ body: body });
       });
 
     Promise.all([indexBeers, indexBreweries])
