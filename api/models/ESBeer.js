@@ -9,7 +9,8 @@ module.exports = {
   connection: "elasticsearch",
   attributes: {
     id: {
-      type: "integer"
+      type: "integer",
+      primaryKey: true
     },
     name: {
       type: "string"
