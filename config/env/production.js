@@ -30,7 +30,7 @@ module.exports = {
     },
 
     elasticsearch: {
-      adapter: "elasticsearch",
+      adapter: "sails-elasticsearch",
       host: process.env.ELASTICSEARCH_HOST
     }
   },

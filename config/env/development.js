@@ -25,7 +25,7 @@ module.exports = {
     },
 
     elasticsearch: {
-      adapter: 'elasticsearch',
+      adapter: 'sails-elasticsearch',
       host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR || '0.0.0.0',
       log: 'error'
     }
