@@ -30,11 +30,17 @@
         ng-click="onLikeClicked()">
         <i class="icon stoutful-thumbs_up"></i>
         x {{likeCounter}}
+        <md-tooltip>
+          Like
+        </md-tooltip>
       </md-button>
       <md-button ng-disabled="!isLoggedIn"
         ng-click="onCheckInClicked()">
         <i class="icon stoutful-beer"></i>
         x {{checkInCounter}}
+        <md-tooltip>
+          Check in
+        </md-tooltip>
       </md-button>
     </md-card-actions>
 
