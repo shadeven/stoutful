@@ -8,7 +8,6 @@ module.exports = function (factory) {
     .attr("password", "theonlybastardchild");
 
   factory.define("brewery")
-    .attr("id", 1)
     .attr("name", "Sample brewery")
     .attr("address1", "123 Brewery Lane")
     .attr("city", "Baltimore")
@@ -19,17 +18,16 @@ module.exports = function (factory) {
     .attr("website", "www.google.com")
     .attr("image_url", "http://placehold.it/300x300")
     .attr("description", "lorem ipsum")
-    .attr("created_at", moment().utc().toDate().toJSON())
-    .attr("updated_at", moment().utc().toDate().toJSON());
+    .attr("created_at", moment().utc().format())
+    .attr("updated_at", moment().utc().format());
 
   factory.define("activity")
     .attr("user", 1)
     .attr("beer", 1)
     .attr("type", "like")
-    .attr("timestamp", moment().utc().toDate().toJSON());
+    .attr("timestamp", moment().utc().format());
 
   factory.define("beer")
-    .attr("id", 1)
     .attr("brewery", 1)
     .attr("name", "Sample beer")
     .attr("category", 1)
@@ -40,19 +38,25 @@ module.exports = function (factory) {
     .attr("upc", 0)
     .attr("image_url", "http://placehold.it/300x300")
     .attr("description", "lorem ipsum")
-    .attr("created_at", moment().utc().toDate().toJSON())
-    .attr("updated_at", moment().utc().toDate().toJSON());
+    .attr("created_at", moment().utc().format())
+    .attr("updated_at", moment().utc().format());
 
   factory.define("category")
     .attr("id", 1)
     .attr("name", "Old Ale")
-    .attr("created_at", moment().utc().toDate().toJSON())
-    .attr("updated_at", moment().utc().toDate().toJSON());
+    .attr("created_at", moment().utc().format())
+    .attr("updated_at", moment().utc().format());
 
   factory.define("style")
     .attr("id", 1)
     .attr("name", "British Ale")
     .attr("cat_id", 1)
-    .attr("created_at", moment().utc().toDate().toJSON())
-    .attr("updated_at", moment().utc().toDate().toJSON());
+    .attr("created_at", moment().utc().format())
+    .attr("updated_at", moment().utc().format());
+
+  factory.define("refresh_token")
+    .attr("user_id", 1)
+    .attr("token", "abcdefghijklmnop")
+    .attr("created_at", moment().utc().format())
+    .attr("updated_at", moment().utc().format());
 };

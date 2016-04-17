@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
- /* global Brewery, Patch */
+ /* global Brewery, ESBrewery, Patch */
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 
 module.exports = {
@@ -54,7 +54,7 @@ module.exports = {
         .then(function(breweries) {
           var brewery = breweries[0];
           if (!brewery) return res.serverError('Could not find record after updating!');
-          return Brewery.updateIndex({
+          return ESBrewery.updateIndex({
             index: 'stoutful',
             type: 'brewery',
             id: id,
@@ -86,7 +86,7 @@ function searchBrewery(query) {
     index: 'stoutful',
     body: { query: { match: { name: query }}}
   };
-  return Brewery.search(esQuery)
+  return ESBrewery.search(esQuery)
     .then(function(results) {
       return results.hits.hits.map(function(hit) {
         return {id: parseInt(hit._id)};
