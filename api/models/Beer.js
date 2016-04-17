@@ -6,7 +6,7 @@
 */
 
 module.exports = {
-  connection: ['pg', 'elasticsearch'],
+  connection: 'pg',
   tableName: 'beers',
   autoCreatedAt: false,
   autoUpdatedAt: false,

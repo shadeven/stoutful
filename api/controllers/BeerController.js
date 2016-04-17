@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing beers
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-/* global Beer, Patch, Activity */
+/* global Beer, ESBeer, Patch, Activity */
 var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var Promise = require('bluebird');
@@ -33,7 +33,7 @@ module.exports = {
 
   search: function(req, res) {
     var query = req.query.query;
-    Beer.search({
+    ESBeer.search({
       index: 'stoutful',
       body: { query: { match: { name: query }}}
     })
@@ -97,7 +97,7 @@ module.exports = {
         .then(function(beers) {
           var beer = beers[0];
           if (!beer) return res.serverError('Could not find record after updating!');
-          return Beer.updateIndex({
+          return ESBeer.updateIndex({
             index: 'stoutful',
             type: 'beer',
             id: id,
