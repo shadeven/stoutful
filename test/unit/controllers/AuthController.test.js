@@ -36,4 +36,16 @@ describe("AuthController", function() {
       });
     });
   });
+
+  describe("#login()", function() {
+    context("with basic", function() {
+      it("should return 200", function(done) {
+        var auth = new Buffer("jsnow283@gmail.com:theonlybastardchild").toString("base64");
+        request.set("Authorization", "Basic " + auth);
+        request(sails)
+          .post("/login/basic")
+          .expect(200, done);
+      });
+    });
+  });
 });
