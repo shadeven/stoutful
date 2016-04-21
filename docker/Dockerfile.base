@@ -19,6 +19,7 @@ RUN apt-get -y install postgresql
 RUN npm install -g sails
 RUN npm install -g knex
 RUN npm install -g gulp
+RUN npm install -g bower
 
 # Speed up npm install
 RUN npm set progress=false
