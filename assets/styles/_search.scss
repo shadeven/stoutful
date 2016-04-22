@@ -9,7 +9,7 @@
 }
 
 .suggestion {
-  .md-card-image {
-    height: 150px;
+  .md-card {
+    @extend .button;
   }
 }
