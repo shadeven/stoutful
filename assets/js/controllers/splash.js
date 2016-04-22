@@ -71,7 +71,7 @@
           .then(function(response) {
             vm.loading = false;
             session.setUser(response.data);
-            $location.url('/profile');
+            $location.url('/home');
           })
           .catch(function(err) {
             vm.loading = false;
@@ -102,7 +102,7 @@
         .then(function(response) {
           vm.loading = false;
           session.setUser(response.data);
-          $location.url('/profile');
+          $location.url('/home');
         })
         .catch(function(err) {
           vm.loading = false;

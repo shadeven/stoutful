@@ -14,7 +14,7 @@ describe("ActivityController", function () {
       .then(function(user) { testScope.user = user; return user; })
       .then(helpers.createAccessToken)
       .spread(function(accessToken) {
-        request.set("Authorization", "Bearer" + accessToken.access_token);
+        request.set("Authorization", "Bearer " + accessToken.token);
         done();
       })
       .catch(done);
@@ -144,6 +144,34 @@ describe("ActivityController", function () {
       });
     });
 
+  });
+
+  describe("#create()", function() {
+    before(function(done) {
+      var attrs = factory.build("beer");
+      Beer.create(attrs)
+        .then(function(beer) {
+          testScope.beer = beer;
+          done();
+        })
+        .catch(done);
+    });
+
+    after(function(done) {
+      Beer.destroy({id: testScope.beer.id}).exec(function() {
+        delete testScope.beer;
+        done();
+      });
+    });
+
+    context("with logged in user", function() {
+      it("should return 201", function(done) {
+        request(sails)
+          .post("/api/users/activity")
+          .send({ "beer": testScope.beer.id, "type": "like"})
+          .expect(201, done);
+      });
+    });
   });
 
 });
