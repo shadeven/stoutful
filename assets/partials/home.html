@@ -19,7 +19,7 @@
     <div class="popular" layout="column">
       <h1>Most Popular</h1>
       <div layout="row" layout-wrap flex>
-        <md-card flex="50" flex-gt-sm="30" ng-repeat="beer in popular">
+        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in popular">
           <div class="md-card-image background-image"
             ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
             ng-click="showBeerDetails(beer)"><!-- No content --></div>
@@ -34,7 +34,7 @@
     <div class="suggestion" layout="column">
       <h1>Top 10 Suggestions</h1>
       <div layout="row" layout-wrap flex>
-        <md-card flex="50" flex-gt-sm="30" ng-repeat="beer in suggestions">
+        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in suggestions">
           <div class="md-card-image background-image"
             ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
             ng-click="showBeerDetails(beer)">
