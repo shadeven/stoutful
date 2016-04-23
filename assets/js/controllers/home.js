@@ -1,5 +1,5 @@
 angular.module('stoutful.controllers').
-  controller('HomeController', function($scope, $http, rx, $location, $q, session) {
+  controller('HomeController', function($scope, $http, rx, $location, $q) {
     $scope.searchQuery = { query: '' };
 
     $scope.$watch('searchQuery.query', function(newValue) {
