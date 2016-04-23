@@ -20,7 +20,7 @@
       <h1>Most Popular</h1>
       <div layout="row" layout-wrap flex>
         <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in popular"
-          ng-click="showBeerDetails(beer)">
+          ng-click="showBeerDetails(beer)" md-ink-ripple>
             <div class="md-card-image background-image"
               ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}">
               <!-- No content -->
@@ -37,7 +37,7 @@
       <h1>Top 10 Suggestions</h1>
       <div layout="row" layout-wrap flex>
         <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in suggestions"
-          ng-click="showBeerDetails(beer)">
+          ng-click="showBeerDetails(beer)" md-ink-ripple>
             <div class="md-card-image background-image"
               ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}">
             </div>

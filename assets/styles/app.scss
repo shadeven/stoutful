@@ -106,3 +106,7 @@ md-loading-container {
     }
   }
 }
+
+md-card[md-ink-ripple] {
+  position: relative;
+}
