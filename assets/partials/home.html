@@ -19,16 +19,32 @@
     <div class="popular" layout="column">
       <h1>Most Popular</h1>
       <div layout="row" layout-wrap flex>
-        <div class="button" flex="50" flex-gt-sm="30" ng-repeat="beer in popular">
-          <md-card>
+        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in popular"
+          ng-click="showBeerDetails(beer)" md-ink-ripple>
             <div class="md-card-image background-image"
-              ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
-              ng-click="showBeerDetails(beer)"><!-- No content --></div>
+              ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}">
+              <!-- No content -->
+            </div>
             <md-card-content>
               <p>{{ beer.name }}</p>
             </md-card-content>
-          </md-card>
-        </div>
+        </md-card>
+      </div>
+    </div>
+
+    <!-- Top 10 Suggestions -->
+    <div class="suggestion" layout="column">
+      <h1>Top 10 Suggestions</h1>
+      <div layout="row" layout-wrap flex>
+        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in suggestions"
+          ng-click="showBeerDetails(beer)" md-ink-ripple>
+            <div class="md-card-image background-image"
+              ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}">
+            </div>
+            <md-card-content>
+              <p>{{ beer.name }}</p>
+            </md-card-content>
+        </md-card>
       </div>
     </div>
   </div>

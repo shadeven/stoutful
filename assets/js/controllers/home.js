@@ -40,4 +40,12 @@ angular.module('stoutful.controllers').
       .catch(function(err) {
         console.log(err);
       });
+
+    $http.get('/api/beers/suggestions')
+      .then(function(response) {
+        $scope.suggestions = response.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   });

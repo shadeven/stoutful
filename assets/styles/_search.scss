@@ -2,7 +2,10 @@
   margin-bottom: 12px;
 }
 
-.popular {
+.popular, .suggestion {
+  md-card {
+    @extend .button;
+  }
   .md-card-image {
     height: 150px;
   }
