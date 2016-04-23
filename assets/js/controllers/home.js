@@ -41,7 +41,7 @@ angular.module('stoutful.controllers').
         console.log(err);
       });
 
-    $http.get('/api/beers/suggestions/' + session.user.id)
+    $http.get('/api/beers/suggestions')
       .then(function(response) {
         $scope.suggestions = response.data;
       })

@@ -28,7 +28,7 @@ module.exports = {
   },
 
   suggestions: function(req, res) {
-    var userId = req.params.id;
+    var userId = req.user.id;
     var beerQuery = Promise.promisify(Beer.query);
     beerQuery("SELECT * FROM beers WHERE style_id IN " +
     "(SELECT styles.id FROM activities " +

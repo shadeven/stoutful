@@ -46,7 +46,7 @@ module.exports.routes = {
   'get /api/user/stats': 'UserController.stats',
 
   // Beers
-  'get /api/beers/suggestions/:id': 'BeerController.suggestions',
+  'get /api/beers/suggestions': 'BeerController.suggestions',
   'get /api/beers/search': 'BeerController.search',
   'get /api/beers/popular': 'BeerController.popular',
   'get /api/beers/:id': 'BeerController.findOne',
