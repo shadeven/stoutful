@@ -19,16 +19,14 @@
     <div class="popular" layout="column">
       <h1>Most Popular</h1>
       <div layout="row" layout-wrap flex>
-        <div class="button" flex="50" flex-gt-sm="30" ng-repeat="beer in popular">
-          <md-card>
-            <div class="md-card-image background-image"
-              ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
-              ng-click="showBeerDetails(beer)"><!-- No content --></div>
-            <md-card-content>
-              <p>{{ beer.name }}</p>
-            </md-card-content>
-          </md-card>
-        </div>
+        <md-card flex="50" flex-gt-sm="30" ng-repeat="beer in popular">
+          <div class="md-card-image background-image"
+            ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}"
+            ng-click="showBeerDetails(beer)"><!-- No content --></div>
+          <md-card-content>
+            <p>{{ beer.name }}</p>
+          </md-card-content>
+        </md-card>
       </div>
     </div>
 
