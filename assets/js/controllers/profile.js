@@ -5,17 +5,33 @@
     .module("stoutful.controllers")
     .controller("ProfileController", ProfileController);
 
-  function ProfileController($scope, $http, session) {
+  function ProfileController($scope, $http, session, toolbar, $mdMedia, $mdSidenav) {
 
     $scope.user = session.user;
     $scope.actionVerbForActivityType = actionVerbForActivityType;
     $scope.stats = {};
 
+    toolbar.events.onIconClicked = function() {
+      $mdSidenav("left").toggle();
+    };
+
     loadUserActivities();
     loadUserStats();
     watchForSessionChange();
+    watchForMediaQueryChange();
 
     ////////////////////////////////////////////////////////////////////////////
+
+    function watchForMediaQueryChange() {
+      var target = function() {
+        return $mdMedia("gt-md");
+      };
+
+      var listener = function(greaterThanMedium) {
+        toolbar.icon = greaterThanMedium ? null : "menu";
+      };
+      $scope.$watch(target, listener);
+    }
 
     function watchForSessionChange() {
       var target = function() {
