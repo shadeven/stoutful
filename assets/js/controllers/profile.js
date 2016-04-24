@@ -10,6 +10,7 @@
     $scope.user = session.user;
     $scope.actionVerbForActivityType = actionVerbForActivityType;
     $scope.stats = {};
+    $scope.sideNavShouldLockOpen = $mdMedia("gt-md");
 
     toolbar.events.onIconClicked = function() {
       $mdSidenav("left").toggle();
@@ -28,6 +29,7 @@
       };
 
       var listener = function(greaterThanMedium) {
+        $scope.sideNavShouldLockOpen = greaterThanMedium;
         toolbar.icon = greaterThanMedium ? null : "menu";
       };
       $scope.$watch(target, listener);
