@@ -10,7 +10,7 @@
     $scope.user = session.user;
     $scope.actionVerbForActivityType = actionVerbForActivityType;
     $scope.stats = {};
-    $scope.sideNavShouldLockOpen = $mdMedia("gt-md");
+    $scope.sideNavShouldLockOpen = $mdMedia("gt-sm");
 
     toolbar.events.onIconClicked = function() {
       $mdSidenav("left").toggle();
@@ -25,7 +25,7 @@
 
     function watchForMediaQueryChange() {
       var target = function() {
-        return $mdMedia("gt-md");
+        return $mdMedia("gt-sm");
       };
 
       var listener = function(greaterThanMedium) {
