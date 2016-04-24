@@ -11,6 +11,7 @@
     $scope.onClickMyProfile = onClickMyProfile;
     $scope.navigateBack = navigateBack;
     $scope.toolbar = toolbar;
+    $scope.goHome = goHome;
 
     if (shouldShowNavBar()) {
       if (session.user) {
@@ -23,6 +24,10 @@
     }
 
     ////////////////////////////////////////////////////////////////////////////
+
+    function goHome() {
+      $location.url("/home");
+    }
 
     function shouldShowNavBar() {
       return $location.url() !== '/';
