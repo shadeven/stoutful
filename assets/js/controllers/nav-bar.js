@@ -5,11 +5,12 @@
     .module('stoutful.controllers')
     .controller('NavBarController', NavBarController);
 
-  function NavBarController($scope, $http, session, $window, $location) {
+  function NavBarController($scope, $http, session, $window, $location, toolbar) {
 
     $scope.logout = logout;
     $scope.onClickMyProfile = onClickMyProfile;
     $scope.navigateBack = navigateBack;
+    $scope.toolbar = toolbar;
 
     if (shouldShowNavBar()) {
       if (session.user) {
