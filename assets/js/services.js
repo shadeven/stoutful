@@ -49,4 +49,12 @@ angular.module('stoutful.services', ['ngCookies']).
         });
       }
     };
+  })
+  .service("toolbar", function() {
+    return {
+      icon: null,
+      events: {
+        onIconClicked: function() {/* No op */}
+      }
+    };
   });
