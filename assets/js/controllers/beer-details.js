@@ -9,7 +9,7 @@ angular.module('stoutful.controllers').
 
     $scope.dismissToolbarAlert = function() {
       $scope.showAlert = false;
-    }
+    };
 
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {
@@ -91,6 +91,9 @@ angular.module('stoutful.controllers').
             $scope.checkInCounter += 1;
           }
           $scope.activities.unshift(response.data);
+        })
+        .catch(function(err) {
+          console.log(err);
         });
     }
 
