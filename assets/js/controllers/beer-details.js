@@ -1,6 +1,11 @@
 angular.module('stoutful.controllers').
   controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, $mdDialog, $mdToast) {
     var beerId = $routeParams.beerId;
+    var toast = $mdToast.simple()
+                        .action('Undo')
+                        .position('top right')
+                        .hideDelay('3000');
+
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
@@ -47,27 +52,19 @@ angular.module('stoutful.controllers').
     };
 
     $scope.onLikeClicked = function() {
-      var toast = $mdToast.simple()
-                          .action('Undo')
-                          .position('top right')
-                          .hideDelay('3000');
-
-      $mdToast.show(toast).then(function(response) {
-        if (response == 'ok') {
-          $mdToast.hide();
-        } else {
-          createActivity('like');
-        }
+      $mdToast.show(toast)
+        .then(function(response) {
+          if (response == 'ok') {
+            $mdToast.hide();
+          } else {
+            createActivity('like');
+          }
       });
     };
 
     $scope.onCheckInClicked = function() {
-      var toast = $mdToast.simple()
-                          .action('Undo')
-                          .position('top right')
-                          .hideDelay('3000');
-
-      $mdToast.show(toast).then(function(response) {
+      $mdToast.show(toast)
+      .then(function(response) {
         if (response == 'ok') {
           $mdToast.hide();
         } else {
