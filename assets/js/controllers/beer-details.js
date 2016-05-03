@@ -78,7 +78,7 @@ angular.module('stoutful.controllers').
     };
 
     function createActivity(type) {
-      var body = {"beer_id": $scope.beer.id, "type": type};
+      var body = {"beer": $scope.beer.id, "type": type};
       $http.post("/api/users/activity", body)
         .then(function(response) {
           if (type == 'like') {
