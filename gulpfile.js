@@ -59,6 +59,16 @@ gulp.task("concatDirectives", ["clean"], function() {
     .pipe(gulp.dest(paths.dest.js));
 });
 
+gulp.task("concatServices", ["clean"], function() {
+  var input = [
+    "assets/js/services/index.js",
+    "assets/js/services/*.js",
+  ];
+  return gulp.src(input)
+    .pipe(concat("services.js"))
+    .pipe(gulp.dest(paths.dest.js));
+});
+
 gulp.task("sass", ["clean"], function () {
   return gulp.src(paths.src.sass)
     .pipe(sass().on("error", sass.logError))
@@ -105,7 +115,7 @@ gulp.task("watch", function() {
   gulp.watch(watchlist, ["build"]);
 });
 
-gulp.task("concat", ["concatControllers", "concatDirectives"]);
+gulp.task("concat", ["concatControllers", "concatDirectives", "concatServices"]);
 gulp.task("bower", ["bower:js", "bower:css", "bower:inject"]);
 gulp.task("build", ["copy", "concat", "sass", "bower"]);
 gulp.task("prod", ["build"]);
