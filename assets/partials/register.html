@@ -27,29 +27,45 @@
         <md-input-container class="md-block"
           ng-class="{'has-error': formHolder.registerForm.firstName.$invalid}">
             <label>First Name</label>
-            <input name="firstName" type="text" placeholder="First Name"
-              ng-model="formHolder.firstName" required>
+            <input name="firstName" type="text"
+              ng-model="formHolder.firstName" required/>
+            <div ng-messages="formHolder.registerForm.firstName.$error">
+              <div ng-message="required">First name is required.</div>
+            </div>
         </md-input-container>
 
         <md-input-container class="md-block"
           ng-class="{'has-error': formHolder.registerForm.lastName.$invalid}">
             <label>Last Name</label>
-            <input name="lastName" type="text" placeholder="Last Name"
-              ng-model="formHolder.lastName" required>
+            <input name="lastName" type="text"
+              ng-model="formHolder.lastName" required/>
+            <div ng-messages="formHolder.registerForm.lastName.$error">
+              <div ng-message="required">Last name is required.</div>
+            </div>
         </md-input-container>
 
         <md-input-container class="md-block"
           ng-class="{'has-error': formHolder.registerForm.email.$invalid}">
             <label>Email</label>
-            <input name="email" type="email" placeholder="Email"
-              ng-model="formHolder.email" required>
+            <input name="email" type="email"
+              ng-model="formHolder.email"
+              ng-pattern="/^.+@.+\..+$/"
+              required/>
+            <div ng-messages="formHolder.registerForm.email.$error" multiple>
+              <div ng-message="required">Email is required.</div>
+              <div ng-message="pattern">Email is invalid.</div>
+            </div>
         </md-input-container>
 
         <md-input-container class="md-block"
           ng-class="{'has-error': formHolder.registerForm.password.$invalid}">
             <label>Password</label>
-            <input name="password" type="password" placeholder="Password"
-              ng-model="formHolder.password" required>
+            <input name="password" type="password"
+              ng-model="formHolder.password"
+              required/>
+            <div ng-messages="formHolder.registerForm.password.$error">
+              <div ng-message="required">Password is required.</div>
+            </div>
         </md-input-container>
       </form>
     </md-card-content>

@@ -8,6 +8,7 @@ var dependencies = [
   'rx',
   'angularMoment',
   'formly',
-  'ngMaterial'
+  'ngMaterial',
+  'ngMessages'
 ];
 angular.module('stoutful.controllers', dependencies);

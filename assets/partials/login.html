@@ -27,13 +27,25 @@
         <md-input-container class="md-block"
           ng-class="{'has-error': formHolder.loginForm.email.$invalid}">
             <label>Email</label>
-            <input name="formHolder.email" type="email" ng-model="email" required>
+            <input name="email" type="email"
+              ng-model="formHolder.email"
+              ng-pattern="/^.+@.+\..+$/"
+              required>
+            <div ng-messages="formHolder.loginForm.email.$error" multiple>
+              <div ng-message="required">Email is required.</div>
+              <div ng-message="pattern">Email is invalid.</div>
+            </div>
         </md-input-container>
 
         <md-input-container class="md-block"
           ng-class="{'has-error': formHolder.loginForm.password.$invalid}">
             <label>Password</label>
-            <input name="formHolder.password" type="password" ng-model="password" required>
+            <input name="password" type="password"
+              ng-model="formHolder.password"
+              required>
+            <div ng-messages="formHolder.loginForm.password.$error">
+              <div ng-message="required">Password is required.</div>
+            </div>
         </md-input-container>
       </form>
     </md-card-content>
