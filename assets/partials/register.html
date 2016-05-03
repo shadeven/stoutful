@@ -50,7 +50,7 @@
             <input name="email" type="email"
               ng-model="formHolder.email"
               ng-pattern="/^.+@.+\..+$/"
-              required>
+              required/>
             <div ng-messages="formHolder.registerForm.email.$error" multiple>
               <div ng-message="required">Email is required.</div>
               <div ng-message="pattern">Email is invalid.</div>
@@ -61,8 +61,9 @@
           ng-class="{'has-error': formHolder.registerForm.password.$invalid}">
             <label>Password</label>
             <input name="password" type="password"
-              ng-model="formHolder.password" required>
-            <div ng-messages="formHolder.registerForm.password.$error" multiple>
+              ng-model="formHolder.password"
+              required/>
+            <div ng-messages="formHolder.registerForm.password.$error">
               <div ng-message="required">Password is required.</div>
             </div>
         </md-input-container>
