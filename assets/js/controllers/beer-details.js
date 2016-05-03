@@ -1,6 +1,11 @@
 angular.module('stoutful.controllers').
-  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, $mdDialog) {
+  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, $mdDialog, $mdToast) {
     var beerId = $routeParams.beerId;
+    var toast = $mdToast.simple()
+                        .action('Undo')
+                        .position('top right')
+                        .hideDelay('3000');
+
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
@@ -9,7 +14,7 @@ angular.module('stoutful.controllers').
 
     $scope.dismissToolbarAlert = function() {
       $scope.showAlert = false;
-    }
+    };
 
     $scope.actionVerbForActivityType = function(type) {
       if (type === 'like') {
@@ -47,11 +52,25 @@ angular.module('stoutful.controllers').
     };
 
     $scope.onLikeClicked = function() {
-      createActivity('like');
+      $mdToast.show(toast)
+        .then(function(response) {
+          if (response == 'ok') {
+            $mdToast.hide();
+          } else {
+            createActivity('like');
+          }
+      });
     };
 
     $scope.onCheckInClicked = function() {
-      createActivity('check_in');
+      $mdToast.show(toast)
+      .then(function(response) {
+        if (response == 'ok') {
+          $mdToast.hide();
+        } else {
+          createActivity('check_in');
+        }
+      });
     };
 
     $scope.closeAlert = function() {
@@ -59,7 +78,7 @@ angular.module('stoutful.controllers').
     };
 
     function createActivity(type) {
-      var body = {"beer_id": $scope.beer.id, "type": type};
+      var body = {"beer": $scope.beer.id, "type": type};
       $http.post("/api/users/activity", body)
         .then(function(response) {
           if (type == 'like') {
@@ -69,6 +88,9 @@ angular.module('stoutful.controllers').
             $scope.checkInCounter += 1;
           }
           $scope.activities.unshift(response.data);
+        })
+        .catch(function(err) {
+          console.log(err);
         });
     }
 
