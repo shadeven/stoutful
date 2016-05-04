@@ -136,8 +136,8 @@ angular.module('stoutful.controllers').
     // Fetch like acitivity by beer and user.
     var criteria = {
       params: {
-        'beer_id': beerId,
-        'user_id': session.user.id,
+        'beer': beerId,
+        'user': session.user.id,
         'type': 'like'
       }
     };
