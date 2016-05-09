@@ -1,12 +1,16 @@
 angular.module('stoutful.controllers').
-  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, $mdDialog, $mdToast) {
+  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, beerRepositry, $mdDialog, $mdToast) {
     var beerId = $routeParams.beerId;
 
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
-    $scope.disableLikeBtn = false;
     $scope.placeholder = '/images/placeholder.jpg';
+    $scope.beer = beerRepositry.getBeer($http, beerId);
+    $scope.activities = beerRepositry.getBeerActivity($http, beerId);
+
+    $scope.disableLikeBtn = false;
+    $scope.disableLikeBtn = beerRepositry.getLikeBeerActivity($http, beerId, session.user.id).length > 0;
 
     $scope.dismissToolbarAlert = function() {
       $scope.showAlert = false;
@@ -101,54 +105,11 @@ angular.module('stoutful.controllers').
         });
     }
 
-    // Main
-
     // Watch for session user change (i.e. when user logs out)
     $scope.$watch(function() { return session.user; }, function() {
       $scope.user = session.user;
       $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     });
-
-    // Fetch beer
-    $http.get('/api/beers/' + beerId)
-      .then(function(response) {
-        $scope.beer = response.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-
-    // Fetch beer activity
-    var config = {
-      params: {
-        'beer_id': beerId
-      }
-    };
-
-    $http.get('/api/activities', config)
-      .then(function(response) {
-        $scope.activities = response.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-
-    // Fetch like acitivity by beer and user.
-    var criteria = {
-      params: {
-        'beer': beerId,
-        'user': session.user.id,
-        'type': 'like'
-      }
-    };
-
-    $http.get('/api/activities', criteria)
-      .then(function(response) {
-        $scope.disableLikeBtn = response.data.length > 0;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
 
     $http.get("/api/beers/" + $routeParams.beerId + "/stats")
       .then(function(response) {
