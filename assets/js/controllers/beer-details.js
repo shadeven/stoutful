@@ -1,16 +1,36 @@
 angular.module('stoutful.controllers').
-  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, beerRepositry, $mdDialog, $mdToast) {
+  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, beerRepository, $mdDialog, $mdToast) {
     var beerId = $routeParams.beerId;
 
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
     $scope.placeholder = '/images/placeholder.jpg';
-    $scope.beer = beerRepositry.getBeer($http, beerId);
-    $scope.activities = beerRepositry.getBeerActivity($http, beerId);
+
+    beerRepository.getBeer($http, beerId)
+      .then(function(response) {
+        $scope.beer = response.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+
+    beerRepository.getBeerActivity($http, beerId)
+      .then(function(response) {
+        $scope.activities = response.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
 
     $scope.disableLikeBtn = false;
-    $scope.disableLikeBtn = beerRepositry.getLikeBeerActivity($http, beerId, session.user.id).length > 0;
+    beerRepository.getLikeBeerActivity($http, beerId, session.user.id)
+      .then(function(response) {
+        $scope.disableLikeBtn = response.data.length > 0;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
 
     $scope.dismissToolbarAlert = function() {
       $scope.showAlert = false;

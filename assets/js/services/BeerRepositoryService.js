@@ -3,34 +3,16 @@
 
   angular
     .module("stoutful.services")
-    .service("beerRepositry", beerRepositry);
+    .service("beerRepository", beerRepository);
 
-  function beerRepositry() {
+  function beerRepository() {
     return {
       getBeer: function($http, beerId) {
-        $http.get('/api/beers/' + beerId)
-          .then(function(response) {
-            return response.data;
-          })
-          .catch(function(err) {
-            console.log(err);
-          });
+        return $http.get('/api/beers/' + beerId);
       },
 
       getBeerActivity: function($http, beerId) {
-        var config = {
-          params: {
-            'beer_id': beerId
-          }
-        };
-
-        $http.get('/api/activities', config)
-          .then(function(response) {
-            return response.data;
-          })
-          .catch(function(err) {
-            console.log(err);
-          });
+        return $http.get('/api/activities', {'beer_id': beerId});
       },
 
       getLikeBeerActivity: function($http, beerId, userId) {
@@ -42,13 +24,7 @@
           }
         };
 
-        $http.get('/api/activities', criteria)
-          .then(function(response) {
-            return response.data;
-          })
-          .catch(function(err) {
-            console.log(err);
-          });
+        return $http.get('/api/activities', criteria);
       }
     };
   }
