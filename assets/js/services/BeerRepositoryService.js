@@ -15,12 +15,12 @@
         return $http.get('/api/activities', {'beer_id': beerId});
       },
 
-      getLikeBeerActivity: function($http, beerId, userId) {
+      getUserBeerActivity: function($http, beerId, userId, type) {
         var criteria = {
           params: {
             'beer': beerId,
             'user': userId,
-            'type': 'like'
+            'type': type
           }
         };
 

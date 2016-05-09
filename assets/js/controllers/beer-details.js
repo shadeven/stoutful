@@ -24,7 +24,7 @@ angular.module('stoutful.controllers').
       });
 
     $scope.disableLikeBtn = false;
-    beerRepository.getLikeBeerActivity($http, beerId, session.user.id)
+    beerRepository.getUserBeerActivity($http, beerId, session.user.id, 'like')
       .then(function(response) {
         $scope.disableLikeBtn = response.data.length > 0;
       })
