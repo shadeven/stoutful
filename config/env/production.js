@@ -22,6 +22,7 @@ module.exports = {
     pg: {
       adapter: "sails-postgresql",
       host: process.env.POSTGRES_PORT_5432_TCP_ADDR,
+      user: process.env.POSTGRES_ENV_POSTGRES_USER,
       password: process.env.POSTGRES_ENV_POSTGRES_PASSWORD
     },
 
