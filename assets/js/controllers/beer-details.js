@@ -1,13 +1,11 @@
 angular.module('stoutful.controllers').
   controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, beerRepository, $mdDialog, $mdToast) {
-    var beerId = $routeParams.beerId;
-
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
     $scope.placeholder = '/images/placeholder.jpg';
 
-    beerRepository.getBeer($http, beerId)
+    beerRepository.getBeer($http, $routeParams.beerId)
       .then(function(response) {
         $scope.beer = response.data;
       })
@@ -15,7 +13,7 @@ angular.module('stoutful.controllers').
         console.log(err);
       });
 
-    beerRepository.getBeerActivity($http, beerId)
+    beerRepository.getBeerActivity($http, $routeParams.beerId)
       .then(function(response) {
         $scope.activities = response.data;
       })
@@ -24,7 +22,7 @@ angular.module('stoutful.controllers').
       });
 
     $scope.disableLikeBtn = false;
-    beerRepository.getUserBeerActivity($http, beerId, session.user.id, 'like')
+    beerRepository.getUserBeerActivity($http, $routeParams.beerId, session.user.id, 'like')
       .then(function(response) {
         $scope.disableLikeBtn = response.data.length > 0;
       })
@@ -32,7 +30,20 @@ angular.module('stoutful.controllers').
         console.log(err);
       });
 
+    beerRepository.getBeerStats($http, $routeParams.beerId)
+      .then(function(response) {
+        $scope.likeCounter = response.data.like_count;
+        $scope.checkInCounter = response.data.check_in_count;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+
     $scope.dismissToolbarAlert = function() {
+      $scope.showAlert = false;
+    };
+
+    $scope.closeAlert = function() {
       $scope.showAlert = false;
     };
 
@@ -82,7 +93,15 @@ angular.module('stoutful.controllers').
           if (response == 'ok') {
             $mdToast.hide();
           } else {
-            createActivity('like');
+            beerRepository.createBeerActivity($http, $routeParams.beerId, 'like')
+              .then(function(response) {
+                $scope.likeCounter += 1;
+                $scope.disableLikeBtn = true;
+                $scope.activities.unshift(response.data);
+              })
+              .catch(function(err) {
+                console.log(err);
+              });
           }
       });
     };
@@ -99,44 +118,21 @@ angular.module('stoutful.controllers').
           if (response == 'ok') {
             $mdToast.hide();
           } else {
-            createActivity('check_in');
+            beerRepository.createBeerActivity($http, $routeParams.beerId, 'check_in')
+              .then(function(response) {
+                $scope.checkInCounter += 1;
+                $scope.activities.unshift(response.data);
+              })
+              .catch(function(err) {
+                console.log(err);
+              });
           }
         });
     };
-
-    $scope.closeAlert = function() {
-      $scope.showAlert = false;
-    };
-
-    function createActivity(type) {
-      var body = {"beer": $scope.beer.id, "type": type};
-      $http.post("/api/users/activity", body)
-        .then(function(response) {
-          if (type == 'like') {
-            $scope.likeCounter += 1;
-            $scope.disableLikeBtn = true;
-          } else if (type == 'check_in') {
-            $scope.checkInCounter += 1;
-          }
-          $scope.activities.unshift(response.data);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-    }
 
     // Watch for session user change (i.e. when user logs out)
     $scope.$watch(function() { return session.user; }, function() {
       $scope.user = session.user;
       $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     });
-
-    $http.get("/api/beers/" + $routeParams.beerId + "/stats")
-      .then(function(response) {
-        $scope.likeCounter = response.data.like_count;
-        $scope.checkInCounter = response.data.check_in_count;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
   });

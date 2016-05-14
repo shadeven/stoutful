@@ -16,15 +16,15 @@
       },
 
       getUserBeerActivity: function($http, beerId, userId, type) {
-        var criteria = {
-          params: {
-            'beer': beerId,
-            'user': userId,
-            'type': type
-          }
-        };
+        return $http.get('/api/activities', {'beer_id': beerId, 'user': userId, 'type': type});
+      },
 
-        return $http.get('/api/activities', criteria);
+      getBeerStats: function($http, beerId) {
+        return $http.get("/api/beers/" + beerId + "/stats");
+      },
+
+      createBeerActivity: function($http, beerId, type) {
+        return $http.post("/api/users/activity", {"beer": beerId, "type": type});
       }
     };
   }
