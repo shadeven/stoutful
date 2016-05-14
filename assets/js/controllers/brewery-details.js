@@ -1,12 +1,18 @@
 angular.module('stoutful.controllers').
-  controller('BreweryDetailsController', function($scope, $routeParams, $http, rx, $mdDialog, session) {
-    var breweryId = $routeParams.breweryId;
+  controller('BreweryDetailsController', function($scope, $routeParams, $http, $mdDialog, rx, breweryRepository, session) {
     $scope.showAlert = session.isLoggedIn();
     $scope.placeholder = '/images/placeholder.jpg';
+    breweryRepository.getBrewery($http, $routeParams.breweryId)
+      .then(function(response) {
+        $scope.brewery = response.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
 
     $scope.dismissToolbarAlert = function() {
       $scope.showAlert = false;
-    }
+    };
 
     $scope.editBrewery = function(event) {
       $mdDialog.show({
@@ -31,13 +37,4 @@ angular.module('stoutful.controllers').
       $scope.user = session.user;
       $scope.showAlert = session.isLoggedIn();
     });
-
-    // Fetch brewery
-    $http.get('/api/breweries/' + breweryId)
-      .then(function(response) {
-        $scope.brewery = response.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
   });
