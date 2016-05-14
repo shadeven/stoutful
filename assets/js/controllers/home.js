@@ -1,6 +1,21 @@
 angular.module('stoutful.controllers').
-  controller('HomeController', function($scope, $http, rx, $location, $q) {
+  controller('HomeController', function($scope, $http, rx, $location, $q, beerRepository) {
     $scope.searchQuery = { query: '' };
+    beerRepository.getPopularBeer($http)
+      .then(function(response) {
+        $scope.popular = response.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+
+    beerRepository.getSuggestedBeer($http)
+      .then(function(response) {
+        $scope.suggestions = response.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
 
     $scope.$watch('searchQuery.query', function(newValue) {
       if (!newValue) return;
@@ -32,20 +47,4 @@ angular.module('stoutful.controllers').
     $scope.showBeerDetails = function(beer) {
       $location.url('/beer/' + beer.id);
     };
-
-    $http.get('/api/beers/popular')
-      .then(function(results) {
-        $scope.popular = results.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-
-    $http.get('/api/beers/suggestions')
-      .then(function(response) {
-        $scope.suggestions = response.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
   });
