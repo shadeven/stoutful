@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cwd="$(dirname "$0")"
+cd $cwd
+cd ../docker/prod
+./make latest
+gcloud docker push gcr.io/onyx-window-92619/stoutful:latest
+gcloud compute --project "onyx-window-92619" ssh --zone "us-central1-a" "stoutful" --command update
