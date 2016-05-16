@@ -9,8 +9,14 @@
  * any private information to this file!
  *
  */
+var fs = require("fs");
 
 module.exports = {
+  ssl: {
+    key: fs.readFileSync("server.key"),
+    cert: fs.readFileSync("server.crt")
+  },
+
   skipper: {
     adapter: require("skipper-s3"),
     key: "AKIAJNW3FLAVY2C73AHA",
