@@ -12,9 +12,10 @@
 var fs = require("fs");
 
 module.exports = {
+  port: 443,
   ssl: {
-    key: fs.readFileSync("server.key"),
-    cert: fs.readFileSync("server.crt")
+    key: fs.readFileSync("stoutful.key"),
+    cert: fs.readFileSync("stoutful.crt")
   },
 
   skipper: {
