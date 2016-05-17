@@ -9,3 +9,6 @@ RUN ssh-keyscan gitlab.com > /root/.ssh/known_hosts
 
 # Clone project
 RUN git clone git@gitlab.com:stoutful/stoutful-server.git /app
+
+# Copy ssl cert
+ADD ssl/server.crt /app/
