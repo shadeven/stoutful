@@ -1,3 +1,0 @@
-host gitlab.com
-  user git
-  identityFile /root/.ssh/id_rsa
