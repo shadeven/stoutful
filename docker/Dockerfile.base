@@ -30,8 +30,5 @@ WORKDIR /app
 # Copy start script
 COPY start /usr/local/bin/start-stoutful
 
-# Expose port 1337
-EXPOSE 1337
-
 # Run start-stoutful when we start the container
 CMD ["start-stoutful"]
