@@ -12,12 +12,6 @@
 var fs = require("fs");
 
 module.exports = {
-  port: 443,
-  ssl: {
-    key: fs.readFileSync("stoutful.key"),
-    cert: fs.readFileSync("stoutful.crt")
-  },
-
   skipper: {
     adapter: require("skipper-s3"),
     key: "AKIAJNW3FLAVY2C73AHA",
