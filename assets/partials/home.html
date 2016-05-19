@@ -11,7 +11,7 @@
           md-items="model in performSearch(searchText)"
           md-item-text="model.name"
           placeholder="Search beer or brewery">
-          <span md-highlight-text="searchText">{{model.name}}</span>
+          <span md-highlight-text="searchText" md-highlight-flags="gi">{{model.name}}</span>
           <md-not-found>
             No matches found.
           </md-not-found>
