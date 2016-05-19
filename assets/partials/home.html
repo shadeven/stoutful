@@ -7,6 +7,7 @@
         <md-autocomplete md-search-text="searchText"
           md-min-length="3"
           md-selected-item-change="onSelect(model)"
+          md-autoselect="true"
           md-items="model in performSearch(searchText)"
           md-item-text="model.name"
           placeholder="Search beer or brewery">
