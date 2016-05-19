@@ -17,7 +17,6 @@ postgres:
   environment:
     - POSTGRES_DB=stoutful
     - POSTGRES_USER=${USER}
-    - POSTGRES_PASSWORD=password
 redis:
   image: redis
   container_name: stoutful-redis
