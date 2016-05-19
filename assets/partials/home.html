@@ -11,6 +11,9 @@
           md-item-text="model.name"
           placeholder="Search beer or brewery">
           <span md-highlight-text="searchText">{{model.name}}</span>
+          <md-not-found>
+            No matches found.
+          </md-not-found>
         </md-autocomplete>
       </form>
     </div>
