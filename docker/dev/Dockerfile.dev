@@ -1,4 +1,0 @@
-FROM stoutful-base
-
-# Creates a mount dir at /app
-VOLUME /app

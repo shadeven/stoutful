@@ -9,6 +9,7 @@
  * any private information to this file!
  *
  */
+var fs = require("fs");
 
 module.exports = {
   skipper: {
@@ -21,23 +22,26 @@ module.exports = {
   connections: {
     pg: {
       adapter: "sails-postgresql",
-      url: process.env.DB_URL
+      host: process.env.POSTGRES_PORT_5432_TCP_ADDR,
+      user: process.env.POSTGRES_ENV_POSTGRES_USER,
+      password: process.env.POSTGRES_ENV_POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_ENV_POSTGRES_DB
     },
 
     redis: {
       adapter: "sails-redis",
-      host: process.env.REDIS_HOST
+      host: process.env.REDIS_PORT_6379_TCP_ADDR
     },
 
     elasticsearch: {
       adapter: "elasticsearch",
-      host: process.env.ELASTICSEARCH_HOST
+      host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR
     }
   },
 
   session: {
     adapter: "connect-redis",
-    host: process.env.REDIS_HOST,
+    host: process.env.REDIS_PORT_6379_TCP_ADDR,
     prefix: 'sess:'
   }
 };

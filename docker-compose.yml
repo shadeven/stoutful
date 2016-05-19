@@ -1,5 +1,6 @@
 web:
   image: stoutful-dev
+  container_name: stoutful-web
   ports:
     - "1337:1337"
   volumes:
@@ -10,17 +11,21 @@ web:
     - elasticsearch
 postgres:
   image: postgres
+  container_name: stoutful-postgres
   ports:
     - "5432:5432"
   environment:
-    - POSTGRES_USER=${USER}
     - POSTGRES_DB=stoutful
+    - POSTGRES_USER=${USER}
+    - POSTGRES_PASSWORD=password
 redis:
   image: redis
+  container_name: stoutful-redis
   ports:
     - "6379:6379"
 elasticsearch:
   image: elasticsearch
+  container_name: stoutful-elasticsearch
   ports:
     - "9200:9200"
     - "9300:9300"
