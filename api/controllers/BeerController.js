@@ -8,6 +8,7 @@
 var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var Promise = require('bluebird');
+var _ = require("underscore");
 
 module.exports = {
   findOne: function(req, res) {
@@ -54,11 +55,16 @@ module.exports = {
       body: { query: { match: { name: query }}}
     })
     .then(function(results) {
-      var promises = results.hits.hits.map(function(hit) {
+      return results.hits.hits.map(function(hit) {
         var id = parseInt(hit._id);
-        return Beer.findOne({id: id}).populateAll();
+        return Beer.find({id: id}).populateAll();
       });
+    })
+    .then(function(promises) {
       return Promise.all(promises);
+    })
+    .then(function(arrayOfBeerArrays) {
+      return _.flatten(arrayOfBeerArrays);
     })
     .then(function(beers) {
       res.ok(beers);

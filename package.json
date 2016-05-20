@@ -33,6 +33,7 @@
     "sails-redis": "^0.10.7",
     "skipper-disk": "^0.5.4",
     "skipper-s3": "^0.5.5",
+    "underscore": "^1.8.3",
     "wiredep": "^3.0.0"
   },
   "scripts": {
