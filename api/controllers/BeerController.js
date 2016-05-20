@@ -54,10 +54,11 @@ module.exports = {
       body: { query: { match: { name: query }}}
     })
     .then(function(results) {
-      var ids = results.hits.hits.map(function(hit) {
-        return {id: parseInt(hit._id)};
+      var promises = results.hits.hits.map(function(hit) {
+        var id = parseInt(hit._id);
+        return Beer.findOne({id: id}).populateAll();
       });
-      return Beer.find(ids).populateAll();
+      return Promise.all(promises);
     })
     .then(function(beers) {
       res.ok(beers);

@@ -7,13 +7,14 @@
 
  /* global Brewery, ESBrewery, Patch */
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+var Promise = require("bluebird");
 
 module.exports = {
   search: function(req, res) {
     var query = req.query.query;
     searchBrewery(query)
       .then(function(breweries) {
-        res.json(breweries);
+        res.ok(breweries);
       })
       .catch(function(err) {
         res.serverError(err);
@@ -88,11 +89,10 @@ function searchBrewery(query) {
   };
   return ESBrewery.search(esQuery)
     .then(function(results) {
-      return results.hits.hits.map(function(hit) {
-        return {id: parseInt(hit._id)};
+      var promises = results.hits.hits.map(function(hit) {
+        var id = parseInt(hit._id);
+        return Brewery.findOne({id: id}).populateAll();
       });
-    })
-    .then(function(ids) {
-      return Brewery.find(ids);
+      return Promise.all(promises);
     });
 }
