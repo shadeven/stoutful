@@ -2,12 +2,14 @@
   <div ng-if="!vm.showLogin && !vm.showRegister" layout="column" layout-align="center center">
     <h1>Stoutful</h1>
     <h3>Discover your beer</h3>
-    <div layout="row">
-      <md-button ng-click="vm.showLoginView()">Login</md-button>
-      <md-button ng-click="vm.showRegisterView()">Sign up</md-button>
+    <div layout="column">
+      <div layout="row">
+        <md-button ng-click="vm.showLoginView()">Login</md-button>
+        <md-button ng-click="vm.showRegisterView()">Sign up</md-button>
+      </div>
+      <google-signin onsuccess="vm.onGoogleSigninSuccess"
+        onfailure="vm.onGoogleSigninFail"></google-signin>
     </div>
-    <google-signin onsuccess="vm.onGoogleSigninSuccess"
-      onfailure="vm.onGoogleSigninFail"></google-signin>
   </div>
 
   <ng-include ng-if="vm.showLogin" ng-controller="LoginController"

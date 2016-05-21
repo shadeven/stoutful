@@ -14,12 +14,14 @@
         onsuccess: "=",
         onfailure: "="
       },
-      template: "<div id='g-signin'></div>",
+      template: "<div id='google-signin'></div>",
       replace: true,
       link: function(scope, element, attrs) {
+        var width = $(element).width() || 120;
         gapi.signin2.render(attrs.id, {
           "onsuccess": scope.onsuccess,
-          "onfailure": scope.onfailure
+          "onfailure": scope.onfailure,
+          "width": width
         });
       }
     };
