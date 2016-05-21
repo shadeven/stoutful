@@ -1,20 +1,25 @@
 <div class="splash-container" layout="row" layout-align="center center" flex>
-  <div ng-if="!vm.showLogin && !vm.showRegister" layout="column" layout-align="center center">
-    <h1>Stoutful</h1>
-    <h3>Discover your beer</h3>
-    <div layout="column">
-      <div layout="row">
-        <md-button ng-click="vm.showLoginView()">Login</md-button>
-        <md-button ng-click="vm.showRegisterView()">Sign up</md-button>
+  <md-loading-container ng-model="vm.loading">
+    <md-progress-circular md-mode="indeterminate"
+      md-diameter="100px"></md-progress-circular>
+
+    <div ng-if="!vm.showLogin && !vm.showRegister" layout="column" layout-align="center center">
+      <h1>Stoutful</h1>
+      <h3>Discover your beer</h3>
+      <div layout="column">
+        <div layout="row">
+          <md-button ng-click="vm.showLoginView()">Login</md-button>
+          <md-button ng-click="vm.showRegisterView()">Sign up</md-button>
+        </div>
+        <google-signin onsuccess="vm.onGoogleSigninSuccess"
+          onfailure="vm.onGoogleSigninFail"></google-signin>
       </div>
-      <google-signin onsuccess="vm.onGoogleSigninSuccess"
-        onfailure="vm.onGoogleSigninFail"></google-signin>
     </div>
-  </div>
 
-  <ng-include ng-if="vm.showLogin" ng-controller="LoginController"
-    src="vm.loginPartial" layout="column" flex="50" flex-xs="95"></ng-include>
+    <ng-include ng-if="vm.showLogin" ng-controller="LoginController"
+      src="vm.loginPartial" layout="column" flex="50" flex-xs="95"></ng-include>
 
-  <ng-include ng-if="vm.showRegister" ng-controller="RegisterController"
-    src="vm.registerPartial" layout="column" flex="50" flex-xs="95"></ng-include>
+    <ng-include ng-if="vm.showRegister" ng-controller="RegisterController"
+      src="vm.registerPartial" layout="column" flex="50" flex-xs="95"></ng-include>
+  </md-loading-container>
 </div>
