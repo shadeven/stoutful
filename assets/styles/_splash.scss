@@ -18,4 +18,16 @@
   #google-signin {
     margin-top: 6px;
   }
+
+  @media (max-width: 599px) {
+    h1 {
+      font-size: 5em;
+    }
+  }
+
+  @media (max-width: 320px) {
+    h1 {
+      font-size: 4.5em;
+    }
+  }
 }
