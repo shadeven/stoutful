@@ -9,6 +9,7 @@ var dependencies = [
   'angularMoment',
   'formly',
   'ngMaterial',
-  'ngMessages'
+  'ngMessages',
+  'ngImgCrop'
 ];
 angular.module('stoutful.controllers', dependencies);
