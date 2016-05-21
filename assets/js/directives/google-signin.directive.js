@@ -21,7 +21,8 @@
         gapi.signin2.render(attrs.id, {
           "onsuccess": scope.onsuccess,
           "onfailure": scope.onfailure,
-          "width": width
+          "width": width,
+          "longtitle": true
         });
       }
     };
