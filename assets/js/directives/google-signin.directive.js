@@ -5,9 +5,9 @@
 
   angular
     .module("stoutful.directives")
-    .directive("gSignin", gSignin);
+    .directive("googleSignin", googleSignin);
 
-  function gSignin() {
+  function googleSignin() {
     return {
       restrict: "E",
       scope: {
