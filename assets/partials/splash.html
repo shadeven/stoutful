@@ -6,6 +6,8 @@
       <md-button ng-click="vm.showLoginView()">Login</md-button>
       <md-button ng-click="vm.showRegisterView()">Sign up</md-button>
     </div>
+    <g-signin onsuccess="vm.onGoogleSigninSuccess"
+      onfailure="vm.onGoogleSigninFail"></g-signin>
   </div>
 
   <ng-include ng-if="vm.showLogin" ng-controller="LoginController"

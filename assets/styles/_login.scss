@@ -20,45 +20,4 @@
     margin-bottom: 5px;
     text-align: left;
   }
-
-  .btn-google {
-    width: 193px;
-    height: 48px;
-    padding: 0;
-    border: 0;
-    background: none;
-    background-repeat: no-repeat;
-  }
-
-  .btn-google-login {
-    background-image: url('../images/btn_google_signin_dark_normal_web.png');
-
-    &:focus {
-      background-image: url('../images/btn_google_signin_dark_focus_web.png');
-    }
-
-    &:active {
-      background-image: url('../images/btn_google_signin_dark_pressed_web.png');
-    }
-
-    &[disabled] {
-      background-image: url('../images/btn_google_signin_dark_disabled_web.png');
-    }
-  }
-
-  .btn-google-register {
-    background-image: url('../images/btn_google_signup_dark_normal_web.png');
-
-    &:focus {
-      background-image: url('../images/btn_google_signup_dark_focus_web.png');
-    }
-
-    &:active {
-      background-image: url('../images/btn_google_signup_dark_pressed_web.png');
-    }
-
-    &[disabled] {
-      background-image: url('../images/btn_google_signup_dark_disabled_web.png');
-    }
-  }
 }

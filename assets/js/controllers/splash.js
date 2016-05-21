@@ -17,6 +17,8 @@
     vm.logInWithGoogle = logInWithGoogle;
     vm.login = login;
     vm.register = register;
+    vm.onGoogleSigninSuccess = onGoogleSigninSuccess;
+    vm.onGoogleSigninFail = onGoogleSigninFail;
 
     gapi.load('auth2', function() {
       // Retrieve the singleton for the GoogleAuth library and set up the client.
@@ -49,48 +51,6 @@
     }
 
     function logInWithGoogle() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      var onSuccess = function(googleUser) {
-        var authResponse = googleUser.getAuthResponse();
-        var accessToken = authResponse.access_token;
-
-        var req = {
-          method: 'POST',
-          url: '/login/google'
-        };
-
-        if (accessToken) {
-          req.data = { 'access_token': accessToken };
-        }
-
-        vm.loading = true;
-        $http(req)
-          .then(function() {
-            return $http({ method: 'GET', url: '/api/users/me' });
-          })
-          .then(function(response) {
-            vm.loading = false;
-            session.setUser(response.data);
-            $location.url('/home');
-          })
-          .catch(function(err) {
-            vm.loading = false;
-            console.log('Error logging in: ', err);
-            if (err.status == 401) {
-              session.destroy();
-              auth2.signOut()
-                .then(function() {
-                  console.log('signed out.');
-                });
-            }
-          });
-      };
-
-      var onError = function(err) {
-        console.log(err);
-      };
-
-      auth2.signIn().then(onSuccess, onError);
     }
 
     function login(user) {
@@ -116,6 +76,46 @@
             msg: message
           };
         });
+    }
+
+    function onGoogleSigninSuccess(user) {
+      var authResponse = user.getAuthResponse();
+      var accessToken = authResponse.access_token;
+
+      var req = {
+        method: 'POST',
+        url: '/login/google'
+      };
+
+      if (accessToken) {
+        req.data = { 'access_token': accessToken };
+      }
+
+      vm.loading = true;
+      $http(req)
+        .then(function() {
+          return $http({ method: 'GET', url: '/api/users/me' });
+        })
+        .then(function(response) {
+          vm.loading = false;
+          session.setUser(response.data);
+          $location.url('/home');
+        })
+        .catch(function(err) {
+          vm.loading = false;
+          console.log('Error logging in: ', err);
+          if (err.status == 401) {
+            session.destroy();
+            auth2.signOut()
+              .then(function() {
+                console.log('signed out.');
+              });
+          }
+        });
+    }
+
+    function onGoogleSigninFail(error) {
+      console.log(error);
     }
 
     function register(form) {
