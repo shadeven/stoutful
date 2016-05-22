@@ -62,12 +62,9 @@
 
       <!-- Image -->
       <div id="image" class="md-block">
-        <input class="ng-hide"
-          type="file"
-          ngf-select ng-model="vm.image"
-          ng-disabled="!vm.isLoggedIn">
         <img ngf-src="vm.image" ng-show="vm.image">
-        <md-button class="md-raised md-primary" ng-click="vm.attachImage()">
+        <md-button class="md-raised md-primary" ng-model="vm.image"
+          ngf-select accept="image/*">
           {{ image ? "Replace Image" : "Attach Image" }}
         </md-button>
       </div>

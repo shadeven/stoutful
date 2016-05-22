@@ -17,7 +17,6 @@
       vm.save = save;
       vm.searchBrewery = searchBrewery;
       vm.onSelect = onSelect;
-      vm.attachImage = attachImage;
 
       watchForChanges();
 
@@ -100,10 +99,6 @@
       function onSelect(brewery) {
         if (!brewery) return;
         vm.beer.brewery = brewery;
-      }
-
-      function attachImage() {
-        $("input[type=file]").click();
       }
     });
 })();
