@@ -3,6 +3,7 @@ angular.module('stoutful.controllers').
     var vm = this;
     vm.brewery = brewery;
     vm.image = vm.brewery.image_url;
+    vm.croppedImage = null;
     vm.isLoggedIn = session.isLoggedIn();
 
     // Although Angular handles 2-way data binding for us, below is for recording which
@@ -33,8 +34,8 @@ angular.module('stoutful.controllers').
         fields: changedAttributes
       };
 
-      if (vm.image) {
-        req.file = vm.image;
+      if (vm.croppedImage) {
+        req.file = Upload.dataUrltoBlob(vm.croppedImage, vm.image.name);
       }
 
       vm.loading = true;
@@ -65,9 +66,5 @@ angular.module('stoutful.controllers').
             console.log('Err = ', resp);
           }
         });
-    };
-
-    vm.attachImage = function() {
-      $("input[type=file]").click();
     };
   });
