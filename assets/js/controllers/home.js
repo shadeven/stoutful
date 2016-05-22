@@ -1,5 +1,12 @@
-angular.module('stoutful.controllers').
-  controller('HomeController', function($scope, $http, rx, $location, $q) {
+/* Home controller */
+
+(function() {
+  "use strict";
+
+  angular.module("stoutful.controllers")
+    .controller("HomeController", HomeController);
+
+  function HomeController($scope, $http, rx, $location, $q) {
     $scope.popularEmptyMessage = "There doesn't seem to be any popular beers.";
     $scope.suggestionsEmptyMessage = "Start checking into beers to get personalized suggestions.";
 
@@ -51,4 +58,5 @@ angular.module('stoutful.controllers').
       .catch(function(err) {
         console.log(err);
       });
-  });
+  }
+})();
