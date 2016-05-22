@@ -23,7 +23,7 @@
     "angular-material": "v1.0.9",
     "jquery": "^2.2.0",
     "angular-messages": "^1.5.5",
-    "ng-img-crop": "ngImgCrop#^0.3.2"
+    "ng-img-crop-full-extended": "ngImgCropFullExtended#^0.5.5"
   },
   "overrides": {
     "bootstrap": {
