@@ -1,5 +1,8 @@
 angular.module('stoutful.controllers').
   controller('HomeController', function($scope, $http, rx, $location, $q) {
+    $scope.popularEmptyMessage = "There doesn't seem to be any popular beers.";
+    $scope.suggestionsEmptyMessage = "Start checking into beers to get personalized suggestions.";
+
     $scope.searchQuery = { query: '' };
 
     $scope.$watch('searchQuery.query', function(newValue) {
