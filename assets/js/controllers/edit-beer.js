@@ -8,6 +8,7 @@
 
       vm.beer = beer;
       vm.image = vm.beer.image_url;
+      vm.croppedImage = null;
       vm.selectedBrewery = beer.brewery;
       vm.changedAttributes = {};
       vm.loading = false;
@@ -54,8 +55,9 @@
           fields: vm.changedAttributes
         };
 
-        if (vm.image) {
-          req.file = vm.image;
+        if (vm.croppedImage) {
+          req.data = {};
+          req.data.file = Upload.dataUrltoBlob(vm.croppedImage, vm.image.name);
         }
 
         vm.loading = true;
