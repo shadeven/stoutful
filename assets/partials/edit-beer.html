@@ -62,9 +62,8 @@
 
       <!-- Image -->
       <div id="image" class="md-block">
-        <img-crop image="vm.image | ngfDataUrl" area-type="rectangle"
-          aspect-ratio="2.2" result-image="vm.croppedImage"
-          result-image-size="{w: 1024, h: 465}"></img-crop>
+        <feat-img-crop image="vm.image | ngfDataUrl"
+          result-image="vm.croppedImage"></feat-img-crop>
         <md-button class="md-raised md-primary" ng-model="vm.image"
           ngf-select accept="image/*">
           {{ image ? "Replace Image" : "Attach Image" }}
