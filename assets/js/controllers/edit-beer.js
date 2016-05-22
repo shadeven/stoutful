@@ -7,7 +7,7 @@
       var vm = this;
 
       vm.beer = beer;
-      vm.image = vm.beer.image_url;
+      vm.image = null;
       vm.croppedImage = null;
       vm.selectedBrewery = beer.brewery;
       vm.changedAttributes = {};

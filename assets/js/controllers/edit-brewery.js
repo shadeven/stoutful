@@ -2,7 +2,7 @@ angular.module('stoutful.controllers').
   controller('EditBreweryCtrl', function ($scope, $mdDialog, $http, Upload, brewery, session) {
     var vm = this;
     vm.brewery = brewery;
-    vm.image = vm.brewery.image_url;
+    vm.image = null;
     vm.croppedImage = null;
     vm.isLoggedIn = session.isLoggedIn();
 

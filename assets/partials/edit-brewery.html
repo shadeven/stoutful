@@ -83,11 +83,12 @@
 
       <!-- Image -->
       <div id="image" class="md-block">
-        <feat-img-crop image="vm.image | ngfDataUrl"
+        <feat-img-crop ng-show="vm.image" image="vm.image | ngfDataUrl"
           result-image="vm.croppedImage"></feat-img-crop>
+        <img ng-show="vm.brewery.image_url && !vm.image" ng-src="{{vm.brewery.image_url}}"/>
         <md-button class="md-raised md-primary" ng-model="vm.image"
           ngf-select accept="image/*">
-          {{ vm.image ? "Replace Image" : "Attach Image" }}
+          {{ vm.brewery.image_url || vm.image ? "Replace Image" : "Attach Image" }}
         </md-button>
       </div>
     </form>
