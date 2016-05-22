@@ -32,5 +32,8 @@
         "dist/css/bootstrap.min.css"
       ]
     }
+  },
+  "resolutions": {
+    "angular": "~1.4.6"
   }
 }
