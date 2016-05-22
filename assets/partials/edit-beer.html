@@ -1,5 +1,5 @@
-<md-dialog flex="90">
-  <md-dialog-content class="md-dialog-content">
+<md-dialog flex="50" flex-md="70" flex-sm="80" flex-xs="100">
+  <md-dialog-content class="md-dialog-content edit-beer">
     <h2 class="md-title" ng-if="vm.isLoggedIn">Edit Beer</h2>
 
     <form name="vm.editForm" novalidate>
@@ -62,13 +62,12 @@
 
       <!-- Image -->
       <div id="image" class="md-block">
-        <input class="ng-hide"
-          type="file"
-          ngf-select ng-model="vm.image"
-          ng-disabled="!vm.isLoggedIn">
-        <img ngf-src="image" ng-show="image">
-        <md-button class="md-raised md-primary" ng-click="vm.attachImage()">
-          {{ image ? "Replace Image" : "Attach Image" }}
+        <feat-img-crop ng-show="vm.image" image="vm.image | ngfDataUrl"
+          result-image="vm.croppedImage"></feat-img-crop>
+        <img ng-show="vm.beer.image_url && !vm.image" ng-src="{{vm.beer.image_url}}"/>
+        <md-button class="md-raised md-primary" ng-model="vm.image"
+          ngf-select accept="image/*">
+          {{ vm.beer.image_url || vm.image ? "Replace Image" : "Attach Image" }}
         </md-button>
       </div>
     </form>

@@ -9,6 +9,8 @@ web:
     - postgres
     - redis
     - elasticsearch
+  log_opt:
+    max-size: 50k
 postgres:
   image: postgres
   container_name: stoutful-postgres

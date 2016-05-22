@@ -88,13 +88,11 @@ module.exports = {
         if (uploadedFiles.length > 0) {
           var file = uploadedFiles[0];
           if (file.fd) {
-            req.params.all().image_url = path.relative("/app/dist", file.fd);
+            req.body.image_url = path.relative("/app/dist", file.fd);
           }
           if (file.extra && file.extra.Location) {
-            req.params.all().image_url = file.extra.Location;
+            req.body.image_url = file.extra.Location;
           }
-        } else {
-          delete req.params.all().file;
         }
       }
 
