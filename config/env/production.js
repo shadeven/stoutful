@@ -13,10 +13,10 @@ var fs = require("fs");
 
 module.exports = {
   skipper: {
-    adapter: require("skipper-s3"),
-    key: "AKIAJNW3FLAVY2C73AHA",
-    secret: "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",
-    bucket: "stoutful"
+    adapter: require("skipper-gcs"),
+    projectId: process.env.GCS_PROJECT_ID,
+    keyFilename: process.env.GCS_KEY_PATH,
+    bucket: process.env.GCS_BUCKET
   },
 
   connections: {
