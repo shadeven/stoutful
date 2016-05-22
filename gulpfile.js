@@ -102,7 +102,7 @@ gulp.task("bower:inject", ["clean"], function() {
 });
 
 gulp.task("clean", function() {
-  return del(["dist"]);
+  return del(["dist/*", "!dist/public"]);
 });
 
 gulp.task("watch", function() {
