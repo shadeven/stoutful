@@ -6,6 +6,7 @@
  */
 
  /* global Brewery, ESBrewery, Patch */
+var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var Promise = require("bluebird");
 var _ = require("underscore");
@@ -32,7 +33,13 @@ module.exports = {
         console.log('Error uploading files: ', err);
       } else {
         if (uploadedFiles.length > 0) {
-          req.params.all().image_url = uploadedFiles[0].extra.Location;
+          var file = uploadedFiles[0];
+          if (file.fd) {
+            req.body.image_url = path.relative("/app/dist", file.fd);
+          }
+          if (file.extra && file.extra.Location) {
+            req.body.image_url = file.extra.Location;
+          }
         }
       }
 
