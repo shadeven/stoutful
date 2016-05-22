@@ -20,7 +20,7 @@
     "rx-angular": "rx.angular#~0.0.14",
     "string": "~3.3.1",
     "underscore": "~1.8.3",
-    "angular-material": "^1.0.5",
+    "angular-material": "v1.0.9",
     "jquery": "^2.2.0",
     "angular-messages": "^1.5.5",
     "ng-img-crop": "ngImgCrop#^0.3.2"
