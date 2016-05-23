@@ -4,14 +4,14 @@
     <div class="search" flex>
       <h1>Search</h1>
       <form>
-        <md-autocomplete md-search-text="searchText"
+        <md-autocomplete md-search-text="vm.searchText"
           md-min-length="3"
-          md-selected-item-change="onSelect(model)"
+          md-selected-item-change="vm.onSelect(model)"
           md-autoselect="true"
-          md-items="model in performSearch(searchText)"
+          md-items="model in vm.performSearch(vm.searchText)"
           md-item-text="model.name"
           placeholder="Search beer or brewery">
-          <span md-highlight-text="searchText" md-highlight-flags="gi">{{model.name}}</span>
+          <span md-highlight-text="vm.searchText" md-highlight-flags="gi">{{model.name}}</span>
           <md-not-found>
             No matches found.
           </md-not-found>
@@ -23,9 +23,9 @@
     <div class="popular" layout="column">
       <h1>Most Popular</h1>
       <div layout="row" layout-wrap flex>
-        <empty message="popularEmptyMessage" ng-if="popular.length == 0"></empty>
-        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in popular"
-          ng-click="showBeerDetails(beer)" md-ink-ripple>
+        <empty message="vm.popularEmptyMessage" ng-if="vm.popular.length == 0"></empty>
+        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in vm.popular"
+          ng-click="vm.showBeerDetails(beer)" md-ink-ripple>
             <div class="md-card-image background-image"
               ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}">
               <!-- No content -->
@@ -41,9 +41,9 @@
     <div class="suggestion" layout="column">
       <h1>Top 10 Suggestions</h1>
       <div layout="row" layout-wrap flex>
-        <empty message="suggestionsEmptyMessage" ng-if="suggestions.length == 0">
-        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in suggestions"
-          ng-click="showBeerDetails(beer)" md-ink-ripple>
+        <empty message="vm.suggestionsEmptyMessage" ng-if="vm.suggestions.length == 0"></empty>
+        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in vm.suggestions"
+          ng-click="vm.showBeerDetails(beer)" md-ink-ripple>
             <div class="md-card-image background-image"
               ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}">
             </div>

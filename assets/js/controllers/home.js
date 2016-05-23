@@ -6,22 +6,16 @@
   angular.module("stoutful.controllers")
     .controller("HomeController", HomeController);
 
-  function HomeController($scope, $http, rx, $location, $q) {
-    $scope.popularEmptyMessage = "There doesn't seem to be any popular beers.";
-    $scope.suggestionsEmptyMessage = "Start checking into beers to get personalized suggestions.";
+  function HomeController($http, rx, $location, $q) {
+    var vm = this;
 
-    $scope.searchQuery = { query: '' };
+    vm.searchText = '';
+    vm.popularEmptyMessage = "There doesn't seem to be any popular beers.";
+    vm.suggestionsEmptyMessage = "Start checking into beers to get personalized suggestions.";
+    vm.suggestions = [];
+    vm.popular = [];
 
-    $scope.$watch('searchQuery.query', function(newValue) {
-      if (!newValue) return;
-      $scope.performSearch(newValue);
-    });
-
-    $scope.isValid = function() {
-      return $scope.searchQuery.query.length > 0;
-    };
-
-    $scope.performSearch = function(query) {
+    vm.performSearch = function(query) {
       var searchBeers = $http.get('/api/beers/search?query=' + query);
       var searchBrewery = $http.get('/api/breweries/search?query=' + query);
       return $q.all([searchBeers, searchBrewery])
@@ -30,7 +24,7 @@
           });
     };
 
-    $scope.onSelect = function (item) {
+    vm.onSelect = function (item) {
       if (!item) return;
       if (item.brewery) {
         $location.url('/beer/' + item.id);
@@ -39,13 +33,13 @@
       }
     };
 
-    $scope.showBeerDetails = function(beer) {
+    vm.showBeerDetails = function(beer) {
       $location.url('/beer/' + beer.id);
     };
 
     $http.get('/api/beers/popular')
       .then(function(results) {
-        $scope.popular = results.data;
+        vm.popular = results.data;
       })
       .catch(function(err) {
         console.log(err);
@@ -53,7 +47,7 @@
 
     $http.get('/api/beers/suggestions')
       .then(function(response) {
-        $scope.suggestions = response.data;
+        vm.suggestions = response.data;
       })
       .catch(function(err) {
         console.log(err);

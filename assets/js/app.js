@@ -74,6 +74,7 @@
       .when('/home', {
         templateUrl: 'partials/home.html',
         controller: 'HomeController',
+        controllerAs: 'vm',
         requiresAuth: true
       })
       .when('/profile', {
