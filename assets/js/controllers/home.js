@@ -10,10 +10,9 @@
     var vm = this;
 
     vm.searchText = '';
-    vm.popularEmptyMessage = "There doesn't seem to be any popular beers.";
     vm.suggestionsEmptyMessage = "Start checking into beers to get personalized suggestions.";
     vm.suggestions = [];
-    vm.popular = [];
+    vm.popularPartial = "partials/most-popular.html";
 
     vm.performSearch = function(query) {
       var searchBeers = $http.get('/api/beers/search?query=' + query);
@@ -36,14 +35,6 @@
     vm.showBeerDetails = function(beer) {
       $location.url('/beer/' + beer.id);
     };
-
-    $http.get('/api/beers/popular')
-      .then(function(results) {
-        vm.popular = results.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
 
     $http.get('/api/beers/suggestions')
       .then(function(response) {
