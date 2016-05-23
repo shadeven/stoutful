@@ -1,17 +1,19 @@
-angular.module('stoutful.controllers').
-  controller('HomeController', function($scope, $http, rx, $location, $q) {
-    $scope.searchQuery = { query: '' };
+/* Home controller */
 
-    $scope.$watch('searchQuery.query', function(newValue) {
-      if (!newValue) return;
-      $scope.performSearch(newValue);
-    });
+(function() {
+  "use strict";
 
-    $scope.isValid = function() {
-      return $scope.searchQuery.query.length > 0;
-    };
+  angular.module("stoutful.controllers")
+    .controller("HomeController", HomeController);
 
-    $scope.performSearch = function(query) {
+  function HomeController($http, rx, $location, $q) {
+    var vm = this;
+
+    vm.searchText = '';
+    vm.popularPartial = "partials/most-popular.html";
+    vm.suggestionPartial = "partials/suggestions.html";
+
+    vm.performSearch = function(query) {
       var searchBeers = $http.get('/api/beers/search?query=' + query);
       var searchBrewery = $http.get('/api/breweries/search?query=' + query);
       return $q.all([searchBeers, searchBrewery])
@@ -20,7 +22,7 @@ angular.module('stoutful.controllers').
           });
     };
 
-    $scope.onSelect = function (item) {
+    vm.onSelect = function (item) {
       if (!item) return;
       if (item.brewery) {
         $location.url('/beer/' + item.id);
@@ -28,24 +30,5 @@ angular.module('stoutful.controllers').
         $location.url('/brewery/' + item.id);
       }
     };
-
-    $scope.showBeerDetails = function(beer) {
-      $location.url('/beer/' + beer.id);
-    };
-
-    $http.get('/api/beers/popular')
-      .then(function(results) {
-        $scope.popular = results.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-
-    $http.get('/api/beers/suggestions')
-      .then(function(response) {
-        $scope.suggestions = response.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-  });
+  }
+})();
