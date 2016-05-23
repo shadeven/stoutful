@@ -10,9 +10,8 @@
     var vm = this;
 
     vm.searchText = '';
-    vm.suggestionsEmptyMessage = "Start checking into beers to get personalized suggestions.";
-    vm.suggestions = [];
     vm.popularPartial = "partials/most-popular.html";
+    vm.suggestionPartial = "partials/suggestions.html";
 
     vm.performSearch = function(query) {
       var searchBeers = $http.get('/api/beers/search?query=' + query);
@@ -31,17 +30,5 @@
         $location.url('/brewery/' + item.id);
       }
     };
-
-    vm.showBeerDetails = function(beer) {
-      $location.url('/beer/' + beer.id);
-    };
-
-    $http.get('/api/beers/suggestions')
-      .then(function(response) {
-        vm.suggestions = response.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
   }
 })();

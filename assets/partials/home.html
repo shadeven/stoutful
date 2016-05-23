@@ -23,20 +23,6 @@
     <ng-include src="vm.popularPartial"></ng-include>
 
     <!-- Top 10 Suggestions -->
-    <div class="suggestion" layout="column">
-      <h1>Top 10 Suggestions</h1>
-      <div layout="row" layout-wrap flex>
-        <empty message="vm.suggestionsEmptyMessage" ng-if="vm.suggestions.length == 0"></empty>
-        <md-card flex="100" flex-gt-xs="30" ng-repeat="beer in vm.suggestions"
-          ng-click="vm.showBeerDetails(beer)" md-ink-ripple>
-            <div class="md-card-image background-image"
-              ng-background-image="{{ beer.image_url || 'images/placeholder.jpg' }}">
-            </div>
-            <md-card-content>
-              <p>{{ beer.name }}</p>
-            </md-card-content>
-        </md-card>
-      </div>
-    </div>
+    <ng-include src="vm.suggestionPartial"></ng-include>
   </div>
 </div>
