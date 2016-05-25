@@ -14,19 +14,25 @@
     vm.suggestionPartial = "partials/suggestions.html";
 
     vm.performSearch = function(query) {
-      var searchBeers = $http.get('/api/beers/search?query=' + query);
-      var searchBrewery = $http.get('/api/breweries/search?query=' + query);
-      return $q.all([searchBeers, searchBrewery])
-          .then(function(results) {
-            return results[0].data.concat(results[1].data);
-          });
+      return $http.get("/api/search", {
+        params: {
+          type: "beer,brewery",
+          query: query
+        }
+      })
+      .then(function(results) {
+        return results.data;
+      });
     };
 
     vm.onSelect = function (item) {
       if (!item) return;
-      if (item.brewery) {
+
+      if (item.type == "beer") {
         $location.url('/beer/' + item.id);
-      } else {
+      }
+
+      if (item.type == "brewery") {
         $location.url('/brewery/' + item.id);
       }
     };
