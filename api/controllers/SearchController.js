@@ -23,7 +23,8 @@ module.exports = {
       return hits.map(function(hit) {
         return {
           id: parseInt(hit._id),
-          name: hit._source.name
+          name: hit._source.name,
+          type: hit._type
         };
       });
     })

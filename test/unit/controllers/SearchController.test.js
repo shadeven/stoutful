@@ -76,11 +76,13 @@ describe("SearchController", function() {
         var expected = [
           {
             id: 1,
-            name: "Beer 1"
+            name: "Beer 1",
+            type: "beer"
           },
           {
             id: 2,
-            name: "Beer 2"
+            name: "Beer 2",
+            type: "beer"
           }
         ];
         result.expect(expected, done);
