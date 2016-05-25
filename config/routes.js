@@ -64,5 +64,8 @@ module.exports.routes = {
   'delete /api/patches/:id': 'PatchController.destroy',
 
   // Categories
-  'get /api/categories': 'CategoryController.find'
+  'get /api/categories': 'CategoryController.find',
+
+  // Search
+  'get /api/search': 'SearchController.search'
 };
