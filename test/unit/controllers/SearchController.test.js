@@ -35,7 +35,7 @@ describe("SearchController", function() {
     context("with single type", function() {
       beforeEach(function() {
         // Stub Elasticsearch
-        sandbox.stub(Elasticsearch, "search", function() {
+        sandbox.stub(elasticsearch, "search", function() {
           return Promise.resolve({
             hits: {
               hits: [
