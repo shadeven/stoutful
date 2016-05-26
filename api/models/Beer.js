@@ -10,6 +10,9 @@ module.exports = {
   tableName: 'beers',
   autoCreatedAt: false,
   autoUpdatedAt: false,
+  elasticsearch: {
+    index: ['id', 'name', 'description']
+  },
   attributes: {
     id: {
       type: 'integer',
