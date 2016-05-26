@@ -91,6 +91,13 @@ module.exports = {
     values.updated_at = new Date();
     cb();
   },
+  afterUpdate: function(values, cb) {
+    elasticsearch.beer.update(values)
+    .then(function() {
+      cb();
+    })
+    .catch(cb);
+  },
   afterCreate: function(values, cb) {
     this.findOne({id: values.id}).populate("brewery")
       .then(function(beer) {

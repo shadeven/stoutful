@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing beers
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-/* global Beer, ESBeer, Patch, Activity */
+
 var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var Promise = require('bluebird');
@@ -42,32 +42,6 @@ module.exports = {
     "ORDER BY name LIMIT 10")
     .then(function(results) {
       res.ok(results.rows);
-    })
-    .catch(function(err) {
-      res.serverError(err);
-    });
-  },
-
-  search: function(req, res) {
-    var query = req.query.query;
-    ESBeer.search({
-      index: 'stoutful',
-      body: { query: { match: { name: query }}}
-    })
-    .then(function(results) {
-      return results.hits.hits.map(function(hit) {
-        var id = parseInt(hit._id);
-        return Beer.find({id: id}).populateAll();
-      });
-    })
-    .then(function(promises) {
-      return Promise.all(promises);
-    })
-    .then(function(arrayOfBeerArrays) {
-      return _.flatten(arrayOfBeerArrays);
-    })
-    .then(function(beers) {
-      res.ok(beers);
     })
     .catch(function(err) {
       res.serverError(err);
@@ -118,29 +92,14 @@ module.exports = {
         .then(function(beers) {
           var beer = beers[0];
           if (!beer) return res.serverError('Could not find record after updating!');
-          return ESBeer.updateIndex({
-            index: 'stoutful',
-            type: 'beer',
-            id: id,
-            body: {
-              doc: {
-                name: beer.name,
-                description: beer.description
-              }
-            }
-          });
-        })
-        .then(function(response) {
-          var id = response._id;
-          return Beer.findOne(id);
-        })
-        .then(function(beer) {
-          if (!beer) return res.serverError('Could not find record after updating!');
-          res.ok(beer);
-        })
-        .catch(function(err) {
-          res.serverError(err);
-        });
+          return Beer.findOne(beer.id).populateAll();
+       })
+      .then(function(beer) {
+        res.ok(beer);
+      })
+      .catch(function(err) {
+        res.serverError(err);
+      });
     });
   },
 

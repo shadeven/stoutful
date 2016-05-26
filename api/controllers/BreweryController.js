@@ -5,7 +5,6 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
- /* global Brewery, ESBrewery, Patch */
 var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var Promise = require("bluebird");
@@ -63,50 +62,14 @@ module.exports = {
         .then(function(breweries) {
           var brewery = breweries[0];
           if (!brewery) return res.serverError('Could not find record after updating!');
-          return ESBrewery.updateIndex({
-            index: 'stoutful',
-            type: 'brewery',
-            id: id,
-            body: {
-              doc: {
-                name: brewery.name,
-                description: brewery.description
-              }
-            }
-          });
-        })
-        .then(function(response) {
-          var id = response._id;
-          return Brewery.findOne(id);
-        })
-        .then(function(brewery) {
-          if (!brewery) return res.serverError('Could not find record after updating!');
-          res.ok(brewery);
-        })
-        .catch(function(err) {
-          res.serverError(err);
-        });
+          return Brewery.findOne(brewery.id).populateAll();
+       })
+      .then(function(brewery) {
+        res.ok(brewery);
+      })
+      .catch(function(err) {
+        res.serverError(err);
+      });
     });
   }
 };
-
-function searchBrewery(query) {
-  var esQuery = {
-    index: 'stoutful',
-    body: { query: { match: { name: query }}}
-  };
-  return ESBrewery.search(esQuery)
-    .then(function(results) {
-      return results.hits.hits.map(function(hit) {
-        // Model.find returns an array
-        var id = parseInt(hit._id);
-        return Brewery.find({id: id}).populateAll();
-      });
-    })
-    .then(function(promises) {
-      return Promise.all(promises);
-    })
-    .then(function(arrayOfBreweryArrays) {
-      return _.flatten(arrayOfBreweryArrays);
-    });
-}
