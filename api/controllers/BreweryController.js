@@ -11,16 +11,6 @@ var Promise = require("bluebird");
 var _ = require("underscore");
 
 module.exports = {
-  search: function(req, res) {
-    var query = req.query.query;
-    searchBrewery(query)
-      .then(function(breweries) {
-        res.ok(breweries);
-      })
-      .catch(function(err) {
-        res.serverError(err);
-      });
-  },
   update: function(req, res) {
     // Do we have a user?
     var user = req.user;
