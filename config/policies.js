@@ -39,13 +39,11 @@ module.exports.policies = {
 
   BeerController: {
     'findOne': true,
-    'search': true,
     'popular': true,
     'stats': true
   },
 
   BreweryController: {
-    'findOne': true,
-    'search': true
+    'findOne': true
   }
 };

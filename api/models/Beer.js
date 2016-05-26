@@ -10,6 +10,9 @@ module.exports = {
   tableName: 'beers',
   autoCreatedAt: false,
   autoUpdatedAt: false,
+  elasticsearch: {
+    index: ['id', 'name', 'description']
+  },
   attributes: {
     id: {
       type: 'integer',
@@ -87,6 +90,13 @@ module.exports = {
   beforeUpdate: function(values, cb) {
     values.updated_at = new Date();
     cb();
+  },
+  afterUpdate: function(values, cb) {
+    elasticsearch.beer.update(values)
+    .then(function() {
+      cb();
+    })
+    .catch(cb);
   },
   afterCreate: function(values, cb) {
     this.findOne({id: values.id}).populate("brewery")

@@ -12,7 +12,7 @@ module.exports = {
     var types = req.query.type.split(",");
     var query = req.query.query;
 
-    Elasticsearch.search({
+    elasticsearch.search({
       type: types,
       q: "name:" + req.query.query
     })

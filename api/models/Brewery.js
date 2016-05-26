@@ -10,6 +10,9 @@ module.exports = {
   tableName: 'breweries',
   autoCreatedAt: false,
   autoUpdatedAt: false,
+  elasticsearch: {
+    index: ["id", "name", "description"]
+  },
   attributes: {
     id: {
       type: 'integer',
@@ -78,5 +81,10 @@ module.exports = {
   beforeUpdate: function(values, cb) {
     values.updated_at = new Date();
     cb();
+  },
+  afterUpdate: function(values, cb) {
+    elasticsearch.brewery.update(values)
+      .then(function() { cb(); })
+      .catch(cb);
   }
 };

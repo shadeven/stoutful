@@ -122,31 +122,20 @@ gulp.task("prod", ["build"]);
 gulp.task("default", ["build", "watch"]);
 
 gulp.task("elasticsearch:index", function(cb) {
-  Sails.load({ hooks: { grunt: false, gulp: false } }, function (err, sails) {
+  Sails.lift({ hooks: { grunt: false, gulp: false } }, function (err, sails) {
     if (err) {
       return cb(err);
     }
 
     var Beer = sails.models.beer;
     var Brewery = sails.models.brewery;
-    var ESBeer = sails.models.esbeer;
-    var ESBrewery = sails.models.esbrewery;
 
     // Beers index
     var indexBeers = Beer.find()
       .then(function(beers) {
         if (!beers || beers.length === 0) return null;
 
-        var body = [];
-
-        beers.forEach(function(beer) {
-          var action = { index: { _index: "stoutful", _type: "beer", _id: beer.id } };
-          var document = { name: beer.name, description: beer.description };
-          body.push(action);
-          body.push(document);
-        });
-
-        return ESBeer.bulkIndex({ body: body });
+        return elasticsearch.beer.bulk(beers);
       });
 
     // Brewery index
@@ -154,16 +143,7 @@ gulp.task("elasticsearch:index", function(cb) {
       .then(function(breweries) {
         if (!breweries || breweries.length === 0) return null;
 
-        var body = [];
-
-        breweries.forEach(function(brewery) {
-          var action = { index: { _index: "stoutful", _type: "brewery", _id: brewery.id } };
-          var document = { name: brewery.name, description: brewery.description };
-          body.push(action);
-          body.push(document);
-        });
-
-        return ESBrewery.bulkIndex({ body: body });
+        return elasticsearch.brewery.bulk(breweries);
       });
 
     Promise.all([indexBeers, indexBreweries])
