@@ -16,9 +16,7 @@ angular.module('stoutful.controllers').
         console.log(err);
       });
 
-  function HomeController($http, rx, $location, $q) {
     var vm = this;
-
     vm.searchText = '';
     vm.popularPartial = "partials/most-popular.html";
     vm.suggestionPartial = "partials/suggestions.html";
