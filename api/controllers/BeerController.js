@@ -4,10 +4,11 @@
  * @description :: Server-side logic for managing beers
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-/* global Beer, ESBeer, Patch, Activity */
+
 var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var Promise = require('bluebird');
+var _ = require("underscore");
 
 module.exports = {
   findOne: function(req, res) {
@@ -47,26 +48,6 @@ module.exports = {
     });
   },
 
-  search: function(req, res) {
-    var query = req.query.query;
-    ESBeer.search({
-      index: 'stoutful',
-      body: { query: { match: { name: query }}}
-    })
-    .then(function(results) {
-      var ids = results.hits.hits.map(function(hit) {
-        return {id: parseInt(hit._id)};
-      });
-      return Beer.find(ids).populateAll();
-    })
-    .then(function(beers) {
-      res.ok(beers);
-    })
-    .catch(function(err) {
-      res.serverError(err);
-    });
-  },
-
   update: function(req, res) {
     // Do we have a user?
     var user = req.user;
@@ -81,13 +62,11 @@ module.exports = {
         if (uploadedFiles.length > 0) {
           var file = uploadedFiles[0];
           if (file.fd) {
-            req.params.all().image_url = path.relative("/app/dist", file.fd);
+            req.body.image_url = path.relative("/app/dist", file.fd);
           }
           if (file.extra && file.extra.Location) {
-            req.params.all().image_url = file.extra.Location;
+            req.body.image_url = file.extra.Location;
           }
-        } else {
-          delete req.params.all().file;
         }
       }
 
@@ -113,29 +92,14 @@ module.exports = {
         .then(function(beers) {
           var beer = beers[0];
           if (!beer) return res.serverError('Could not find record after updating!');
-          return ESBeer.updateIndex({
-            index: 'stoutful',
-            type: 'beer',
-            id: id,
-            body: {
-              doc: {
-                name: beer.name,
-                description: beer.description
-              }
-            }
-          });
-        })
-        .then(function(response) {
-          var id = response._id;
-          return Beer.findOne(id);
-        })
-        .then(function(beer) {
-          if (!beer) return res.serverError('Could not find record after updating!');
-          res.ok(beer);
-        })
-        .catch(function(err) {
-          res.serverError(err);
-        });
+          return Beer.findOne(beer.id).populateAll();
+       })
+      .then(function(beer) {
+        res.ok(beer);
+      })
+      .catch(function(err) {
+        res.serverError(err);
+      });
     });
   },
 

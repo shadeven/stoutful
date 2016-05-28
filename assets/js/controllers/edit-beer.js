@@ -7,7 +7,8 @@
       var vm = this;
 
       vm.beer = beer;
-      vm.image = vm.beer.image_url;
+      vm.image = null;
+      vm.croppedImage = null;
       vm.selectedBrewery = beer.brewery;
       vm.changedAttributes = {};
       vm.loading = false;
@@ -17,7 +18,6 @@
       vm.save = save;
       vm.searchBrewery = searchBrewery;
       vm.onSelect = onSelect;
-      vm.attachImage = attachImage;
 
       watchForChanges();
 
@@ -55,8 +55,9 @@
           fields: vm.changedAttributes
         };
 
-        if (vm.image) {
-          req.file = vm.image;
+        if (vm.croppedImage) {
+          req.data = {};
+          req.data.file = Upload.dataUrltoBlob(vm.croppedImage, vm.image.name);
         }
 
         vm.loading = true;
@@ -100,10 +101,6 @@
       function onSelect(brewery) {
         if (!brewery) return;
         vm.beer.brewery = brewery;
-      }
-
-      function attachImage() {
-        $("input[type=file]").click();
       }
     });
 })();

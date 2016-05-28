@@ -47,14 +47,12 @@ module.exports.routes = {
 
   // Beers
   'get /api/beers/suggestions': 'BeerController.suggestions',
-  'get /api/beers/search': 'BeerController.search',
   'get /api/beers/popular': 'BeerController.popular',
   'get /api/beers/:id': 'BeerController.findOne',
   'get /api/beers/:id/stats': 'BeerController.stats',
   'put /api/beers/:id': 'BeerController.update',
 
   // Breweries
-  'get /api/breweries/search': 'BreweryController.search',
   'get /api/breweries/:id': 'BreweryController.findOne',
   'put /api/breweries/:id': 'BreweryController.update',
 
@@ -64,5 +62,8 @@ module.exports.routes = {
   'delete /api/patches/:id': 'PatchController.destroy',
 
   // Categories
-  'get /api/categories': 'CategoryController.find'
+  'get /api/categories': 'CategoryController.find',
+
+  // Search
+  'get /api/search': 'SearchController.search'
 };

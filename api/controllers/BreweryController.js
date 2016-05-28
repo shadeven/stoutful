@@ -5,20 +5,12 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
- /* global Brewery, ESBrewery, Patch */
+var path = require("path");
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+var Promise = require("bluebird");
+var _ = require("underscore");
 
 module.exports = {
-  search: function(req, res) {
-    var query = req.query.query;
-    searchBrewery(query)
-      .then(function(breweries) {
-        res.json(breweries);
-      })
-      .catch(function(err) {
-        res.serverError(err);
-      });
-  },
   update: function(req, res) {
     // Do we have a user?
     var user = req.user;
@@ -30,7 +22,13 @@ module.exports = {
         console.log('Error uploading files: ', err);
       } else {
         if (uploadedFiles.length > 0) {
-          req.params.all().image_url = uploadedFiles[0].extra.Location;
+          var file = uploadedFiles[0];
+          if (file.fd) {
+            req.body.image_url = path.relative("/app/dist", file.fd);
+          }
+          if (file.extra && file.extra.Location) {
+            req.body.image_url = file.extra.Location;
+          }
         }
       }
 
@@ -54,45 +52,14 @@ module.exports = {
         .then(function(breweries) {
           var brewery = breweries[0];
           if (!brewery) return res.serverError('Could not find record after updating!');
-          return ESBrewery.updateIndex({
-            index: 'stoutful',
-            type: 'brewery',
-            id: id,
-            body: {
-              doc: {
-                name: brewery.name,
-                description: brewery.description
-              }
-            }
-          });
-        })
-        .then(function(response) {
-          var id = response._id;
-          return Brewery.findOne(id);
-        })
-        .then(function(brewery) {
-          if (!brewery) return res.serverError('Could not find record after updating!');
-          res.ok(brewery);
-        })
-        .catch(function(err) {
-          res.serverError(err);
-        });
+          return Brewery.findOne(brewery.id).populateAll();
+       })
+      .then(function(brewery) {
+        res.ok(brewery);
+      })
+      .catch(function(err) {
+        res.serverError(err);
+      });
     });
   }
 };
-
-function searchBrewery(query) {
-  var esQuery = {
-    index: 'stoutful',
-    body: { query: { match: { name: query }}}
-  };
-  return ESBrewery.search(esQuery)
-    .then(function(results) {
-      return results.hits.hits.map(function(hit) {
-        return {id: parseInt(hit._id)};
-      });
-    })
-    .then(function(ids) {
-      return Brewery.find(ids);
-    });
-}

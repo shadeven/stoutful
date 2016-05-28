@@ -11,21 +11,19 @@
     "angular-base64": "~2.0.5",
     "angular-bootstrap": "~0.13.3",
     "angular-cookies": "~1.4.5",
-    "angular-formly": "~7.2.1",
+    "angular-formly": "~7.3.0",
     "angular-moment": "~0.10.3",
     "angular-route": "~1.4.5",
     "ladda-angular": "~1.0.1",
-    "ng-file-upload": "~6.2.1",
+    "ng-file-upload": "~12.0.4",
     "oclazyload": "~1.0.4",
     "rx-angular": "rx.angular#~0.0.14",
     "string": "~3.3.1",
     "underscore": "~1.8.3",
-    "angular-material": "^1.0.5",
+    "angular-material": "v1.0.9",
     "jquery": "^2.2.0",
-    "angular-messages": "^1.5.5"
-  },
-  "resolutions": {
-    "angular": "~1.4.6"
+    "angular-messages": "^1.5.5",
+    "ng-img-crop-full-extended": "ngImgCropFullExtended#^0.5.5"
   },
   "overrides": {
     "bootstrap": {
@@ -34,5 +32,8 @@
         "dist/css/bootstrap.min.css"
       ]
     }
+  },
+  "resolutions": {
+    "angular": "~1.4.6"
   }
 }

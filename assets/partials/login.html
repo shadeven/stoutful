@@ -52,11 +52,6 @@
 
     <!-- Card footer -->
     <md-card-footer layout="row" layout-align="end center">
-      <button class="btn-google btn-google-login"
-        ng-disabled="vm.loading"
-        ng-click="vm.logInWithGoogle()">
-      </button>
-      <span flex></span>
       <md-button
         ng-disabled="formHolder.loginForm.$invalid"
         ng-click="onLoginClicked()">

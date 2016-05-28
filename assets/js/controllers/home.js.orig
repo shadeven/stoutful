@@ -1,5 +1,7 @@
+<<<<<<< HEAD
 angular.module('stoutful.controllers').
   controller('HomeController', function($scope, $http, rx, $location, $q, beerRepository) {
+    $scope.searchQuery = { query: '' };
     beerRepository.getPopularBeer($http)
       .then(function(response) {
         $scope.popular = response.data;
@@ -15,6 +17,15 @@ angular.module('stoutful.controllers').
       .catch(function(err) {
         console.log(err);
       });
+=======
+/* Home controller */
+>>>>>>> develop
+
+(function() {
+  "use strict";
+
+  angular.module("stoutful.controllers")
+    .controller("HomeController", HomeController);
 
   function HomeController($http, rx, $location, $q) {
     var vm = this;
@@ -46,8 +57,9 @@ angular.module('stoutful.controllers').
         $location.url('/brewery/' + item.id);
       }
     };
-
-    $scope.showBeerDetails = function(beer) {
-      $location.url('/beer/' + beer.id);
-    };
+<<<<<<< HEAD
   });
+=======
+  }
+})();
+>>>>>>> develop
