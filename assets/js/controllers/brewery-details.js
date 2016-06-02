@@ -1,17 +1,25 @@
-angular.module('stoutful.controllers').
-  controller('BreweryDetailsController', function($scope, $routeParams, $http, rx, $mdDialog, session) {
+/* BreweryDetailsController */
+
+(function() {
+  "use strict";
+
+  angular
+    .module("stoutful.controllers")
+    .controller("BreweryDetailsController", BreweryDetailsController);
+
+  function BreweryDetailsController($scope, $routeParams, $http, rx, $mdDialog, session) {
     var breweryId = $routeParams.breweryId;
     $scope.showAlert = session.isLoggedIn();
-    $scope.placeholder = '/images/placeholder.jpg';
+    $scope.placeholder = "/images/placeholder.jpg";
 
     $scope.dismissToolbarAlert = function() {
       $scope.showAlert = false;
-    }
+    };
 
     $scope.editBrewery = function(event) {
       $mdDialog.show({
         templateUrl: "partials/edit-brewery.html",
-        controller: 'EditBreweryCtrl',
+        controller: "EditBreweryCtrl",
         controllerAs: "vm",
         openFrom: event.srcElement,
         locals: {
@@ -33,11 +41,12 @@ angular.module('stoutful.controllers').
     });
 
     // Fetch brewery
-    $http.get('/api/breweries/' + breweryId)
+    $http.get("/api/breweries/" + breweryId)
       .then(function(response) {
         $scope.brewery = response.data;
       })
       .catch(function(err) {
         console.log(err);
       });
-  });
+  }
+})();

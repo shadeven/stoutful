@@ -1,15 +1,16 @@
-/* Home controller */
+/* HomeController */
 
 (function() {
   "use strict";
 
-  angular.module("stoutful.controllers")
+  angular
+    .module("stoutful.controllers")
     .controller("HomeController", HomeController);
 
-  function HomeController($http, rx, $location, $q) {
+  function HomeController($http, rx, $location) {
     var vm = this;
 
-    vm.searchText = '';
+    vm.searchText = "";
     vm.popularPartial = "partials/most-popular.html";
     vm.suggestionPartial = "partials/suggestions.html";
 
@@ -29,11 +30,11 @@
       if (!item) return;
 
       if (item.type == "beer") {
-        $location.url('/beer/' + item.id);
+        $location.url("/beer/" + item.id);
       }
 
       if (item.type == "brewery") {
-        $location.url('/brewery/' + item.id);
+        $location.url("/brewery/" + item.id);
       }
     };
   }

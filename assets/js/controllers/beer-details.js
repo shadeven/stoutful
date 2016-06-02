@@ -1,24 +1,32 @@
-angular.module('stoutful.controllers').
-  controller('BeerDetailsController', function($scope, $routeParams, $http, rx, session, $mdDialog, $mdToast) {
+/* BeerDetailsController */
+
+(function() {
+  "use strict";
+
+  angular
+    .module("stoutful.controllers")
+    .controller("BeerDetailsController", BeerDetailsController);
+
+  function BeerDetailsController($scope, $routeParams, $http, rx, session, $mdDialog, $mdToast) {
     var beerId = $routeParams.beerId;
 
     $scope.isLoggedIn = $scope.showAlert = session.isLoggedIn();
     $scope.likeCounter = 0;
     $scope.checkInCounter = 0;
     $scope.disableLikeBtn = false;
-    $scope.placeholder = '/images/placeholder.jpg';
+    $scope.placeholder = "/images/placeholder.jpg";
 
     $scope.dismissToolbarAlert = function() {
       $scope.showAlert = false;
     };
 
     $scope.actionVerbForActivityType = function(type) {
-      if (type === 'like') {
-        return 'liked';
+      if (type === "like") {
+        return "liked";
       }
 
-      if (type === 'check_in') {
-        return 'checked into';
+      if (type === "check_in") {
+        return "checked into";
       }
 
       return null;
@@ -28,9 +36,9 @@ angular.module('stoutful.controllers').
       var date = moment(timestamp);
       var format;
       if (date.year() == moment().year()) {
-        format = 'MMMM Do';
+        format = "MMMM Do";
       } else {
-        format = 'MMMM Do YYYY';
+        format = "MMMM Do YYYY";
       }
       return date.format(format);
     };
@@ -38,7 +46,7 @@ angular.module('stoutful.controllers').
     $scope.editBeer = function(event) {
       $mdDialog.show({
         templateUrl: "partials/edit-beer.html",
-        controller: 'EditBeerCtrl',
+        controller: "EditBeerCtrl",
         controllerAs: "vm",
         openFrom: event.srcElement,
         locals: {
@@ -50,32 +58,32 @@ angular.module('stoutful.controllers').
     $scope.onLikeClicked = function() {
       var toast = $mdToast.simple()
         .textContent("You liked this beer.")
-        .action('Undo')
-        .position('top right')
-        .hideDelay('3000');
+        .action("Undo")
+        .position("top right")
+        .hideDelay("3000");
       $mdToast.show(toast)
         .then(function(response) {
-          if (response == 'ok') {
+          if (response == "ok") {
             $mdToast.hide();
           } else {
-            createActivity('like');
+            createActivity("like");
           }
-      });
+        });
     };
 
     $scope.onCheckInClicked = function() {
       var toast = $mdToast.simple()
         .textContent("You checked into this beer.")
-        .action('Undo')
-        .position('top right')
-        .hideDelay('3000');
+        .action("Undo")
+        .position("top right")
+        .hideDelay("3000");
 
       $mdToast.show(toast)
         .then(function(response) {
-          if (response == 'ok') {
+          if (response == "ok") {
             $mdToast.hide();
           } else {
-            createActivity('check_in');
+            createActivity("check_in");
           }
         });
     };
@@ -88,10 +96,10 @@ angular.module('stoutful.controllers').
       var body = {"beer": $scope.beer.id, "type": type};
       $http.post("/api/users/activity", body)
         .then(function(response) {
-          if (type == 'like') {
+          if (type == "like") {
             $scope.likeCounter += 1;
             $scope.disableLikeBtn = true;
-          } else if (type == 'check_in') {
+          } else if (type == "check_in") {
             $scope.checkInCounter += 1;
           }
           $scope.activities.unshift(response.data);
@@ -110,7 +118,7 @@ angular.module('stoutful.controllers').
     });
 
     // Fetch beer
-    $http.get('/api/beers/' + beerId)
+    $http.get("/api/beers/" + beerId)
       .then(function(response) {
         $scope.beer = response.data;
       })
@@ -121,11 +129,11 @@ angular.module('stoutful.controllers').
     // Fetch beer activity
     var config = {
       params: {
-        'beer_id': beerId
+        "beer_id": beerId
       }
     };
 
-    $http.get('/api/activities', config)
+    $http.get("/api/activities", config)
       .then(function(response) {
         $scope.activities = response.data;
       })
@@ -136,13 +144,13 @@ angular.module('stoutful.controllers').
     // Fetch like acitivity by beer and user.
     var criteria = {
       params: {
-        'beer': beerId,
-        'user': session.user.id,
-        'type': 'like'
+        "beer": beerId,
+        "user": session.user.id,
+        "type": "like"
       }
     };
 
-    $http.get('/api/activities', criteria)
+    $http.get("/api/activities", criteria)
       .then(function(response) {
         $scope.disableLikeBtn = response.data.length > 0;
       })
@@ -158,4 +166,5 @@ angular.module('stoutful.controllers').
       .catch(function(err) {
         console.log(err);
       });
-  });
+  }
+})();

@@ -1,9 +1,11 @@
+/* LoginController */
+
 (function() {
-  'use strict';
+  "use strict";
 
   angular
-    .module('stoutful.controllers')
-    .controller('LoginController', LoginController);
+    .module("stoutful.controllers")
+    .controller("LoginController", LoginController);
 
   function LoginController($scope) {
 

@@ -1,9 +1,11 @@
+/* RegisterController */
+
 (function() {
-  'use strict';
+  "use strict";
 
   angular
-    .module('stoutful.controllers')
-    .controller('RegisterController', RegisterController);
+    .module("stoutful.controllers")
+    .controller("RegisterController", RegisterController);
 
   function RegisterController($scope) {
     $scope.formHolder = {};

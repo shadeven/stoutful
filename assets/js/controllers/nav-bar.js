@@ -1,9 +1,11 @@
+/* NavBarController */
+
 (function() {
-  'use strict';
+  "use strict";
 
   angular
-    .module('stoutful.controllers')
-    .controller('NavBarController', NavBarController);
+    .module("stoutful.controllers")
+    .controller("NavBarController", NavBarController);
 
   function NavBarController($scope, $http, session, $window, $location, toolbar) {
 
@@ -16,7 +18,7 @@
     if (shouldShowNavBar()) {
       if (session.user) {
         $scope.user = session.user;
-        $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
+        $scope.userName = $scope.user.first_name + " " + $scope.user.last_name;
       }
 
       watchForUserChange();
@@ -30,26 +32,26 @@
     }
 
     function shouldShowNavBar() {
-      return $location.url() !== '/';
+      return $location.url() !== "/";
     }
 
     function logout() {
-      $http({ method: 'GET', url: '/logout' })
+      $http({ method: "GET", url: "/logout" })
         .then(function() {
           var auth2 = gapi.auth2.getAuthInstance();
           return auth2.signOut();
         })
         .then(function() {
           session.destroy();
-          $location.url('/');
+          $location.url("/");
         })
         .catch(function(err) {
-          console.log('Error logging out: ', err);
+          console.log("Error logging out: ", err);
         });
     }
 
     function onClickMyProfile() {
-      $window.location.href = '/#/profile';
+      $window.location.href = "/#/profile";
     }
 
     function watchForUserChange() {
@@ -60,7 +62,7 @@
       var listener = function() {
         $scope.user = session.user;
         if ($scope.user) {
-          $scope.userName = $scope.user.first_name + ' ' + $scope.user.last_name;
+          $scope.userName = $scope.user.first_name + " " + $scope.user.last_name;
         }
       };
 
@@ -73,7 +75,7 @@
       };
 
       var listener = function() {
-        $scope.atHome = $location.url() == '/home';
+        $scope.atHome = $location.url() == "/home";
       };
 
       $scope.$watch(target, listener);
