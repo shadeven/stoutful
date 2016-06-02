@@ -33,7 +33,8 @@ gulp.task("copy", ["clean"], function() {
     paths.src.partials,
     paths.src.js,
     "!assets/js/directives/**",
-    "!assets/js/controllers/**" /* Exclude assets/js/controllers/ */
+    "!assets/js/controllers/**",
+    "!assets/js/services/**"
   ];
   return gulp.src(input, { base: "assets" })
     .pipe(gulp.dest(paths.dest.public));
