@@ -36,30 +36,8 @@ module.exports = {
 
   login: function(req, res, next) {
     if (req.user) return res.status(200).end(); // User is already logged in
-
     var provider = req.params.provider;
-    sails.services.passport.provider(req, res, next, function(err, user, accessToken) {
-      if (err) return res.status(500).end();
-      if (!user) return res.status(401).end();
-
-      req.login(user, function(err) {
-        if (err) {
-          console.log('Error logging in user: ', err);
-          return res.status(401).end();
-        }
-
-        if (provider === 'google' && !accessToken) {
-          req.logout();
-          return res.status(401).end();
-        }
-
-        var resp = {
-          'expires_at': moment(req.session.cookie._expires).valueOf()
-        };
-
-        return res.json(resp);
-      });
-    });
+    passport.authenticate(provider)(req, res, next);
   },
 
   logout: function(req, res) {
