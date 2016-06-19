@@ -2,14 +2,14 @@
 module.exports = function(email, password, done) {
   User.findOne({ email: email })
     .then(function(user) {
-      if (user) {
-        user.verifyPassword(password, function(err, verified) {
-          if (err) return done(err);
-          done(false, verified ? user : false);
+      if (!user) return done(null, false);
+      user.verifyPassword(password)
+        .then(function(match) {
+          done(null, match ? user : false);
+        })
+        .catch(function(err) {
+          done(err);
         });
-      } else {
-        done(false, false);
-      }
     })
     .catch(function(err) {
       done(err);

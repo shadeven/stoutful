@@ -4,6 +4,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
+var Promise = require("bluebird");
 var bcrypt = require('bcrypt');
 
 module.exports = {
@@ -76,12 +77,10 @@ module.exports = {
       delete obj.password;
       return obj;
     },
-    verifyPassword: function(password, cb) {
+    verifyPassword: function(password) {
       var obj = this.toObject();
-      bcrypt.compare(password, obj.password, function(err, res) {
-        if (err) return cb(err);
-        cb(false, res);
-      });
+      var compare = Promise.promisify(bcrypt.compare);
+      return compare(password, obj.password);
     }
   },
 
