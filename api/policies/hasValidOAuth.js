@@ -1,3 +1,5 @@
+/* global Passport, OAuth2 */
+
 var chain = require("connect-chain");
 
 module.exports = function(req, res, next) {
