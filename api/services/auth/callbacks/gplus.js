@@ -28,6 +28,9 @@ function findOrCreateUser(profile) {
         user: user.id,
         provider_id: profile.id
       };
-      return UserIdentity.findOrCreate(attrs);
+      return UserIdentity.findOrCreate(attrs)
+        .then(function() {
+          return user;
+        });
     });
 }
