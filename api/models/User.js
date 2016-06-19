@@ -24,8 +24,7 @@ module.exports = {
     },
     password: {
       type: 'string',
-      minLength: 8,
-      required: true
+      minLength: 8
     },
     first_name: {
       type: 'string',
