@@ -86,23 +86,31 @@ module.exports = {
   },
 
   beforeCreate: function(values, cb) {
-    bcrypt.hash(values.password, 10, function(err, hash) {
-      if (err) cb(err);
-      values.password = hash;
-      cb();
-    });
+    if (values.password) {
+      bcrypt.hash(values.password, 10, function(err, hash) {
+        if (err) {
+          return cb(err);
+        }
+        values.password = hash;
+        return cb();
+      });
+    } else {
+      return cb();
+    }
   },
 
   beforeUpdate: function(values, cb) {
-    values.updated_at = new Date();
     if (values.password) {
+      values.updated_at = new Date();
       bcrypt.hash(values.password, 10, function(err, hash) {
-        if (err) cb(err);
+        if (err) {
+          return cb(err);
+        }
         values.password = hash;
-        cb();
+        return cb();
       });
     } else {
-      cb();
+      return cb();
     }
   }
 };
