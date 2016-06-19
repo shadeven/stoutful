@@ -19,21 +19,6 @@ module.exports = {
     }
   },
 
-  provider: function(req, res, next) {
-    sails.services.passport.provider(req, res, next, function(err, user, accessToken) {
-      if (err) {
-        console.log('Error authorizing user: ', err);
-        return res.status(500).end();
-      }
-
-      if (!accessToken) {
-        return res.status(401).end();
-      }
-
-      return res.status(200).json(accessToken);
-    });
-  },
-
   login: function(req, res, next) {
     if (req.user) return res.status(200).end(); // User is already logged in
     var provider = req.params.provider;
