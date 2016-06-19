@@ -11,8 +11,8 @@ module.exports.passport = {
     strategy: require("passport-http-bearer").Strategy,
     callback: require("../api/services/passport/callbacks/bearer")
   },
-  basic: {
-    strategy: require("passport-http").BasicStrategy,
-    callback: require("../api/services/passport/callbacks/basic")
+  "oauth2-client-password": {
+    strategy: require("passport-oauth2-client-password").Strategy,
+    callback: require("../api/services/passport/callbacks/oauth2-client-password")
   }
 };
