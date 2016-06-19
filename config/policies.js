@@ -28,7 +28,7 @@ module.exports.policies = {
 
   AuthController: {
     'provider': true,
-    'token': ["oauth"],
+    'token': ["hasValidOAuth"],
     'login': true,
     'logout': true
   },
