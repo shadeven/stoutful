@@ -5,7 +5,7 @@ var chain = require("connect-chain");
 
 var server = oauth2orize.createServer();
 
-server.exchange(oauth2orize.exchange.password(function(client, username, password, scope, done) {
+server.exchange(oauth2orize.exchange.password(function(client, username, password, done) {
   User.findOne({ email: username })
     .then(function(user) {
       if (!user) return done(null, false);
@@ -15,7 +15,7 @@ server.exchange(oauth2orize.exchange.password(function(client, username, passwor
           if (!match) return done(null, false);
           AccessToken.generateAndSave(user.id)
             .then(function(accessToken) {
-              done(null, accessToken);
+              done(null, accessToken.token);
             });
         });
     });
