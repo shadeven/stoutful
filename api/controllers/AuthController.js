@@ -25,7 +25,10 @@ module.exports = {
     var provider = req.params.provider;
     Passport.authenticate(provider, function(err, user) {
       if (err) return res.negotiate(err);
-      return res.ok(user);
+      req.login(user, function(err) {
+        if (err) return res.negotiate(err);
+        return res.ok(user);
+      });
     })(req, res, next);
   },
 
