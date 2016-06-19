@@ -55,12 +55,7 @@ module.exports = {
   },
   generateAndSave: function(userId) {
     var token = this.generate(userId);
-    var self = this;
-    return new Promise(function(fulfill, reject) {
-      self.create(token)
-        .then(fulfill)
-        .catch(reject);
-    });
+    return this.create(token);
   },
   setTTL: function(id, ttl) {
     return new Promise(function (fulfill, reject) {
