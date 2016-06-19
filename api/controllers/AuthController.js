@@ -21,7 +21,6 @@ module.exports = {
   },
 
   login: function(req, res, next) {
-    if (req.user) return res.status(200).end(); // User is already logged in
     var provider = req.params.provider;
     Passport.authenticate(provider, function(err, user) {
       if (err) return res.negotiate(err);
