@@ -6,18 +6,7 @@ var moment = require('moment');
 
 module.exports = {
   token: function(req, res) {
-    var grantType = req.body.grant_type;
-
-    if (!grantType) {
-      res.status(400).end();
-      return;
-    }
-
-    if (grantType == 'password') {
-      handlePasswordGrant(req, res);
-    } else if (grantType == 'refresh_token') {
-      handleRefreshTokenGrant(req, res);
-    }
+    // TODO: Handle
   },
 
   login: function(req, res, next) {
