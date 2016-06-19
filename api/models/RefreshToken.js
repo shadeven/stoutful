@@ -9,9 +9,12 @@ var crypto = require('crypto');
 
 module.exports = {
   tableName: 'refresh_tokens',
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
   attributes: {
+    id: {
+      type: "integer",
+      primaryKey: true,
+      autoIncrement: true
+    },
     user_id: {
       type: 'integer',
       required: true
@@ -20,19 +23,13 @@ module.exports = {
       type: 'string',
       required: true
     },
-    created_at: {
+    createdAt: {
       type: 'datetime',
-      notNull: true,
-      defaultsTo: function() {
-        return new Date();
-      }
+      columnName: "created_at"
     },
-    updated_at: {
+    updatedAt: {
       type: 'datetime',
-      notNull: true,
-      defaultsTo: function() {
-        return new Date();
-      }
+      columnName: "updated_at"
     }
   },
   beforeUpdate: function(values, cb) {
@@ -47,11 +44,6 @@ module.exports = {
   },
   generateAndSave: function(userId) {
     var token = this.generate(userId);
-    var self = this;
-    return new Promise(function (fulfill, reject) {
-      self.create(token)
-        .then(fulfill)
-        .catch(reject);
-    });
+    return this.create(token);
   }
 };
