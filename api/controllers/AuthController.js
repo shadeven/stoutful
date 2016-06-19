@@ -1,4 +1,5 @@
-/* global sails, RefreshToken, AccessToken, User */
+/* global RefreshToken, AccessToken, User, Passport */
+
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
 var moment = require('moment');
@@ -22,7 +23,7 @@ module.exports = {
   login: function(req, res, next) {
     if (req.user) return res.status(200).end(); // User is already logged in
     var provider = req.params.provider;
-    passport.authenticate(provider, function(err, user) {
+    Passport.authenticate(provider, function(err, user) {
       if (err) return res.negotiate(err);
       return res.ok(user);
     })(req, res, next);
