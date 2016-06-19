@@ -14,5 +14,8 @@ module.exports.passport = {
   "oauth2-client-password": {
     strategy: require("passport-oauth2-client-password").Strategy,
     callback: require("../api/services/passport/callbacks/oauth2-client-password")
+  },
+  "anonymous": {
+    strategy: require("passport-anonymous").Strategy
   }
 };
