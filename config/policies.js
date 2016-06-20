@@ -27,9 +27,7 @@ module.exports.policies = {
   },
 
   AuthController: {
-    'provider': true,
-    'token': ["hasValidOAuth"],
-    'logout': true
+    'token': ["hasValidOAuth"]
   },
 
   ActivityController: {

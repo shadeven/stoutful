@@ -27,7 +27,8 @@ module.exports.routes = {
   },
 
   'post /oauth/token': 'AuthController.token',
-  'post /login/:provider': 'AuthController.login',
+  'post /login': 'AuthController.login',
+  'post /login/google': 'AuthController.login',
   'get /logout': 'AuthController.logout',
 
   // Activities

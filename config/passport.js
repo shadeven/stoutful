@@ -7,6 +7,10 @@ module.exports.passport = {
       clientSecret: "CwnmJZwHRxhvJlOye8y9FgQE"
     }
   },
+  "local": {
+    strategy: require("passport-local").Strategy,
+    callback: require("../api/services/passport/callbacks/local")
+  },
   bearer: {
     strategy: require("passport-http-bearer").Strategy,
     callback: require("../api/services/passport/callbacks/bearer")

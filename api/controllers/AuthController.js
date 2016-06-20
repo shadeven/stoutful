@@ -7,7 +7,6 @@ module.exports = {
 
   login: function(req, res) {
     var user = req.user;
-    if (!user) return res.unAuthorized();
     req.login(user, function(err) {
       if (err) return res.negotiate(err);
       return res.ok(user);

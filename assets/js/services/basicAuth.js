@@ -7,15 +7,10 @@
     .module("stoutful.services")
     .service("basicAuth", basicAuth);
 
-  function basicAuth($http, $base64) {
+  function basicAuth($http) {
     return {
       login: function(email, password) {
-        var config = {
-          headers: {
-            "Authorization": $base64.encode(email + ":" + password)
-          }
-        };
-        return $http.post("/login", null, config);
+        return $http.post("/login", {username: email, password: password});
       }
     };
   }
