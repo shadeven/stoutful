@@ -5,8 +5,8 @@ var bcrypt = require('bcrypt');
 var moment = require('moment');
 
 module.exports = {
-  token: function(req, res) {
-    // TODO: Handle
+  token: function(req, res, next) {
+    OAuth2.token(req, res, next);
   },
 
   login: function(req, res, next) {

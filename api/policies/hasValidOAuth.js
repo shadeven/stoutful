@@ -1,11 +1,5 @@
-/* global Passport, OAuth2 */
-
-var chain = require("connect-chain");
+/* global Passport */
 
 module.exports = function(req, res, next) {
-  var middleware = chain(
-    Passport.authenticate(["oauth2-client-password", "anonymous"], {session: false}),
-    OAuth2.token
-  );
-  middleware(req, res, next);
+  Passport.authenticate(["oauth2-client-password", "anonymous"], {session: false})(req, res, next);
 };
