@@ -1,3 +1,5 @@
+/* ProfileController */
+
 (function() {
   "use strict";
 

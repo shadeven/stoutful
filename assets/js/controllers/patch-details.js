@@ -1,10 +1,18 @@
-angular.module('stoutful.controllers')
-  .controller('PatchDetailsController', function($scope, $routeParams, patchCache, $http, $location, session) {
+/* PatchDetailsController */
+
+(function() {
+  "use strict";
+
+  angular
+    .module("stoutful.controllers")
+    .controller("PatchDetailsController", PatchDetailsController);
+
+  function PatchDetailsController($scope, $routeParams, patchCache, $http, $location, session) {
     var vm = this;
     var patchId = $routeParams.patchId;
     vm.user = session.user;
     if (vm.user) {
-      vm.canAcceptChanges = vm.user.role === 'publisher';
+      vm.canAcceptChanges = vm.user.role === "publisher";
     } else {
       vm.canAcceptChanges = false;
     }
@@ -16,7 +24,7 @@ angular.module('stoutful.controllers')
       fields: {
         original: [],
         patch: [],
-        excludes: ['id', 'created_at', 'updated_at', 'brewery_id', 'cat_id', 'style_id']
+        excludes: ["id", "created_at", "updated_at", "brewery_id", "cat_id", "style_id"]
       },
       options: {
         formState: {
@@ -27,12 +35,12 @@ angular.module('stoutful.controllers')
 
     vm.onAcceptChanges = function() {
       vm.submitting = true;
-      $http.delete('/api/patches/' + patchId)
+      $http.delete("/api/patches/" + patchId)
         .then(function() {
           vm.submitting = false;
 
           // Redirect back to patches listing
-          $location.url('/patches');
+          $location.url("/patches");
         })
         .catch(function(err) {
           vm.submitting = false;
@@ -46,14 +54,14 @@ angular.module('stoutful.controllers')
     $scope.$watch(function() { return session.user; }, function() {
       vm.user = session.user;
       if (vm.user) {
-        vm.canAcceptChanges = vm.user.role === 'publisher';
+        vm.canAcceptChanges = vm.user.role === "publisher";
       } else {
         vm.canAcceptChanges = false;
       }
     });
 
     if (!vm.model) {
-      $http.get('/api/patches/' + patchId)
+      $http.get("/api/patches/" + patchId)
         .then(function(response) {
           vm.model = response.data;
           loadPatchModel();
@@ -78,7 +86,7 @@ angular.module('stoutful.controllers')
     }
 
     function buildFormlyField(model, key) {
-      var type = 'input';
+      var type = "input";
       var classes = [];
       if (_.indexOf(_.keys(vm.model.changes), key) != -1 && vm.model.changes[key] != model[key]) {
         classes.push("bg-danger");
@@ -91,13 +99,13 @@ angular.module('stoutful.controllers')
         classes: classes.join(" ")
       };
 
-      if (key === 'image_url') {
-        type = 'image';
-        templateOptions.label = 'Image';
+      if (key === "image_url") {
+        type = "image";
+        templateOptions.label = "Image";
       }
 
-      if (key === 'description') {
-        type = 'textarea';
+      if (key === "description") {
+        type = "textarea";
       }
 
       return {
@@ -125,7 +133,8 @@ angular.module('stoutful.controllers')
           addFormlyFields(vm.patched, vm.form.fields.patch);
         })
         .catch(function(err) {
-          console.log('Error loading model: ',err);
+          console.log("Error loading model: ",err);
         });
     }
-  });
+  }
+})();

@@ -26,13 +26,9 @@ module.exports.routes = {
     sails.log.verbose(req.method, req.url); next();
   },
 
-  '/': {
-    view: 'index'
-  },
-
   'post /oauth/token': 'AuthController.token',
-  'post /auth/:provider': 'AuthController.provider',
-  'post /login/:provider': 'AuthController.login',
+  'post /login': 'AuthController.login',
+  'post /login/google': 'AuthController.login',
   'get /logout': 'AuthController.logout',
 
   // Activities

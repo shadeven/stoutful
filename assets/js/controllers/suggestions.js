@@ -1,9 +1,10 @@
-/* Suggestion controller */
+/* SuggestionController */
 
 (function() {
   "use strict";
 
-  angular.module("stoutful.controllers")
+  angular
+    .module("stoutful.controllers")
     .controller("SuggestionController", SuggestionController);
 
   function SuggestionController($location, $http) {
@@ -20,7 +21,7 @@
     }
 
     function fetchSuggestions() {
-      $http.get('/api/beers/suggestions')
+      $http.get("/api/beers/suggestions")
         .then(function(response) {
           vm.suggestions = response.data;
         })

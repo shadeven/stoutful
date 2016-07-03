@@ -17,7 +17,7 @@ angular.module('stoutful.controllers').
     $scope.editBrewery = function(event) {
       $mdDialog.show({
         templateUrl: "partials/edit-brewery.html",
-        controller: 'EditBreweryCtrl',
+        controller: "EditBreweryCtrl",
         controllerAs: "vm",
         openFrom: event.srcElement,
         locals: {

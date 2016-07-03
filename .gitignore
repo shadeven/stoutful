@@ -81,11 +81,6 @@ bower_components
 .tmp
 dump.rdb
 dist
-views/layout.ejs
-
-
-
-
 
 ################################################
 # Node.js / NPM

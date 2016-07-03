@@ -4,6 +4,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
+var Promise = require("bluebird");
 var bcrypt = require('bcrypt');
 
 module.exports = {
@@ -24,8 +25,7 @@ module.exports = {
     },
     password: {
       type: 'string',
-      minLength: 8,
-      required: true
+      minLength: 8
     },
     first_name: {
       type: 'string',
@@ -77,33 +77,39 @@ module.exports = {
       delete obj.password;
       return obj;
     },
-    verifyPassword: function(password, cb) {
+    verifyPassword: function(password) {
       var obj = this.toObject();
-      bcrypt.compare(password, obj.password, function(err, res) {
-        if (err) return cb(err);
-        cb(false, res);
-      });
+      var compare = Promise.promisify(bcrypt.compare);
+      return compare(password, obj.password);
     }
   },
 
   beforeCreate: function(values, cb) {
-    bcrypt.hash(values.password, 10, function(err, hash) {
-      if (err) cb(err);
-      values.password = hash;
-      cb();
-    });
+    if (values.password) {
+      bcrypt.hash(values.password, 10, function(err, hash) {
+        if (err) {
+          return cb(err);
+        }
+        values.password = hash;
+        return cb();
+      });
+    } else {
+      return cb();
+    }
   },
 
   beforeUpdate: function(values, cb) {
-    values.updated_at = new Date();
     if (values.password) {
+      values.updated_at = new Date();
       bcrypt.hash(values.password, 10, function(err, hash) {
-        if (err) cb(err);
+        if (err) {
+          return cb(err);
+        }
         values.password = hash;
-        cb();
+        return cb();
       });
     } else {
-      cb();
+      return cb();
     }
   }
 };

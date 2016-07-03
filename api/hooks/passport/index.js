@@ -1,12 +1,8 @@
-/**
- * passport hook
- */
-
-module.exports = function (sails) {
+/* global Passport */
+module.exports = function () {
   return {
-    // Run when sails loads-- be sure and call `next()`.
     initialize: function (next) {
-      sails.services.passport.loadStrategies();
+      Passport.loadStrategies();
       return next();
     }
   };

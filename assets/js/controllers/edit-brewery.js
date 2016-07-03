@@ -1,5 +1,13 @@
-angular.module('stoutful.controllers').
-  controller('EditBreweryCtrl', function ($scope, $mdDialog, $http, Upload, brewery, session) {
+/* EditBreweryCtrl */
+
+(function() {
+  "use strict";
+
+  angular
+    .module("stoutful.controllers")
+    .controller("EditBreweryCtrl", EditBreweryCtrl);
+
+  function EditBreweryCtrl($scope, $mdDialog, $http, Upload, brewery, session) {
     var vm = this;
     vm.brewery = brewery;
     vm.image = null;
@@ -9,14 +17,14 @@ angular.module('stoutful.controllers').
     // Although Angular handles 2-way data binding for us, below is for recording which
     // attributes were changed so when it comes time to PUT, we only PUT the attributes
     // that were changed instead of all attributes.
-    var watchAttributes = ['name', 'address1', 'address2', 'city', 'state', 'phone', 'website',
-      'description'];
+    var watchAttributes = ["name", "address1", "address2", "city", "state", "phone", "website",
+      "description"];
     var changedAttributes = {};
     watchAttributes.forEach(function(attribute) {
       $scope.$watch(function() { return vm.brewery[attribute]; }, function(newValue, oldValue) {
         if (_.isEqual(newValue, oldValue) || !newValue) return; // Invalid states, ignore
 
-        console.log(attribute + ' has been changed.');
+        console.log(attribute + " has been changed.");
         changedAttributes[attribute] = newValue;
       });
     });
@@ -29,8 +37,8 @@ angular.module('stoutful.controllers').
       if (!vm.editForm.$valid) return;
 
       var req = {
-        url: '/api/breweries/' + brewery.id,
-        method: 'PUT',
+        url: "/api/breweries/" + brewery.id,
+        method: "PUT",
         fields: changedAttributes
       };
 
@@ -52,9 +60,9 @@ angular.module('stoutful.controllers').
 
             // Show alert message
             var alert = $mdDialog.alert({
-              title: 'Thanks!',
-              textContent: 'Your changes are currently under review',
-              ok: 'OK'
+              title: "Thanks!",
+              textContent: "Your changes are currently under review",
+              ok: "OK"
             });
 
             $mdDialog
@@ -63,8 +71,9 @@ angular.module('stoutful.controllers').
                 alert = undefined;
               });
           } else {
-            console.log('Err = ', resp);
+            console.log("Err = ", resp);
           }
         });
     };
-  });
+  }
+})();

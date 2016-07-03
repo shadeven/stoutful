@@ -34,15 +34,6 @@ module.exports = {
     },
     expiresIn: function() {
       return parseInt(moment.duration(moment(this.expires_at).diff(moment())).asSeconds());
-    },
-    toJSON: function() {
-      var obj = this.toObject();
-      obj.expires_at = moment(obj.expires_at).valueOf();
-      obj.access_token = obj.token;
-      delete obj.id;
-      delete obj.token;
-      delete obj.user_id;
-      return obj;
     }
   },
   generate: function(userId) {
@@ -55,12 +46,7 @@ module.exports = {
   },
   generateAndSave: function(userId) {
     var token = this.generate(userId);
-    var self = this;
-    return new Promise(function(fulfill, reject) {
-      self.create(token)
-        .then(fulfill)
-        .catch(reject);
-    });
+    return this.create(token);
   },
   setTTL: function(id, ttl) {
     return new Promise(function (fulfill, reject) {

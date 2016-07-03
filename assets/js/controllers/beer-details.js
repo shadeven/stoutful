@@ -48,12 +48,12 @@ angular.module('stoutful.controllers').
     };
 
     $scope.actionVerbForActivityType = function(type) {
-      if (type === 'like') {
-        return 'liked';
+      if (type === "like") {
+        return "liked";
       }
 
-      if (type === 'check_in') {
-        return 'checked into';
+      if (type === "check_in") {
+        return "checked into";
       }
 
       return null;
@@ -63,9 +63,9 @@ angular.module('stoutful.controllers').
       var date = moment(timestamp);
       var format;
       if (date.year() == moment().year()) {
-        format = 'MMMM Do';
+        format = "MMMM Do";
       } else {
-        format = 'MMMM Do YYYY';
+        format = "MMMM Do YYYY";
       }
       return date.format(format);
     };
@@ -73,7 +73,7 @@ angular.module('stoutful.controllers').
     $scope.editBeer = function(event) {
       $mdDialog.show({
         templateUrl: "partials/edit-beer.html",
-        controller: 'EditBeerCtrl',
+        controller: "EditBeerCtrl",
         controllerAs: "vm",
         openFrom: event.srcElement,
         locals: {
@@ -85,12 +85,12 @@ angular.module('stoutful.controllers').
     $scope.onLikeClicked = function() {
       var toast = $mdToast.simple()
         .textContent("You liked this beer.")
-        .action('Undo')
-        .position('top right')
-        .hideDelay('3000');
+        .action("Undo")
+        .position("top right")
+        .hideDelay("3000");
       $mdToast.show(toast)
         .then(function(response) {
-          if (response == 'ok') {
+          if (response == "ok") {
             $mdToast.hide();
           } else {
             beerRepository.createBeerActivity($http, $routeParams.beerId, 'like')
@@ -103,19 +103,19 @@ angular.module('stoutful.controllers').
                 console.log(err);
               });
           }
-      });
+        });
     };
 
     $scope.onCheckInClicked = function() {
       var toast = $mdToast.simple()
         .textContent("You checked into this beer.")
-        .action('Undo')
-        .position('top right')
-        .hideDelay('3000');
+        .action("Undo")
+        .position("top right")
+        .hideDelay("3000");
 
       $mdToast.show(toast)
         .then(function(response) {
-          if (response == 'ok') {
+          if (response == "ok") {
             $mdToast.hide();
           } else {
             beerRepository.createBeerActivity($http, $routeParams.beerId, 'check_in')

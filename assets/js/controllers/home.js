@@ -37,11 +37,11 @@ angular.module('stoutful.controllers').
       if (!item) return;
 
       if (item.type == "beer") {
-        $location.url('/beer/' + item.id);
+        $location.url("/beer/" + item.id);
       }
 
       if (item.type == "brewery") {
-        $location.url('/brewery/' + item.id);
+        $location.url("/brewery/" + item.id);
       }
     };
 

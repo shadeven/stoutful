@@ -18,7 +18,6 @@ var paths = {
     public: "dist",
     js: "dist/js",
     css: "dist/styles",
-    views: "views",
     vendor: {
       js: "dist/vendor/js",
       css: "dist/vendor/css"
@@ -33,7 +32,8 @@ gulp.task("copy", ["clean"], function() {
     paths.src.partials,
     paths.src.js,
     "!assets/js/directives/**",
-    "!assets/js/controllers/**" /* Exclude assets/js/controllers/ */
+    "!assets/js/controllers/**",
+    "!assets/js/services/**"
   ];
   return gulp.src(input, { base: "assets" })
     .pipe(gulp.dest(paths.dest.public));
@@ -86,7 +86,7 @@ gulp.task("bower:css", ["clean"], function() {
 });
 
 gulp.task("bower:inject", ["clean"], function() {
-  return gulp.src("assets/layout.ejs")
+  return gulp.src("assets/index.html")
     .pipe(wiredep.stream({
       ignorePath: "../bower_components/",
       fileTypes: {
@@ -98,7 +98,7 @@ gulp.task("bower:inject", ["clean"], function() {
         }
       }
     }))
-    .pipe(gulp.dest(paths.dest.views));
+    .pipe(gulp.dest(paths.dest.public));
 });
 
 gulp.task("clean", function() {
@@ -109,7 +109,6 @@ gulp.task("watch", function() {
   var watchlist = [
     "assets/**/*.js",
     "assets/**/*.html",
-    "assets/**/*.ejs",
     "assets/**/*.scss"
   ];
   gulp.watch(watchlist, ["build"]);

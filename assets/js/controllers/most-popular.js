@@ -1,9 +1,10 @@
-/* Most popular controller */
+/* MostPopularController */
 
 (function() {
   "use strict";
 
-  angular.module("stoutful.controllers")
+  angular
+    .module("stoutful.controllers")
     .controller("MostPopularController", MostPopularController);
 
   function MostPopularController($location, $http) {
@@ -20,7 +21,7 @@
     }
 
     function fetchPopularBeers() {
-      $http.get('/api/beers/popular')
+      $http.get("/api/beers/popular")
         .then(function(results) {
           vm.popular = results.data;
         })
